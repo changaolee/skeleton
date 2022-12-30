@@ -5,8 +5,17 @@
 
 package main
 
-import "fmt"
+import (
+	"os"
+
+	_ "go.uber.org/automaxprocs"
+
+	"github.com/changaolee/skeleton/internal/skeleton"
+)
 
 func main() {
-	fmt.Println("Hello World!")
+	command := skeleton.NewSkeletonCommand()
+	if err := command.Execute(); err != nil {
+		os.Exit(1)
+	}
 }
