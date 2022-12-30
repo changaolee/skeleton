@@ -3,4 +3,6 @@
 // license that can be found in the LICENSE file. The original repo for
 // this file is https://github.com/changaolee/skeleton.
 
-package log // import "github.com/changaolee/skeleton/internal/pkg/log"
+package log
+
+// import "github.com/changaolee/skeleton/internal/pkg/log"
