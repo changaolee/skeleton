@@ -39,9 +39,11 @@ func installRouters(g *gin.Engine) error {
 		// 创建 users 路由分组
 		userv1 := v1.Group("/users")
 		{
-			userv1.POST("", uc.Create)
-			userv1.PUT(":name/change-password", uc.ChangePassword)
 			userv1.Use(mw.Authn())
+			{
+				userv1.POST("", uc.Create)
+				userv1.PUT(":name/change-password", uc.ChangePassword)
+			}
 		}
 	}
 
