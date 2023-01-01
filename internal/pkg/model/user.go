@@ -5,7 +5,12 @@
 
 package model
 
-import "time"
+import (
+	"time"
+
+	"github.com/changaolee/skeleton/pkg/auth"
+	"gorm.io/gorm"
+)
 
 // UserM 是数据库中 user 记录 struct 格式的映射
 type UserM struct {
@@ -22,4 +27,15 @@ type UserM struct {
 // TableName 用来指定映射的 MySQL 表名
 func (u *UserM) TableName() string {
 	return "user"
+}
+
+// BeforeCreate 在创建数据库记录之前加密明文密码
+func (u *UserM) BeforeCreate(tx *gorm.DB) (err error) {
+	// Encrypt the user password.
+	u.Password, err = auth.Encrypt(u.Password)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
