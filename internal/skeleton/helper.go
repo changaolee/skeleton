@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/changaolee/skeleton/internal/pkg/log"
-	"github.com/changaolee/skeleton/internal/pkg/store"
+	"github.com/changaolee/skeleton/internal/skeleton/store"
 	"github.com/changaolee/skeleton/pkg/db"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
