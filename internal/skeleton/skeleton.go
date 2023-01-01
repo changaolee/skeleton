@@ -28,7 +28,7 @@ import (
 
 var cfgFile string
 
-// NewSkeletonCommand 创建一个 *cobra.Command 对象。之后，可以使用 Command 对象的 Execute 方法来启动应用程序。
+// NewSkeletonCommand 创建一个 *cobra.Command 对象。之后，可以使用 Command 对象的 Execute 方法来启动应用程序
 func NewSkeletonCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		// 指定命令的名字，该名字会出现在帮助信息中
@@ -82,8 +82,13 @@ Find more miniblog information at:
 	return cmd
 }
 
-// run 实际的业务代码入口函数。
+// run 实际的业务代码入口函数
 func run() error {
+	// 初始化 store 层
+	if err := initStore(); err != nil {
+		return err
+	}
+
 	// 设置 Gin 模式
 	gin.SetMode(viper.GetString("runmode"))
 
@@ -95,12 +100,12 @@ func run() error {
 
 	g.Use(mws...)
 
-	// 注册 404 Handler.
+	// 注册 404 Handler
 	g.NoRoute(func(c *gin.Context) {
 		core.WriteResponse(c, errno.ErrPageNotFound, nil)
 	})
 
-	// 注册 /healthz handler.
+	// 注册 /healthz handler
 	g.GET("/healthz", func(c *gin.Context) {
 		log.C(c).Infow("Healthz function called")
 
