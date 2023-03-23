@@ -39,7 +39,7 @@ send_interrupt = false
 # Delay after sending Interrupt signal
 kill_delay = 500 # ms
 # Add additional arguments when running binary (bin/full_bin). Will run './tmp/main hello world'.
-args_bin = ["hello", "world"]
+args_bin = ["-c", "configs/skeleton.yaml"]
 
 [log]
 # Show log time
