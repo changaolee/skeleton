@@ -12,7 +12,7 @@ jwt-secret: Rtg8BPKNEf2mB4mgvKONGPZZQSaJWNLijxR42qRgq0iBb5  # JWT 签发密钥
 db:
   host: 127.0.0.1  # MySQL 机器 IP 和端口，默认 127.0.0.1:3306
   username: skeleton  # MySQL 用户名(建议授权最小权限集)
-  password: skeleton1234  # MySQL 用户密码
+  password: skeleton123  # MySQL 用户密码
   database: skeleton  # skeleton 系统所用的数据库名
   max-idle-connections: 100  # MySQL 最大空闲连接数，默认 100
   max-open-connections: 100  # MySQL 最大打开的连接数，默认 100

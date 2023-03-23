@@ -39,7 +39,7 @@ func initConfig() {
 		// 将 `$HOME/<recommendedHomeDir>` 目录加入到配置文件的搜索路径中
 		viper.AddConfigPath(filepath.Join(home, recommendedHomeDir))
 
-		// 把当前目录加入到配置文件的搜索路径中
+		// 把当前目录加入到配置文件的搜索路径中，方便开发测试
 		viper.AddConfigPath(".")
 
 		// 设置配置文件格式为 YAML（YAML 格式清晰易读，并且支持复杂的配置结构）
