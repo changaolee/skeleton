@@ -28,7 +28,8 @@ import (
 
 var cfgFile string
 
-// NewSkeletonCommand 创建一个 *cobra.Command 对象。之后，可以使用 Command 对象的 Execute 方法来启动应用程序
+// NewSkeletonCommand 创建一个 *cobra.Command 对象
+// 之后，可以使用 Command 对象的 Execute 方法来启动应用程序
 func NewSkeletonCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		// 指定命令的名字，该名字会出现在帮助信息中
@@ -38,10 +39,10 @@ func NewSkeletonCommand() *cobra.Command {
 		// 命令的详细描述
 		Long: `A good Go practical project.
 
-Find more miniblog information at:
+Find more skeleton information at:
         https://github.com/changaolee/skeleton#readme`,
 
-		// 命令出错时，不打印帮助信息。不需要打印帮助信息，设置为 true 可以保持命令出错时一眼就能看到错误信息
+		// 命令出错时，不打印帮助信息，可以保持命令出错时一眼就能看到错误信息
 		SilenceUsage: true,
 		// 指定调用 cmd.Execute() 时，执行的 Run 函数，函数执行失败会返回错误信息
 		RunE: func(cmd *cobra.Command, args []string) error {
