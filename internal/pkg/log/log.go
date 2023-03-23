@@ -16,7 +16,7 @@ import (
 	"github.com/changaolee/skeleton/internal/pkg/known"
 )
 
-// Logger 定义了 skeleton 项目的日志接口. 该接口只包含了支持的日志记录方法
+// Logger 定义了 skeleton 项目的日志接口，该接口只包含了支持的日志记录方法
 type Logger interface {
 	Debugw(msg string, keysAndValues ...interface{})
 	Infow(msg string, keysAndValues ...interface{})

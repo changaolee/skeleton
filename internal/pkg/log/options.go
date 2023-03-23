@@ -11,7 +11,7 @@ import (
 
 // Options 包含与日志相关的配置项
 type Options struct {
-	// 是否开启 caller，如果开启会在日志中显示调用日志所在的文件和行号
+	// 是否禁止 caller，如果开启会在日志中显示调用日志所在的文件和行号
 	DisableCaller bool
 	// 是否禁止在 panic 及以上级别打印堆栈信息
 	DisableStacktrace bool

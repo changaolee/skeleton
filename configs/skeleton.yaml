@@ -21,8 +21,8 @@ db:
 
 # 日志配置
 log:
-  disable-caller: false
-  disable-stacktrace: false
-  level: debug
-  format: console
-  output-paths: [/tmp/skeleton.log, stdout]
+  disable-caller: false  # 是否禁止 caller，如果开启会在日志中显示调用日志所在的文件和行号
+  disable-stacktrace: false  # 是否禁止在 panic 及以上级别打印堆栈信息
+  level: debug  # 日志级别，可选值：debug, info, warn, error, dpanic, panic, fatal
+  format: json  # 日志显示格式，可选值：console, json
+  output-paths: [ /tmp/skeleton.log, stdout ]  # 日志输出位置

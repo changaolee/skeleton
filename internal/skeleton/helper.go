@@ -59,17 +59,13 @@ func initConfig() {
 	replacer := strings.NewReplacer(".", "_")
 	viper.SetEnvKeyReplacer(replacer)
 
-	// 以下 2 行，将 viper.Get(key) key 字符串中 '-' 替换为 '_'
-	replacer = strings.NewReplacer("-", "_")
-	viper.SetEnvKeyReplacer(replacer)
-
 	// 读取配置文件。如果指定了配置文件名，则使用指定的配置文件，否则在注册的搜索路径中搜索
 	if err := viper.ReadInConfig(); err != nil {
 		log.Errorw("Failed to read viper configuration file", "err", err)
 	}
 
 	// 打印 viper 当前使用的配置文件，方便 Debug
-	log.Debugw("Using config file", "file", viper.ConfigFileUsed())
+	log.Infow("Using config file", "file", viper.ConfigFileUsed())
 }
 
 // logOptions 从 viper 中读取日志配置，构建 `*log.Options` 并返回
