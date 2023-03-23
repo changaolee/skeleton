@@ -16,7 +16,7 @@ import (
 	"github.com/changaolee/skeleton/internal/pkg/known"
 )
 
-// Logger 定义了 skeleton 项目的日志接口. 该接口只包含了支持的日志记录方法.
+// Logger 定义了 skeleton 项目的日志接口. 该接口只包含了支持的日志记录方法
 type Logger interface {
 	Debugw(msg string, keysAndValues ...interface{})
 	Infow(msg string, keysAndValues ...interface{})
@@ -116,7 +116,7 @@ func (l *zapLogger) Sync() {
 	_ = l.z.Sync()
 }
 
-// Debugw 输出 debug 级别的日志.
+// Debugw 输出 debug 级别的日志
 func Debugw(msg string, keysAndValues ...interface{}) {
 	std.z.Sugar().Debugw(msg, keysAndValues...)
 }
@@ -125,7 +125,7 @@ func (l *zapLogger) Debugw(msg string, keysAndValues ...interface{}) {
 	l.z.Sugar().Debugw(msg, keysAndValues...)
 }
 
-// Infow 输出 info 级别的日志.
+// Infow 输出 info 级别的日志
 func Infow(msg string, keysAndValues ...interface{}) {
 	std.z.Sugar().Infow(msg, keysAndValues...)
 }
@@ -134,7 +134,7 @@ func (l *zapLogger) Infow(msg string, keysAndValues ...interface{}) {
 	l.z.Sugar().Infow(msg, keysAndValues...)
 }
 
-// Warnw 输出 warning 级别的日志.
+// Warnw 输出 warning 级别的日志
 func Warnw(msg string, keysAndValues ...interface{}) {
 	std.z.Sugar().Warnw(msg, keysAndValues...)
 }
@@ -143,7 +143,7 @@ func (l *zapLogger) Warnw(msg string, keysAndValues ...interface{}) {
 	l.z.Sugar().Warnw(msg, keysAndValues...)
 }
 
-// Errorw 输出 error 级别的日志.
+// Errorw 输出 error 级别的日志
 func Errorw(msg string, keysAndValues ...interface{}) {
 	std.z.Sugar().Errorw(msg, keysAndValues...)
 }
@@ -152,7 +152,7 @@ func (l *zapLogger) Errorw(msg string, keysAndValues ...interface{}) {
 	l.z.Sugar().Errorw(msg, keysAndValues...)
 }
 
-// Panicw 输出 panic 级别的日志.
+// Panicw 输出 panic 级别的日志
 func Panicw(msg string, keysAndValues ...interface{}) {
 	std.z.Sugar().Panicw(msg, keysAndValues...)
 }
@@ -161,7 +161,7 @@ func (l *zapLogger) Panicw(msg string, keysAndValues ...interface{}) {
 	l.z.Sugar().Panicw(msg, keysAndValues...)
 }
 
-// Fatalw 输出 fatal 级别的日志.
+// Fatalw 输出 fatal 级别的日志
 func Fatalw(msg string, keysAndValues ...interface{}) {
 	std.z.Sugar().Fatalw(msg, keysAndValues...)
 }
@@ -170,7 +170,7 @@ func (l *zapLogger) Fatalw(msg string, keysAndValues ...interface{}) {
 	l.z.Sugar().Fatalw(msg, keysAndValues...)
 }
 
-// C 解析传入的 context，尝试提取关注的键值，并添加到 zap.Logger 结构化日志中.
+// C 解析传入的 context，尝试提取关注的键值，并添加到 zap.Logger 结构化日志中
 func C(ctx context.Context) *zapLogger {
 	return std.C(ctx)
 }
@@ -189,7 +189,7 @@ func (l *zapLogger) C(ctx context.Context) *zapLogger {
 	return lc
 }
 
-// clone 深度拷贝 zapLogger.
+// clone 深度拷贝 zapLogger
 func (l *zapLogger) clone() *zapLogger {
 	lc := *l
 	return &lc

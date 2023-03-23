@@ -31,7 +31,7 @@ func (u *UserM) TableName() string {
 
 // BeforeCreate 在创建数据库记录之前加密明文密码
 func (u *UserM) BeforeCreate(tx *gorm.DB) (err error) {
-	// Encrypt the user password.
+	// Encrypt the user password
 	u.Password, err = auth.Encrypt(u.Password)
 	if err != nil {
 		return err

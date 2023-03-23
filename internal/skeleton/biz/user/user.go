@@ -39,7 +39,7 @@ func New(ds store.IStore) *userBiz {
 	return &userBiz{ds: ds}
 }
 
-// ChangePassword 是 UserBiz 接口中 `ChangePassword` 方法的实现.
+// ChangePassword 是 UserBiz 接口中 `ChangePassword` 方法的实现
 func (b *userBiz) ChangePassword(ctx context.Context, username string, r *v1.ChangePasswordRequest) error {
 	userM, err := b.ds.Users().Get(ctx, username)
 	if err != nil {
@@ -58,7 +58,7 @@ func (b *userBiz) ChangePassword(ctx context.Context, username string, r *v1.Cha
 	return nil
 }
 
-// Login 是 UserBiz 接口中 `Login` 方法的实现.
+// Login 是 UserBiz 接口中 `Login` 方法的实现
 func (b *userBiz) Login(ctx context.Context, r *v1.LoginRequest) (*v1.LoginResponse, error) {
 	// 获取登录用户的所有信息
 	user, err := b.ds.Users().Get(ctx, r.Username)
