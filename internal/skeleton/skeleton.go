@@ -115,6 +115,7 @@ func run() error {
 	// 打印一条日志，用来提示 HTTP 服务已经起来，方便排障
 	log.Infow("Start to listening the incoming requests on http address", "addr", viper.GetString("addr"))
 	go func() {
+		// ErrServerClosed 错误，我们视为服务关闭时的正常报错行为，不打印错误信息
 		if err := httpsrv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			log.Fatalw(err.Error())
 		}
