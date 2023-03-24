@@ -25,7 +25,7 @@ type Config struct {
 var ErrMissingHeader = errors.New("the length of the `Authorization` header is zero")
 
 var (
-	config = Config{"Rtg8BPKNEf2mB4mgvKONGPZZQSaJWNLijxR42qRgq0iBb5", "identityKey"}
+	config = Config{"RJg6yvEHzWwL8aKqN3kDfUu9XtTp5m4", "identityKey"}
 	once   sync.Once
 )
 
@@ -58,6 +58,7 @@ func Parse(tokenString string, key string) (string, error) {
 	}
 
 	var identityKey string
+	// 如果解析成功，从 token 中取出 token 的标识
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		identityKey = claims[config.identityKey].(string)
 	}
@@ -68,14 +69,16 @@ func Parse(tokenString string, key string) (string, error) {
 // ParseRequest 从请求头中获取 token，并将其传递给 Parse 函数以解析 token
 func ParseRequest(c *gin.Context) (string, error) {
 	header := c.Request.Header.Get("Authorization")
-
 	if len(header) == 0 {
 		return "", ErrMissingHeader
 	}
 
 	var t string
 	// 从请求头中取出 token
-	fmt.Sscanf(header, "Bearer %s", &t)
+	_, err := fmt.Sscanf(header, "Bearer %s", &t)
+	if err != nil {
+		return "", err
+	}
 
 	return Parse(t, config.key)
 }

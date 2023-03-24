@@ -31,7 +31,7 @@ func installRouters(g *gin.Engine) error {
 
 	uc := user.New(store.S)
 
-	g.POST("/login", uc.Login)
+	g.POST("/login", uc.Login) // 用户登录
 
 	// 创建 v1 路由分组
 	v1 := g.Group("/v1")
@@ -39,11 +39,9 @@ func installRouters(g *gin.Engine) error {
 		// 创建 users 路由分组
 		userv1 := v1.Group("/users")
 		{
+			userv1.POST("", uc.Create)                             // 创建用户
+			userv1.PUT(":name/change-password", uc.ChangePassword) // 修改用户密码
 			userv1.Use(mw.Authn())
-			{
-				userv1.POST("", uc.Create)
-				userv1.PUT(":name/change-password", uc.ChangePassword)
-			}
 		}
 	}
 
