@@ -8,11 +8,13 @@ package user
 import (
 	"github.com/changaolee/skeleton/internal/skeleton/biz"
 	"github.com/changaolee/skeleton/internal/skeleton/store"
+	pb "github.com/changaolee/skeleton/pkg/proto/skeleton/v1"
 )
 
 // UserController 是 user 模块在 Controller 层的实现，用来处理用户模块的请求
 type UserController struct {
 	b biz.IBiz
+	pb.UnimplementedSkeletonServer
 }
 
 // New 创建一个 user controller
