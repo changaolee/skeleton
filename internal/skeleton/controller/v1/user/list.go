@@ -6,17 +6,17 @@
 package user
 
 import (
+	"context"
 	"time"
 
 	"github.com/changaolee/skeleton/internal/pkg/log"
 	pb "github.com/changaolee/skeleton/pkg/proto/skeleton/v1"
-	"github.com/gin-gonic/gin"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-// List 返回用户列表，只有 root 用户才能获取用户列表
-func (ctrl *UserController) List(ctx *gin.Context, r *pb.ListUserRequest) (*pb.ListUserResponse, error) {
-	log.C(ctx).Infow("List user function called")
+// ListUser 返回用户列表
+func (ctrl *UserController) ListUser(ctx context.Context, r *pb.ListUserRequest) (*pb.ListUserResponse, error) {
+	log.C(ctx).Infow("ListUser function called")
 
 	resp, err := ctrl.b.Users().List(ctx, int(r.Offset), int(r.Limit))
 	if err != nil {
