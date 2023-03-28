@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# Copyright 2022 lichangao(李长傲) <changao.li.work@outlook.com>. All rights reserved.
+# Use of this source code is governed by a MIT style
+# license that can be found in the LICENSE file. The original repo for
+# this file is https://github.com/changaolee/skeleton.
+
+
 #Define color variables
 #Feature
 COLOR_NORMAL='\033[0m';COLOR_BOLD='\033[1m';COLOR_DIM='\033[2m';COLOR_UNDER='\033[4m';
