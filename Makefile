@@ -37,7 +37,7 @@ GO_LDFLAGS += \
 # ==============================================================================
 # 定义 Makefile all 伪目标，执行 `make` 时，会默认会执行 all 伪目标
 .PHONY: all
-all: add-copyright format build
+all: add-copyright format lint build
 
 # ==============================================================================
 # 定义其他需要的伪目标
@@ -88,3 +88,8 @@ protoc: ## 编译 protobuf 文件.
 		--go_out=paths=source_relative:$(APIROOT)        \
 		--go-grpc_out=paths=source_relative:$(APIROOT)   \
 		$(shell find $(APIROOT) -name *.proto)
+
+.PHONY: lint
+lint: ## 执行静态代码检查.
+	@echo "===========> Run golangci to lint source codes"
+	@golangci-lint run -c ./.golangci.yaml ./...
