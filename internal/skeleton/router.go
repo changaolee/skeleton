@@ -12,6 +12,7 @@ import (
 	mw "github.com/changaolee/skeleton/internal/pkg/middleware"
 	"github.com/changaolee/skeleton/internal/skeleton/controller/v1/user"
 	"github.com/changaolee/skeleton/internal/skeleton/store"
+	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 )
 
@@ -28,6 +29,9 @@ func installRouters(g *gin.Engine) error {
 
 		core.WriteResponse(c, nil, map[string]string{"status": "ok"})
 	})
+
+	// 注册 pprof 路由
+	pprof.Register(g)
 
 	uc := user.New(store.S)
 

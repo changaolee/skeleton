@@ -35,4 +35,4 @@ log:
   disable-stacktrace: false  # 是否禁止在 panic 及以上级别打印堆栈信息
   level: debug  # 日志级别，可选值：debug, info, warn, error, dpanic, panic, fatal
   format: json  # 日志显示格式，可选值：console, json
-  output-paths: [ /tmp/skeleton.log, stdout ]  # 日志输出位置
+  output-paths: [ stdout ]  # 日志输出位置

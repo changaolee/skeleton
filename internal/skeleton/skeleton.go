@@ -113,6 +113,9 @@ func run() error {
 		return err
 	}
 
+	// 创建并运行 HTTP 服务器
+	httpsrv := startInsecureServer(g)
+
 	// 创建并运行 HTTPS 服务器
 	httpssrv := startSecureServer(g)
 
@@ -133,6 +136,10 @@ func run() error {
 	defer cancel()
 
 	// 10 秒内优雅关闭服务（将未处理完的请求处理完再关闭服务），超过 10 秒就超时退出
+	if err := httpsrv.Shutdown(ctx); err != nil {
+		log.Errorw("Insecure Server forced to shutdown", "err", err)
+		return err
+	}
 	if err := httpssrv.Shutdown(ctx); err != nil {
 		log.Errorw("Secure Server forced to shutdown", "err", err)
 		return err
@@ -143,6 +150,24 @@ func run() error {
 	log.Infow("Server exiting")
 
 	return nil
+}
+
+// startInsecureServer 创建并运行 HTTP 服务器
+func startInsecureServer(g *gin.Engine) *http.Server {
+	// 创建 HTTP Server 实例
+	httpsrv := &http.Server{Addr: viper.GetString("addr"), Handler: g}
+
+	// 运行 HTTP 服务器
+	// 打印一条日志，用来提示 HTTP 服务已经起来，方便排障
+	log.Infow("Start to listening the incoming requests on http address", "addr", viper.GetString("addr"))
+	go func() {
+		// ErrServerClosed 错误，我们视为服务关闭时的正常报错行为，不打印错误信息
+		if err := httpsrv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+			log.Fatalw(err.Error())
+		}
+	}()
+
+	return httpsrv
 }
 
 // startSecureServer 创建并运行 HTTPS 服务器.
