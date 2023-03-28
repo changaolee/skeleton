@@ -8,7 +8,7 @@ package main
 import (
 	"os"
 
-	//_ "go.uber.org/automaxprocs"
+	//_ "go.uber.org/automaxprocs".
 
 	"github.com/changaolee/skeleton/internal/skeleton"
 )

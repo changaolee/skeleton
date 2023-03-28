@@ -22,7 +22,7 @@ import (
 	v1 "github.com/changaolee/skeleton/pkg/api/skeleton/v1"
 )
 
-// UserBiz 定义了 user 模块在 biz 层所实现的方法
+// UserBiz 定义了 user 模块在 biz 层所实现的方法.
 type UserBiz interface {
 	ChangePassword(ctx context.Context, username string, r *v1.ChangePasswordRequest) error
 	Login(ctx context.Context, r *v1.LoginRequest) (*v1.LoginResponse, error)
@@ -31,20 +31,20 @@ type UserBiz interface {
 	List(ctx context.Context, offset, limit int) (*v1.ListUserResponse, error)
 }
 
-// UserBiz 接口的实现
+// UserBiz 接口的实现.
 type userBiz struct {
 	ds store.IStore
 }
 
-// 确保 userBiz 实现了 UserBiz 接口
+// 确保 userBiz 实现了 UserBiz 接口.
 var _ UserBiz = (*userBiz)(nil)
 
-// New 创建一个实现了 UserBiz 接口的实例
+// New 创建一个实现了 UserBiz 接口的实例.
 func New(ds store.IStore) *userBiz {
 	return &userBiz{ds: ds}
 }
 
-// ChangePassword 是 UserBiz 接口中 `ChangePassword` 方法的实现
+// ChangePassword 是 UserBiz 接口中 `ChangePassword` 方法的实现.
 func (b *userBiz) ChangePassword(ctx context.Context, username string, r *v1.ChangePasswordRequest) error {
 	userM, err := b.ds.Users().Get(ctx, username)
 	if err != nil {
@@ -63,7 +63,7 @@ func (b *userBiz) ChangePassword(ctx context.Context, username string, r *v1.Cha
 	return nil
 }
 
-// Login 是 UserBiz 接口中 `Login` 方法的实现
+// Login 是 UserBiz 接口中 `Login` 方法的实现.
 func (b *userBiz) Login(ctx context.Context, r *v1.LoginRequest) (*v1.LoginResponse, error) {
 	// 获取登录用户的所有信息
 	user, err := b.ds.Users().Get(ctx, r.Username)
@@ -85,7 +85,7 @@ func (b *userBiz) Login(ctx context.Context, r *v1.LoginRequest) (*v1.LoginRespo
 	return &v1.LoginResponse{Token: t}, nil
 }
 
-// Create 是 UserBiz 接口中 `Create` 方法的实现
+// Create 是 UserBiz 接口中 `Create` 方法的实现.
 func (b *userBiz) Create(ctx context.Context, r *v1.CreateUserRequest) error {
 	var userM model.UserM
 	_ = copier.Copy(&userM, r)
@@ -99,7 +99,7 @@ func (b *userBiz) Create(ctx context.Context, r *v1.CreateUserRequest) error {
 	return nil
 }
 
-// Get 是 UserBiz 接口中 `Get` 方法的实现
+// Get 是 UserBiz 接口中 `Get` 方法的实现.
 func (b *userBiz) Get(ctx context.Context, username string) (*v1.GetUserResponse, error) {
 	user, err := b.ds.Users().Get(ctx, username)
 	if err != nil {

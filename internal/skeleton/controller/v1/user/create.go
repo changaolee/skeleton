@@ -15,7 +15,7 @@ import (
 	v1 "github.com/changaolee/skeleton/pkg/api/skeleton/v1"
 )
 
-// Create 创建一个新的用户
+// Create 创建一个新的用户.
 func (ctrl *UserController) Create(c *gin.Context) {
 	log.C(c).Infow("Create user function called")
 

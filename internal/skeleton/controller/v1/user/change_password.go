@@ -14,7 +14,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// ChangePassword 用来修改指定用户的密码
+// ChangePassword 用来修改指定用户的密码.
 func (ctrl *UserController) ChangePassword(c *gin.Context) {
 	log.C(c).Infow("Change password function called")
 

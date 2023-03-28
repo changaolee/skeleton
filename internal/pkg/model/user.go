@@ -12,7 +12,7 @@ import (
 	"gorm.io/gorm"
 )
 
-// UserM 是数据库中 user 记录 struct 格式的映射
+// UserM 是数据库中 user 记录 struct 格式的映射.
 type UserM struct {
 	ID        int64     `gorm:"column:id;primary_key"`
 	Username  string    `gorm:"column:username;not null"`
@@ -24,12 +24,12 @@ type UserM struct {
 	UpdatedAt time.Time `gorm:"column:updatedAt"`
 }
 
-// TableName 用来指定映射的 MySQL 表名
+// TableName 用来指定映射的 MySQL 表名.
 func (u *UserM) TableName() string {
 	return "user"
 }
 
-// BeforeCreate 在创建数据库记录之前加密明文密码
+// BeforeCreate 在创建数据库记录之前加密明文密码.
 func (u *UserM) BeforeCreate(tx *gorm.DB) (err error) {
 	// Encrypt the user password
 	u.Password, err = auth.Encrypt(u.Password)

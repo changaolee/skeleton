@@ -14,7 +14,7 @@ import (
 	"gorm.io/gorm/logger"
 )
 
-// MySQLOptions 定义 MySQL 数据库的选项
+// MySQLOptions 定义 MySQL 数据库的选项.
 type MySQLOptions struct {
 	Host                  string
 	Username              string
@@ -26,7 +26,7 @@ type MySQLOptions struct {
 	LogLevel              int
 }
 
-// DSN 从 MySQLOptions 返回 DSN
+// DSN 从 MySQLOptions 返回 DSN.
 func (o *MySQLOptions) DSN() string {
 	return fmt.Sprintf(`%s:%s@tcp(%s)/%s?charset=utf8&parseTime=%t&loc=%s`,
 		o.Username,
@@ -37,7 +37,7 @@ func (o *MySQLOptions) DSN() string {
 		"Local")
 }
 
-// NewMySQL 使用给定的选项创建一个新的 gorm 数据库实例
+// NewMySQL 使用给定的选项创建一个新的 gorm 数据库实例.
 func NewMySQL(opts *MySQLOptions) (*gorm.DB, error) {
 	logLevel := logger.Silent
 	if opts.LogLevel != 0 {

@@ -14,7 +14,7 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-// ListUser 返回用户列表
+// ListUser 返回用户列表.
 func (ctrl *UserController) ListUser(ctx context.Context, r *pb.ListUserRequest) (*pb.ListUserResponse, error) {
 	log.C(ctx).Infow("ListUser function called")
 

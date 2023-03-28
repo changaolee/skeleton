@@ -16,7 +16,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// installRouters 安装 skeleton 接口路由
+// installRouters 安装 skeleton 接口路由.
 func installRouters(g *gin.Engine) error {
 	// 注册 404 Handler
 	g.NoRoute(func(c *gin.Context) {

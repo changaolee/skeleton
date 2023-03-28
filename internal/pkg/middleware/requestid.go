@@ -12,7 +12,7 @@ import (
 	"github.com/changaolee/skeleton/internal/pkg/known"
 )
 
-// RequestID 是一个 Gin 中间件，用来在每一个 HTTP 请求的 context, response 中注入 `X-Request-ID` 键值对
+// RequestID 是一个 Gin 中间件，用来在每一个 HTTP 请求的 context, response 中注入 `X-Request-ID` 键值对.
 func RequestID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// 检查请求头中是否有 `X-Request-ID`，如果有则复用，没有则新建

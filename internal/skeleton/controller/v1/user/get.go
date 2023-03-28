@@ -11,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Get 获取一个用户的详细信息
+// Get 获取一个用户的详细信息.
 func (ctrl *UserController) Get(c *gin.Context) {
 	log.C(c).Infow("Get user function called")
 

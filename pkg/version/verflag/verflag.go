@@ -17,7 +17,7 @@ import (
 
 type versionValue int
 
-// 定义一些常量
+// 定义一些常量.
 const (
 	VersionFalse versionValue = 0
 	VersionTrue  versionValue = 1
@@ -39,7 +39,7 @@ func (v *versionValue) Get() interface{} {
 	return v
 }
 
-// String 实现了 pflag.Value 接口中的 String 方法
+// String 实现了 pflag.Value 接口中的 String 方法.
 func (v *versionValue) String() string {
 	if *v == VersionRaw {
 		return strRawVersion
@@ -48,7 +48,7 @@ func (v *versionValue) String() string {
 	return fmt.Sprintf("%v", bool(*v == VersionTrue))
 }
 
-// Set 实现了 pflag.Value 接口中的 Set 方法
+// Set 实现了 pflag.Value 接口中的 Set 方法.
 func (v *versionValue) Set(s string) error {
 	if s == strRawVersion {
 		*v = VersionRaw
@@ -65,12 +65,12 @@ func (v *versionValue) Set(s string) error {
 	return err
 }
 
-// Type 实现了 pflag.Value 接口中的 Type 方法
+// Type 实现了 pflag.Value 接口中的 Type 方法.
 func (v *versionValue) Type() string {
 	return "version"
 }
 
-// VersionVar 定义了一个具有指定名称和用法的标志
+// VersionVar 定义了一个具有指定名称和用法的标志.
 func VersionVar(p *versionValue, name string, value versionValue, usage string) {
 	*p = value
 	pflag.Var(p, name, usage)
@@ -78,7 +78,7 @@ func VersionVar(p *versionValue, name string, value versionValue, usage string) 
 	pflag.Lookup(name).NoOptDefVal = "true"
 }
 
-// Version 包装了 VersionVar 函数
+// Version 包装了 VersionVar 函数.
 func Version(name string, value versionValue, usage string) *versionValue {
 	p := new(versionValue)
 	VersionVar(p, name, value, usage)
@@ -86,12 +86,12 @@ func Version(name string, value versionValue, usage string) *versionValue {
 	return p
 }
 
-// AddFlags 在任意 FlagSet 上注册这个包的标志，这样它们指向与全局标志相同的值
+// AddFlags 在任意 FlagSet 上注册这个包的标志，这样它们指向与全局标志相同的值.
 func AddFlags(fs *pflag.FlagSet) {
 	fs.AddFlag(pflag.Lookup(versionFlagName))
 }
 
-// PrintAndExitIfRequested 将检查是否传递了 `--version` 标志，如果是，则打印版本并退出
+// PrintAndExitIfRequested 将检查是否传递了 `--version` 标志，如果是，则打印版本并退出.
 func PrintAndExitIfRequested() {
 	if *versionFlag == VersionRaw {
 		fmt.Printf("%#v\n", version.Get())

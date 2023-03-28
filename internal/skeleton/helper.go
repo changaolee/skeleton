@@ -18,14 +18,14 @@ import (
 )
 
 const (
-	// recommendedHomeDir 定义放置 skeleton 服务配置的默认目录
+	// recommendedHomeDir 定义放置 skeleton 服务配置的默认目录.
 	recommendedHomeDir = ".skeleton"
 
-	// defaultConfigName 指定了 skeleton 服务的默认配置文件名
+	// defaultConfigName 指定了 skeleton 服务的默认配置文件名.
 	defaultConfigName = "skeleton.yaml"
 )
 
-// initConfig 设置需要读取的配置文件名、环境变量，并读取配置文件内容到 viper 中
+// initConfig 设置需要读取的配置文件名、环境变量，并读取配置文件内容到 viper 中.
 func initConfig() {
 	if cfgFile != "" {
 		// 从命令行选项指定的配置文件中读取
@@ -69,7 +69,7 @@ func initConfig() {
 }
 
 // logOptions 从 viper 中读取日志配置，构建 `*log.Options` 并返回
-// 注意：`viper.Get<Type>()` 中 key 的名字需要使用 `.` 分割，以跟 YAML 中保持相同的缩进
+// 注意：`viper.Get<Type>()` 中 key 的名字需要使用 `.` 分割，以跟 YAML 中保持相同的缩进.
 func logOptions() *log.Options {
 	return &log.Options{
 		DisableCaller:     viper.GetBool("log.disable-caller"),
@@ -80,7 +80,7 @@ func logOptions() *log.Options {
 	}
 }
 
-// initStore 读取 db 配置，创建 gorm.DB 实例，并初始化 skeleton store 层
+// initStore 读取 db 配置，创建 gorm.DB 实例，并初始化 skeleton store 层.
 func initStore() error {
 	dbOptions := &db.MySQLOptions{
 		Host:                  viper.GetString("db.host"),

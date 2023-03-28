@@ -13,7 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Login 登录 skeleton 并返回一个 JWT Token
+// Login 登录 skeleton 并返回一个 JWT Token.
 func (ctrl *UserController) Login(c *gin.Context) {
 	log.C(c).Infow("Login function called")
 

@@ -34,7 +34,7 @@ import (
 var cfgFile string
 
 // NewSkeletonCommand 创建一个 *cobra.Command 对象
-// 之后，可以使用 Command 对象的 Execute 方法来启动应用程序
+// 之后，可以使用 Command 对象的 Execute 方法来启动应用程序.
 func NewSkeletonCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		// 指定命令的名字，该名字会出现在帮助信息中
@@ -88,7 +88,7 @@ Find more skeleton information at:
 	return cmd
 }
 
-// run 实际的业务代码入口函数
+// run 实际的业务代码入口函数.
 func run() error {
 	// 初始化 store 层
 	if err := initStore(); err != nil {
@@ -152,7 +152,7 @@ func run() error {
 	return nil
 }
 
-// startInsecureServer 创建并运行 HTTP 服务器
+// startInsecureServer 创建并运行 HTTP 服务器.
 func startInsecureServer(g *gin.Engine) *http.Server {
 	// 创建 HTTP Server 实例
 	httpsrv := &http.Server{Addr: viper.GetString("addr"), Handler: g}
@@ -191,7 +191,7 @@ func startSecureServer(g *gin.Engine) *http.Server {
 	return httpssrv
 }
 
-// startGRPCServer 创建并运行 GRPC 服务器
+// startGRPCServer 创建并运行 GRPC 服务器.
 func startGRPCServer() *grpc.Server {
 	lis, err := net.Listen("tcp", viper.GetString("grpc.addr"))
 	if err != nil {
