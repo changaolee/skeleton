@@ -30,7 +30,7 @@ sudo cp _output/platforms/linux/amd64/skeleton /opt/skeleton/bin # 安装二进�
 
 ```bash
 sed 's/.\/_output/\/etc\/skeleton/g' configs/skeleton.yaml > skeleton.sed.yaml # 替换 CA 文件路径
-sudo mv skeleton.sed.yaml /etc/skeleton/ # 安装配置文件
+sudo mv skeleton.sed.yaml /etc/skeleton/skeleton.yaml # 安装配置文件
 ```
 
 5. 安装 CA 文件
