@@ -8,8 +8,9 @@ package model
 import (
 	"time"
 
-	"github.com/changaolee/skeleton/pkg/auth"
 	"gorm.io/gorm"
+
+	"github.com/changaolee/skeleton/pkg/auth"
 )
 
 // UserM 是数据库中 user 记录 struct 格式的映射.

@@ -7,11 +7,12 @@ package user
 
 import (
 	"github.com/asaskevich/govalidator"
+	"github.com/gin-gonic/gin"
+
 	"github.com/changaolee/skeleton/internal/pkg/core"
 	"github.com/changaolee/skeleton/internal/pkg/errno"
 	"github.com/changaolee/skeleton/internal/pkg/log"
 	v1 "github.com/changaolee/skeleton/pkg/api/skeleton/v1"
-	"github.com/gin-gonic/gin"
 )
 
 // ChangePassword 用来修改指定用户的密码.

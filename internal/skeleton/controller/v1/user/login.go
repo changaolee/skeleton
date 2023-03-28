@@ -6,11 +6,12 @@
 package user
 
 import (
+	"github.com/gin-gonic/gin"
+
 	"github.com/changaolee/skeleton/internal/pkg/core"
 	"github.com/changaolee/skeleton/internal/pkg/errno"
 	"github.com/changaolee/skeleton/internal/pkg/log"
 	v1 "github.com/changaolee/skeleton/pkg/api/skeleton/v1"
-	"github.com/gin-gonic/gin"
 )
 
 // Login 登录 skeleton 并返回一个 JWT Token.

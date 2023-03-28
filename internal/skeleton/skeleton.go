@@ -16,16 +16,17 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/gin-gonic/gin"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+	"google.golang.org/grpc"
+
 	"github.com/changaolee/skeleton/internal/pkg/known"
 	mw "github.com/changaolee/skeleton/internal/pkg/middleware"
 	"github.com/changaolee/skeleton/internal/skeleton/controller/v1/user"
 	"github.com/changaolee/skeleton/internal/skeleton/store"
 	pb "github.com/changaolee/skeleton/pkg/proto/skeleton/v1"
 	"github.com/changaolee/skeleton/pkg/token"
-	"github.com/gin-gonic/gin"
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
-	"google.golang.org/grpc"
 
 	"github.com/changaolee/skeleton/internal/pkg/log"
 	"github.com/changaolee/skeleton/pkg/version/verflag"

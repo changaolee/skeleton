@@ -6,9 +6,10 @@
 package user
 
 import (
+	"github.com/gin-gonic/gin"
+
 	"github.com/changaolee/skeleton/internal/pkg/core"
 	"github.com/changaolee/skeleton/internal/pkg/log"
-	"github.com/gin-gonic/gin"
 )
 
 // Get 获取一个用户的详细信息.

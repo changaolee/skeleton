@@ -8,8 +8,9 @@ package store
 import (
 	"context"
 
-	"github.com/changaolee/skeleton/internal/pkg/model"
 	"gorm.io/gorm"
+
+	"github.com/changaolee/skeleton/internal/pkg/model"
 )
 
 // UserStore 定义了 user 模块在 store 层所实现的方法.

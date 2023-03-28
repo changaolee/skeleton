@@ -12,10 +12,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/changaolee/skeleton/internal/pkg/log"
-	pb "github.com/changaolee/skeleton/pkg/proto/skeleton/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+
+	"github.com/changaolee/skeleton/internal/pkg/log"
+	pb "github.com/changaolee/skeleton/pkg/proto/skeleton/v1"
 )
 
 var (

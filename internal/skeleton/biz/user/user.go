@@ -10,11 +10,12 @@ import (
 	"errors"
 	"regexp"
 
+	"github.com/jinzhu/copier"
+	"gorm.io/gorm"
+
 	"github.com/changaolee/skeleton/internal/pkg/log"
 	"github.com/changaolee/skeleton/pkg/auth"
 	"github.com/changaolee/skeleton/pkg/token"
-	"github.com/jinzhu/copier"
-	"gorm.io/gorm"
 
 	"github.com/changaolee/skeleton/internal/pkg/errno"
 	"github.com/changaolee/skeleton/internal/pkg/model"

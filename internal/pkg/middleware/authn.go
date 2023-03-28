@@ -6,11 +6,12 @@
 package middleware
 
 import (
+	"github.com/gin-gonic/gin"
+
 	"github.com/changaolee/skeleton/internal/pkg/core"
 	"github.com/changaolee/skeleton/internal/pkg/errno"
 	"github.com/changaolee/skeleton/internal/pkg/known"
 	"github.com/changaolee/skeleton/pkg/token"
-	"github.com/gin-gonic/gin"
 )
 
 // Authn 是认证中间件，用来从 gin.Context 中提取 token 并验证 token 是否合法，

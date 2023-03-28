@@ -6,14 +6,15 @@
 package skeleton
 
 import (
+	"github.com/gin-contrib/pprof"
+	"github.com/gin-gonic/gin"
+
 	"github.com/changaolee/skeleton/internal/pkg/core"
 	"github.com/changaolee/skeleton/internal/pkg/errno"
 	"github.com/changaolee/skeleton/internal/pkg/log"
 	mw "github.com/changaolee/skeleton/internal/pkg/middleware"
 	"github.com/changaolee/skeleton/internal/skeleton/controller/v1/user"
 	"github.com/changaolee/skeleton/internal/skeleton/store"
-	"github.com/gin-contrib/pprof"
-	"github.com/gin-gonic/gin"
 )
 
 // installRouters 安装 skeleton 接口路由.

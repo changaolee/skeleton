@@ -9,9 +9,10 @@ import (
 	"context"
 	"time"
 
+	"google.golang.org/protobuf/types/known/timestamppb"
+
 	"github.com/changaolee/skeleton/internal/pkg/log"
 	pb "github.com/changaolee/skeleton/pkg/proto/skeleton/v1"
-	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ListUser 返回用户列表.
