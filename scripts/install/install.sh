@@ -195,3 +195,5 @@ function skt::install::install() {
 
   skt::log::info "$(echo -e '\033[32mcongratulations, install skeleton application successfully!\033[0m')"
 }
+
+eval $*
