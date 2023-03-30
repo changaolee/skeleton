@@ -252,7 +252,7 @@ EOF
 
   # 3.2 用 skt 用户登录 mysql，执行 skt.sql 文件，创建 skt 数据库
   mysql -h127.0.0.1 -P3306 -u${MARIADB_USERNAME} -p"${MARIADB_PASSWORD}" <<EOF
-source configs/skt.sql;
+source configs/skeleton.sql;
 show databases;
 EOF
 
