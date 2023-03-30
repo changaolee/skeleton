@@ -323,7 +323,7 @@ linters-settings:
   goimports:
     # put imports beginning with prefix after 3rd-party packages;
     # it's a comma-separated list of prefixes
-    local-prefixes: github.com/marmotedu/iam
+    local-prefixes: github.com/changaolee/skeleton
   golint:
     # minimal confidence for issues, default is 0.8
     min-confidence: 0.9
@@ -351,12 +351,12 @@ linters-settings:
     exclude-forbidden: false
   gomodguard:
     allowed:
-      modules:                                                        # List of allowed modules
+      modules: # List of allowed modules
         - gorm.io/gorm
         - gorm.io/driver/mysql
         - k8s.io/klog
         # - gopkg.in/yaml.v2
-      domains:                                                        # List of allowed module domains
+      domains: # List of allowed module domains
         - google.golang.org
         - gopkg.in
         - golang.org
@@ -707,7 +707,7 @@ linters-settings:
       #path: /path/to/example.so
       # The description of the linter. Optional, just for documentation purposes.
       #description: This is an example usage of a plugin linter.
-      # Intended to point to the repo location of the linter. Optional, just for documentation purposes.
+    # Intended to point to the repo location of the linter. Optional, just for documentation purposes.
     #original-url: github.com/golangci/example-linter
 
 linters:
@@ -794,7 +794,7 @@ linters:
       #- varnamelen
       #- contextcheck
       #- errname
-      #- ForceTypeAssert
+    #- ForceTypeAssert
     #- nilassign
   fast: false
 
