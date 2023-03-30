@@ -4,6 +4,10 @@
 SKT_ROOT=$(dirname "${BASH_SOURCE[0]}")/../..
 source "${SKT_ROOT}/scripts/install/common.sh"
 
+source "${SKT_ROOT}/scripts/install/mariadb.sh"
+source "${SKT_ROOT}/scripts/install/redis.sh"
+source "${SKT_ROOT}/scripts/install/mongodb.sh"
+
 # 准备 Linux 环境
 skt::install::prepare_linux() {
   # 1. 替换 Yum 源为阿里的 Yum 源
@@ -182,14 +186,136 @@ function skt::install::init_into_go_env() {
   skt::log::info "initialize linux to go development machine  successfully"
 }
 
+# 安装数据库
+function skt::install::install_storage() {
+  skt::mariadb::install || return 1
+  skt::redis::install || return 1
+  skt::mongodb::install || return 1
+
+  skt::log::info "install storage successfully"
+}
+
+# 如果是通过脚本安装，需要先尝试获取安装脚本指定的 Tag，Tag 记录在 version 文件中
+function skt::install::obtain_branch_flag() {
+  if [ -f "${SKT_ROOT}"/version ]; then
+    echo $(cat "${SKT_ROOT}"/version)
+  fi
+}
+
+# 安装 CFSSL
+function iam::install::install_cfssl() {
+  mkdir -p $HOME/bin/
+  wget https://github.com/cloudflare/cfssl/releases/download/v1.6.1/cfssl_1.6.1_linux_amd64 -O $HOME/bin/cfssl
+  wget https://github.com/cloudflare/cfssl/releases/download/v1.6.1/cfssljson_1.6.1_linux_amd64 -O $HOME/bin/cfssljson
+  wget https://github.com/cloudflare/cfssl/releases/download/v1.6.1/cfssl-certinfo_1.6.1_linux_amd64 -O $HOME/bin/cfssl-certinfo
+  #wget https://pkg.cfssl.org/R1.2/cfssl_linux-amd64 -O $HOME/bin/cfssl
+  #wget https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64 -O $HOME/bin/cfssljson
+  #wget https://pkg.cfssl.org/R1.2/cfssl-certinfo_linux-amd64 -O $HOME/bin/cfssl-certinfo
+  chmod +x $HOME/bin/{cfssl,cfssljson,cfssl-certinfo}
+
+  iam::log::info "install cfssl tools successfully"
+}
+
+# 准备 skeleton 安装环境
+function skt::install::prepare_skeleton() {
+  rm -rf $WORKSPACE/golang/src/github.com/changaolee/skeleton # clean up
+
+  # 1. 下载 skeleton 项目代码，先强制删除 skeleton 目录，确保 skeleton 源码都是最新的指定版本
+  mkdir -p $WORKSPACE/golang/src/github.com/changaolee && cd $WORKSPACE/golang/src/github.com/changaolee
+  git clone -b $(skt::install::obtain_branch_flag) --depth=1 https://github.com/changaolee/skeleton
+  go work use ./skeleton
+
+  # 注意：因为切换编译路径，所以这里要重新赋值 SKT_ROOT 和 LOCAL_OUTPUT_ROOT
+  SKT_ROOT=$WORKSPACE/golang/src/github.com/changaolee/skeleton
+  LOCAL_OUTPUT_ROOT="${SKT_ROOT}/${OUT_DIR:-_output}"
+
+  pushd ${SKT_ROOT}
+
+  # 2. 配置 $HOME/.bashrc 添加一些便捷入口
+  if ! grep -q 'Alias for quick access' $HOME/.bashrc; then
+    cat <<'EOF' >>$HOME/.bashrc
+# Alias for quick access
+export GOSRC="$WORKSPACE/golang/src"
+export SKT_ROOT="$GOSRC/github.com/changaolee/skeleton"
+alias ca="cd $GOSRC/github.com/changaolee"
+alias skt="cd $GOSRC/github.com/changaolee/skeleton"
+EOF
+  fi
+
+  # 3. 初始化 MariaDB 数据库，创建 skt 数据库
+
+  # 3.1 登录数据库并创建 skt 用户
+  mysql -h127.0.0.1 -P3306 -u"${MARIADB_ADMIN_USERNAME}" -p"${MARIADB_ADMIN_PASSWORD}" <<EOF
+grant all on skt.* TO ${MARIADB_USERNAME}@127.0.0.1 identified by "${MARIADB_PASSWORD}";
+flush privileges;
+EOF
+
+  # 3.2 用 skt 用户登录 mysql，执行 skt.sql 文件，创建 skt 数据库
+  mysql -h127.0.0.1 -P3306 -u${MARIADB_USERNAME} -p"${MARIADB_PASSWORD}" <<EOF
+source configs/skt.sql;
+show databases;
+EOF
+
+  # 4. 创建必要的目录
+  echo ${LINUX_PASSWORD} | sudo -S mkdir -p ${SKT_DATA_DIR}/{skt-apiserver,skt-authz-server,skt-pump,skt-watcher}
+  skt::common::sudo "mkdir -p ${SKT_INSTALL_DIR}/bin"
+  skt::common::sudo "mkdir -p ${SKT_CONFIG_DIR}/cert"
+  skt::common::sudo "mkdir -p ${SKT_LOG_DIR}"
+
+  # 5. 安装 cfssl 工具集
+  ! command -v cfssl &>/dev/null || ! command -v cfssl-certinfo &>/dev/null || ! command -v cfssljson &>/dev/null && {
+    skt::install::install_cfssl || return 1
+  }
+
+  # 6. 配置 hosts
+  if ! egrep -q 'skt.*changaolee.com' /etc/hosts; then
+    echo ${LINUX_PASSWORD} | sudo -S bash -c "cat << 'EOF' >> /etc/hosts
+    127.0.0.1 skt.api.changaolee.com
+    127.0.0.1 skt.authz.changaolee.com
+    EOF"
+  fi
+
+  skt::log::info "prepare for skeleton installation successfully"
+  popd
+}
+
+# 安装 Skeleton 应用
+function skt::install::install_skeleton() {
+  # 1. 安装并初始化数据库
+  skt::install::install_storage || return 1
+
+  # 2. 先准备安装环境
+  skt::install::prepare_skeleton || return 1
+
+  #  # 3. 安装 skt-apiserver 服务
+  #  skt::apiserver::install || return 1
+  #
+  #  # 4. 安装 sktctl 客户端工具
+  #  skt::sktctl::install || return 1
+  #
+  #  # 5. 安装 skt-authz-server 服务
+  #  skt::authzserver::install || return 1
+  #
+  #  # 6. 安装 skt-pump 服务
+  #  skt::pump::install || return 1
+  #
+  #  # 7. 安装 skt-watcher 服务
+  #  skt::watcher::install || return 1
+  #
+  #  # 8. 安装 man page
+  #  skt::man::install || return 1
+
+  skt::log::info "install skt application successfully"
+}
+
 # 自动配置环境并安装应用
 function skt::install::install() {
   # 1. 配置 Linux 使其成为一个友好的 Go 开发机
   skt::install::init_into_go_env || return 1
 
-  #  # 2. 安装 skeleton 应用
-  #  skt::install::install_skt || return 1
-  #
+  # 2. 安装 skeleton 应用
+  skt::install::install_skeleton || return 1
+
   #  # 3. 测试安装后的 skt 系统功能是否正常
   #  skt::test::test || return 1
 
