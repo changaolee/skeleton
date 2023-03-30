@@ -7,7 +7,7 @@ SKT_ROOT=$(dirname "${BASH_SOURCE[0]}")/../..
 LOCAL_OUTPUT_ROOT="${SKT_ROOT}/${OUT_DIR:-_output}"
 
 # 设置统一的密码，方便记忆
-readonly PASSWORD=${PASSWORD:-'SKT59!z$'}
+readonly PASSWORD=${PASSWORD:-'SKT1826!z$'}
 
 # Linux系统 goer 用户
 readonly LINUX_USERNAME=${LINUX_USERNAME:-goer}
