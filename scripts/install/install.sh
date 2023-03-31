@@ -246,11 +246,11 @@ EOF
 
   # 3.1 登录数据库并创建 skt 用户
   mysql -h127.0.0.1 -P3306 -u"${MARIADB_ADMIN_USERNAME}" -p"${MARIADB_ADMIN_PASSWORD}" <<EOF
-grant all on skt.* TO ${MARIADB_USERNAME}@127.0.0.1 identified by "${MARIADB_PASSWORD}";
+grant all on ${MARIADB_DATABASE}.* TO ${MARIADB_USERNAME}@127.0.0.1 identified by "${MARIADB_PASSWORD}";
 flush privileges;
 EOF
 
-  # 3.2 用 skt 用户登录 mysql，执行 skt.sql 文件，创建 skt 数据库
+  # 3.2 用 skt 用户登录 mysql，执行 skeleton.sql 文件，创建 skt 数据库
   mysql -h127.0.0.1 -P3306 -u${MARIADB_USERNAME} -p"${MARIADB_PASSWORD}" <<EOF
 source configs/skeleton.sql;
 show databases;

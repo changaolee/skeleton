@@ -23,9 +23,9 @@ readonly ENV_FILE=${SKT_ROOT}/scripts/install/environment.sh
 readonly MARIADB_ADMIN_USERNAME=${MARIADB_ADMIN_USERNAME:-root}        # MariaDB root 用户
 readonly MARIADB_ADMIN_PASSWORD=${MARIADB_ADMIN_PASSWORD:-${PASSWORD}} # MariaDB root 用户密码
 readonly MARIADB_HOST=${MARIADB_HOST:-127.0.0.1:3306}                  # MariaDB 主机地址
-readonly MARIADB_DATABASE=${MARIADB_DATABASE:-skt}                     # MariaDB skt 应用使用的数据库名
-readonly MARIADB_USERNAME=${MARIADB_USERNAME:-skt}                     # skt 数据库用户名
-readonly MARIADB_PASSWORD=${MARIADB_PASSWORD:-${PASSWORD}}             # skt 数据库密码
+readonly MARIADB_DATABASE=${MARIADB_DATABASE:-skeleton}                # MariaDB skeleton 应用使用的数据库名
+readonly MARIADB_USERNAME=${MARIADB_USERNAME:-skt}                     # skeleton 数据库用户名
+readonly MARIADB_PASSWORD=${MARIADB_PASSWORD:-${PASSWORD}}             # skeleton 数据库密码
 
 # Redis 配置信息
 readonly REDIS_HOST=${REDIS_HOST:-127.0.0.1}           # Redis 主机地址

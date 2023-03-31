@@ -37,12 +37,14 @@ EOF"
   # 5. 启动 MongoDB，并设置开机启动
   skt::common::sudo "systemctl enable mongod"
   skt::common::sudo "systemctl start mongod"
+  skt::common::sudo "systemctl status mongod"
 
   # 6. 创建管理员账号，设置管理员密码
   mongosh --quiet "mongodb://${MONGO_HOST}:${MONGO_PORT}" <<EOF
 use admin
 db.createUser({user:"${MONGO_ADMIN_USERNAME}",pwd:"${MONGO_ADMIN_PASSWORD}",roles:["root"]})
 db.auth("${MONGO_ADMIN_USERNAME}", "${MONGO_ADMIN_PASSWORD}")
+exit
 EOF
 
   # 7. 创建 ${MONGO_USERNAME} 用户
@@ -50,6 +52,7 @@ EOF
 use skt_analytics
 db.createUser({user:"${MONGO_USERNAME}",pwd:"${MONGO_PASSWORD}",roles:["dbOwner"]})
 db.auth("${MONGO_USERNAME}", "${MONGO_PASSWORD}")
+exit
 EOF
 
   skt::mongodb::status || return 1
