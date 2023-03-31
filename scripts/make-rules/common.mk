@@ -4,10 +4,25 @@
 SHELL := /bin/bash
 
 COMMON_SELF_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
+
 # 项目根目录
+ifeq ($(origin ROOT_DIR),undefined)
 ROOT_DIR := $(abspath $(shell cd $(COMMON_SELF_DIR)/../../ && pwd -P))
+endif
+
 # 构建产物、临时文件存放目录
+ifeq ($(origin OUTPUT_DIR),undefined)
 OUTPUT_DIR := $(ROOT_DIR)/_output
+$(shell mkdir -p $(OUTPUT_DIR))
+endif
+ifeq ($(origin TOOLS_DIR),undefined)
+TOOLS_DIR := $(OUTPUT_DIR)/tools
+$(shell mkdir -p $(TOOLS_DIR))
+endif
+ifeq ($(origin TMP_DIR),undefined)
+TMP_DIR := $(OUTPUT_DIR)/tmp
+$(shell mkdir -p $(TMP_DIR))
+endif
 
 # 定义包名
 ROOT_PACKAGE=github.com/changaolee/skeleton
@@ -64,3 +79,11 @@ endif
 # Linux 命令设置
 FIND := find . ! -path './third_party/*' ! -path './vendor/*'
 XARGS := xargs --no-run-if-empty
+
+# Specify tools severity, include: BLOCKER_TOOLS, CRITICAL_TOOLS, TRIVIAL_TOOLS.
+# Missing BLOCKER_TOOLS can cause the CI flow execution failed, i.e. `make all` failed.
+# Missing CRITICAL_TOOLS can lead to some necessary operations failed. i.e. `make release` failed.
+# TRIVIAL_TOOLS are Optional tools, missing these tool have no affect.
+BLOCKER_TOOLS ?= gsemver golines go-junit-report golangci-lint addlicense goimports codegen
+CRITICAL_TOOLS ?= swagger mockgen gotests git-chglog github-release coscmd go-mod-outdated protoc-gen-go cfssl go-gitlint
+TRIVIAL_TOOLS ?= depth go-callvis gothanks richgo rts kube-score
