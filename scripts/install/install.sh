@@ -203,7 +203,7 @@ function skt::install::obtain_branch_flag() {
 }
 
 # 安装 CFSSL
-function iam::install::install_cfssl() {
+function skt::install::install_cfssl() {
   mkdir -p $HOME/bin/
   wget https://github.com/cloudflare/cfssl/releases/download/v1.6.1/cfssl_1.6.1_linux_amd64 -O $HOME/bin/cfssl
   wget https://github.com/cloudflare/cfssl/releases/download/v1.6.1/cfssljson_1.6.1_linux_amd64 -O $HOME/bin/cfssljson
@@ -213,7 +213,7 @@ function iam::install::install_cfssl() {
   #wget https://pkg.cfssl.org/R1.2/cfssl-certinfo_linux-amd64 -O $HOME/bin/cfssl-certinfo
   chmod +x $HOME/bin/{cfssl,cfssljson,cfssl-certinfo}
 
-  iam::log::info "install cfssl tools successfully"
+  skt::log::info "install cfssl tools successfully"
 }
 
 # 准备 skeleton 安装环境
@@ -268,10 +268,10 @@ EOF
   }
 
   # 6. 配置 hosts
-  if ! egrep -q 'skt.*changaolee.com' /etc/hosts; then
+  if ! egrep -q 'skt.*lichangao.com' /etc/hosts; then
     echo ${LINUX_PASSWORD} | sudo -S bash -c "cat << 'EOF' >> /etc/hosts
-    127.0.0.1 skt.api.changaolee.com
-    127.0.0.1 skt.authz.changaolee.com
+    127.0.0.1 skt.api.lichangao.com
+    127.0.0.1 skt.authz.lichangao.com
     EOF"
   fi
 
