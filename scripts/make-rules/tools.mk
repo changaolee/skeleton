@@ -72,7 +72,7 @@ install.protoc-gen-go:
 
 .PHONY: install.cfssl
 install.cfssl:
-	@$(ROOT_DIR)/scripts/install/install.sh iam::install::install_cfssl
+	@$(ROOT_DIR)/scripts/install/install.sh skt::install::install_cfssl
 
 .PHONY: install.addlicense
 install.addlicense:
@@ -101,10 +101,6 @@ install.richgo:
 .PHONY: install.rts
 install.rts:
 	@$(GO) install github.com/galeone/rts/cmd/rts@latest
-
-.PHONY: install.codegen
-install.codegen:
-	@$(GO) install ${ROOT_DIR}/tools/codegen/codegen.go
 
 .PHONY: install.kube-score
 install.kube-score:
