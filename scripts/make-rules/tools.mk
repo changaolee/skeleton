@@ -66,10 +66,6 @@ install.gotests:
 install.protoc-gen-go:
 	@$(GO) install github.com/golang/protobuf/protoc-gen-go@latest
 
-.PHONY: install.cfssl
-install.cfssl:
-	@$(ROOT_DIR)/scripts/install/install.sh skt::install::install_cfssl
-
 .PHONY: install.addlicense
 install.addlicense:
 	@$(GO) install github.com/marmotedu/addlicense@latest
