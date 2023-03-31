@@ -32,7 +32,6 @@ EOF"
   # 3. 启动 MariaDB，并设置开机启动
   skt::common::sudo "systemctl enable mariadb"
   skt::common::sudo "systemctl start mariadb"
-  skt::common::sudo "systemctl status mariadb"
 
   # 4. 设置 root 初始密码
   skt::common::sudo "mysqladmin -u${MARIADB_ADMIN_USERNAME} password ${MARIADB_ADMIN_PASSWORD}"

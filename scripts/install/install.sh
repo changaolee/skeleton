@@ -270,9 +270,9 @@ EOF
   # 6. 配置 hosts
   if ! egrep -q 'skt.*lichangao.com' /etc/hosts; then
     echo ${LINUX_PASSWORD} | sudo -S bash -c "cat << 'EOF' >> /etc/hosts
-    127.0.0.1 skt.api.lichangao.com
-    127.0.0.1 skt.authz.lichangao.com
-    EOF"
+127.0.0.1 skt.api.lichangao.com
+127.0.0.1 skt.authz.lichangao.com
+"
   fi
 
   skt::log::info "prepare for skeleton installation successfully"

@@ -37,7 +37,6 @@ EOF"
   # 5. 启动 MongoDB，并设置开机启动
   skt::common::sudo "systemctl enable mongod"
   skt::common::sudo "systemctl start mongod"
-  skt::common::sudo "systemctl status mongod"
 
   # 6. 创建管理员账号，设置管理员密码
   mongosh --quiet "mongodb://${MONGO_HOST}:${MONGO_PORT}" <<EOF
