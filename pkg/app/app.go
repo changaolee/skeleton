@@ -10,6 +10,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"go.uber.org/multierr"
 )
 
 var progressMessage = color.GreenString("==>")
@@ -19,7 +20,7 @@ type App struct {
 	basename    string               // 二进制文件名
 	name        string               // 应用名
 	description string               // 应用描述
-	options     CliOptions           // 命令行选项解析结果
+	options     CliOptions           // 命令行选项参数
 	runFunc     RunFunc              // 应用程序启动的回调函数
 	silence     bool                 // 是否打印执行信息
 	noVersion   bool                 // 是否不显示版本信息
@@ -31,6 +32,12 @@ type App struct {
 
 // Option 定义用于初始化 App 结构的可选参数.
 type Option func(*App)
+
+func WithOptions(opts CliOptions) Option {
+	return func(a *App) {
+		a.options = opts
+	}
+}
 
 // RunFunc 定义应用程序启动的回调函数.
 type RunFunc func(basename string) error
@@ -47,6 +54,14 @@ func NewApp(name string, basename string, opts ...Option) *App {
 	a.buildCommand()
 
 	return a
+}
+
+// Run 用于启动应用程序.
+func (a *App) Run() {
+	if err := a.cmd.Execute(); err != nil {
+		fmt.Printf("%v %v\n", color.RedString("Error:"), err)
+		os.Exit(1)
+	}
 }
 
 func (a *App) buildCommand() {
@@ -142,8 +157,12 @@ func (a *App) applyOptionRules() error {
 		}
 	}
 
-	if err := a.options.Validate(); err != nil {
-		return err
+	if errs := a.options.Validate(); len(errs) > 0 {
+		var aggerr error
+		for _, err := range errs {
+			aggerr = multierr.Append(aggerr, err)
+		}
+		return aggerr
 	}
 
 	if printableOptions, ok := a.options.(PrintableOptions); ok && !a.silence {
