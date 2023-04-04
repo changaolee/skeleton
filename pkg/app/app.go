@@ -42,6 +42,32 @@ func WithOptions(opts CliOptions) Option {
 // RunFunc 定义应用程序启动的回调函数.
 type RunFunc func(basename string) error
 
+func WithRunFunc(run RunFunc) Option {
+	return func(a *App) {
+		a.runFunc = run
+	}
+}
+
+func WithDescription(desc string) Option {
+	return func(a *App) {
+		a.description = desc
+	}
+}
+
+func WithDefaultValidArgs() Option {
+	return func(a *App) {
+		// 这里设置命令运行时，不需要指定命令行参数
+		a.args = func(cmd *cobra.Command, args []string) error {
+			for _, arg := range args {
+				if len(arg) > 0 {
+					return fmt.Errorf("%q does not take any arguments, got %q", cmd.CommandPath(), args)
+				}
+			}
+			return nil
+		}
+	}
+}
+
 // NewApp 基于给定的应用名、二进制文件名以及一些其他选项，创建一个应用程序实例.
 func NewApp(name string, basename string, opts ...Option) *App {
 	a := &App{
