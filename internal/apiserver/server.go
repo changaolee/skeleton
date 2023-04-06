@@ -3,9 +3,12 @@ package apiserver
 import (
 	"github.com/changaolee/skeleton/internal/apiserver/config"
 	genericapiserver "github.com/changaolee/skeleton/internal/pkg/server"
+	"github.com/changaolee/skeleton/pkg/shutdown"
+	"github.com/changaolee/skeleton/pkg/shutdown/managers/posixsignal"
 )
 
 type apiServer struct {
+	gs               *shutdown.GracefulShutdown
 	genericAPIServer *genericapiserver.GenericAPIServer
 }
 
@@ -14,6 +17,10 @@ type preparedAPIServer struct {
 }
 
 func createAPIServer(cfg *config.Config) (*apiServer, error) {
+	// 新建优雅关闭组件
+	gs := shutdown.New()
+	gs.AddManager(posixsignal.NewPosixSignalManager())
+
 	// APIServer
 	genericConfig, err := buildGenericConfig(cfg)
 	if err != nil {
@@ -27,6 +34,7 @@ func createAPIServer(cfg *config.Config) (*apiServer, error) {
 	// todo: gRPCServer
 
 	server := &apiServer{
+		gs:               gs,
 		genericAPIServer: genericServer,
 	}
 
@@ -43,8 +51,14 @@ func buildGenericConfig(cfg *config.Config) (genericConfig *genericapiserver.Con
 
 func (s *apiServer) PrepareRun() *preparedAPIServer {
 	initRouter(s.genericAPIServer.Engine)
-	
-	// todo: 优雅关闭
+
+	s.gs.AddCallback(shutdown.CallbackFunc(func(string) error {
+		// todo: mysql、grpc 优雅关闭
+
+		s.genericAPIServer.Shutdown()
+
+		return nil
+	}))
 
 	return &preparedAPIServer{s}
 }

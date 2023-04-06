@@ -6,6 +6,14 @@ type Callback interface {
 	OnShutdown(manager string) error
 }
 
+// CallbackFunc 是一个辅助函数，用于自定义回调函数.
+type CallbackFunc func(string) error
+
+// OnShutdown 是在 shutdown 触发时执行的方法.
+func (f CallbackFunc) OnShutdown(manager string) error {
+	return f(manager)
+}
+
 type GSInterface interface {
 	AddManager(manager Manager)                // 添加 Shutdown Manager
 	AddCallback(callback Callback)             // 添加 Shutdown Callback
