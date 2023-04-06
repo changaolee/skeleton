@@ -8,7 +8,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/changaolee/skeleton/internal/pkg/core"
+	"github.com/changaolee/skeleton/internal/pkg/middleware"
 	"github.com/changaolee/skeleton/pkg/log"
+	"github.com/changaolee/skeleton/pkg/version"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/sync/errgroup"
 )
@@ -141,4 +144,48 @@ func (s *GenericAPIServer) ping(ctx context.Context) error {
 			return err
 		}
 	}
+}
+
+func initGenericAPIServer(s *GenericAPIServer) {
+	s.setup()
+	s.installMiddlewares()
+	s.installAPIs()
+}
+
+// setup 针对 gin 引擎做一些设置.
+func (s *GenericAPIServer) setup() {
+	gin.DebugPrintRouteFunc = func(httpMethod, absolutePath, handlerName string, nuHandlers int) {
+		log.Infof("%-6s %-s --> %s (%d handlers)", httpMethod, absolutePath, handlerName, nuHandlers)
+	}
+}
+
+// installMiddlewares 添加中间件.
+func (s *GenericAPIServer) installMiddlewares() {
+	// 必要的中间件
+	s.Use(middleware.RequestID())
+	s.Use(middleware.Context())
+
+	// 自定义中间件
+	for _, m := range s.middlewares {
+		mw, ok := middleware.Middlewares[m]
+		if !ok {
+			log.Warnf("Can not find middleware: %s", m)
+			continue
+		}
+		log.Infof("Install middleware: %s", m)
+		s.Use(mw)
+	}
+}
+
+// installAPIs 添加 api.
+func (s *GenericAPIServer) installAPIs() {
+	if s.healthz {
+		s.GET("/healthz", func(c *gin.Context) {
+			core.WriteResponse(c, nil, map[string]string{"status": "ok"})
+		})
+	}
+
+	s.GET("/version", func(c *gin.Context) {
+		core.WriteResponse(c, nil, version.Get())
+	})
 }

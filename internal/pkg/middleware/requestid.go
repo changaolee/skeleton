@@ -8,25 +8,27 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-
-	"github.com/changaolee/skeleton/internal/pkg/known"
 )
+
+// XRequestIDKey 用来定义 Gin 上下文中的键，代表请求的 uuid.
+const XRequestIDKey = "X-Request-ID"
 
 // RequestID 是一个 Gin 中间件，用来在每一个 HTTP 请求的 context, response 中注入 `X-Request-ID` 键值对.
 func RequestID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// 检查请求头中是否有 `X-Request-ID`，如果有则复用，没有则新建
-		requestID := c.Request.Header.Get(known.XRequestIDKey)
+		rid := c.GetHeader(XRequestIDKey)
 
-		if requestID == "" {
-			requestID = uuid.New().String()
+		if rid == "" {
+			rid = uuid.New().String()
+			c.Request.Header.Set(XRequestIDKey, rid)
 		}
 
 		// 将 RequestID 保存在 gin.Context 中，方便后边程序使用
-		c.Set(known.XRequestIDKey, requestID)
+		c.Set(XRequestIDKey, rid)
 
 		// 将 RequestID 保存在 HTTP 返回头中，Header 的键为 `X-Request-ID`
-		c.Writer.Header().Set(known.XRequestIDKey, requestID)
+		c.Writer.Header().Set(XRequestIDKey, rid)
 		c.Next()
 	}
 }

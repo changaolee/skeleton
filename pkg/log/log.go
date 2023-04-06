@@ -12,8 +12,6 @@ import (
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-
-	"github.com/changaolee/skeleton/internal/pkg/known"
 )
 
 // Logger 定义了 skeleton 项目的日志接口，该接口只包含了支持的日志记录方法.
@@ -226,12 +224,14 @@ func C(ctx context.Context) *zapLogger {
 func (l *zapLogger) C(ctx context.Context) *zapLogger {
 	lc := l.clone()
 
-	if requestID := ctx.Value(known.XRequestIDKey); requestID != nil {
-		lc.z = lc.z.With(zap.Any(known.XRequestIDKey, requestID))
+	if requestID := ctx.Value(KeyRequestID); requestID != nil {
+		lc.z = lc.z.With(zap.Any(KeyRequestID, requestID))
 	}
-
-	if userID := ctx.Value(known.XUsernameKey); userID != nil {
-		lc.z = lc.z.With(zap.Any(known.XUsernameKey, userID))
+	if username := ctx.Value(KeyUsername); username != nil {
+		lc.z = lc.z.With(zap.Any(KeyUsername, username))
+	}
+	if watcherName := ctx.Value(KeyWatcherName); watcherName != nil {
+		lc.z = lc.z.With(zap.Any(KeyWatcherName, watcherName))
 	}
 
 	return lc

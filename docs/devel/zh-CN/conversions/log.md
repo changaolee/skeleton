@@ -2,7 +2,7 @@
 
 ### 日志规范
 
-- 日志包统一使用 `github.com/changaolee/skeleton/internal/pkg/log`;
+- 日志包统一使用 `github.com/changaolee/skeleton/pkg/log`;
 - 使用结构化的日志打印格式：`log.Infow`, `log.Warnw`, `log.Errorw` 等; 例如：`log.Infow("Update post function called")`;
 - 日志均以大写开头，结尾不跟 `.`，例如：`log.Infow("Update post function called")`;
 - 使用过去时，例如：`Could not delete B` 而不是 `Cannot delete B`;

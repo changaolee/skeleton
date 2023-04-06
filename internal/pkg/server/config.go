@@ -100,7 +100,7 @@ func (c *CompletedConfig) New() (*GenericAPIServer, error) {
 		enableProfiling:     c.EnableProfiling,
 	}
 
-	// todo: 配置路由、中间件
+	initGenericAPIServer(s)
 
 	return s, nil
 }
