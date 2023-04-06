@@ -3,7 +3,9 @@ package server
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/changaolee/skeleton/pkg/log"
@@ -79,7 +81,14 @@ func (s *GenericAPIServer) Run() error {
 		return nil
 	})
 
-	// todo: 健康检查
+	// 健康检查
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	if s.healthz {
+		if err := s.ping(ctx); err != nil {
+			return err
+		}
+	}
 
 	if err := eg.Wait(); err != nil {
 		log.Fatalw(err.Error())
@@ -99,5 +108,37 @@ func (s *GenericAPIServer) Shutdown() {
 	}
 	if err := s.insecureServer.Shutdown(ctx); err != nil {
 		log.Warnf("Shutdown insecure server failed: %s", err.Error())
+	}
+}
+
+// ping 对服务进行健康检查.
+func (s *GenericAPIServer) ping(ctx context.Context) error {
+	url := fmt.Sprintf("http://%s/healthz", s.InsecureServingInfo.Address)
+	if strings.Contains(s.InsecureServingInfo.Address, "0.0.0.0") {
+		url = fmt.Sprintf("http://127.0.0.1:%s/healthz", strings.Split(s.InsecureServingInfo.Address, ":")[1])
+	}
+
+	for {
+		req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+		if err != nil {
+			return err
+		}
+		resp, err := http.DefaultClient.Do(req)
+		if err == nil && resp.StatusCode == http.StatusOK {
+			log.Infow("The router has been deployed successfully.")
+
+			_ = resp.Body.Close()
+
+			return nil
+		}
+
+		log.Infow("Waiting for the router, retry in 1 second.")
+		time.Sleep(1 * time.Second)
+
+		select {
+		case <-ctx.Done():
+			log.Fatalw("Can not ping http server within the specified time interval.")
+			return err
+		}
 	}
 }
