@@ -5,7 +5,6 @@
 # license that can be found in the LICENSE file. The original repo for
 # this file is https://github.com/changaolee/skeleton.
 
-
 # 根目录
 SKT_ROOT=$(dirname "${BASH_SOURCE[0]}")/..
 source "${SKT_ROOT}/scripts/lib/init.sh"
@@ -90,3 +89,5 @@ EOF
   # the popd will access `directory stack`, no `real` parameters is actually needed
   popd || return 1
 }
+
+$*
