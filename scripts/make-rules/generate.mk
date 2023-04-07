@@ -30,4 +30,4 @@ gen.ca: $(addprefix gen.ca., $(CERTIFICATES))
 gen.ca.%:
 	$(eval CA := $(word 1,$(subst ., ,$*)))
 	@echo "===========> Generating CA files for $(CA)"
-	@$(ROOT_DIR)/scripts/gencerts.sh generate-skt-cert $(OUTPUT_DIR)/cert $(CA)
+	@$(ROOT_DIR)/scripts/gencerts.sh generate-skt-cert $(CERT_DIR) $(CA)

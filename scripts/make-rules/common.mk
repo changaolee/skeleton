@@ -15,6 +15,10 @@ ifeq ($(origin OUTPUT_DIR),undefined)
 OUTPUT_DIR := $(ROOT_DIR)/_output
 $(shell mkdir -p $(OUTPUT_DIR))
 endif
+ifeq ($(origin CERT_DIR),undefined)
+CERT_DIR := $(OUTPUT_DIR)/cert
+$(shell mkdir -p $(CERT_DIR))
+endif
 ifeq ($(origin TOOLS_DIR),undefined)
 TOOLS_DIR := $(OUTPUT_DIR)/tools
 $(shell mkdir -p $(TOOLS_DIR))
