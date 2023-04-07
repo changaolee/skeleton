@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# 将此文件存储为 .git/hooks/commit-msg，并放置在你的 Git 仓库中，即可在实际提交之前强制检查正确的提交信息格式。
+# 你可能需要通过 `chmod +x .git/hooks/commit-msg` 命令使脚本具有可执行权限。
+#
+# commit-msg 使用 go-gitlint 工具，请通过 `go get github.com/llorllale/go-gitlint/cmd/go-gitlint` 命令安装 go-gitlint。
+go-gitlint --msg-file="$1"
