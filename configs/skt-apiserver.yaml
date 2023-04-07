@@ -7,7 +7,7 @@
 server:
   mode: debug # 可选值 release, debug, test
   healthz: true # 是否开启健康检查，如果开启会安装 /healthz 路由
-  middlewares: recovery,logger,secure,nocache,cors,dump # 加载的 gin 中间件列表，多个中间件，逗号(,)隔开
+  middlewares: recovery,secure,nocache,cors,dump # 加载的 gin 中间件列表，多个中间件，逗号(,)隔开
   max-ping-count: 3 # http 服务启动后，自检尝试次数，默认 3
 
 # HTTP 相关配置
