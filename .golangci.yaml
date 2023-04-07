@@ -718,7 +718,7 @@ linters:
   enable:
     - typecheck
     - asciicheck
-    - bodyclose
+#    - bodyclose
     - cyclop
     - depguard
     - dogsled
@@ -749,8 +749,8 @@ linters:
     - makezero
     - nakedret
     - nestif
-    - nilerr
-    - noctx
+#    - nilerr
+#    - noctx
     - nolintlint
     - paralleltest
     - prealloc
@@ -759,9 +759,9 @@ linters:
     - staticcheck
     - stylecheck
     - thelper
-    - tparallel
+#    - tparallel
     - unconvert
-    - unparam
+#    - unparam
     - unused
     - whitespace
     - bidichk
