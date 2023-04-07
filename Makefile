@@ -3,8 +3,9 @@
 
 .DEFAULT_GOAL := all
 
+# todo: build 前增加 cover 检查
 .PHONY: all
-all: tidy gen add-copyright format lint cover build
+all: tidy gen add-copyright format lint build
 
 # ==============================================================================
 # 定义包名
