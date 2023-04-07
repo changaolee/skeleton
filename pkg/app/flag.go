@@ -77,7 +77,12 @@ func PrintSections(w io.Writer, fss NamedFlagSets, cols int) {
 		}
 
 		var buf bytes.Buffer
-		_, _ = fmt.Fprintf(&buf, "\n%s flags:\n\n%s", strings.ToUpper(name[:1])+name[1:], wideFS.FlagUsagesWrapped(cols))
+		_, _ = fmt.Fprintf(
+			&buf,
+			"\n%s flags:\n\n%s",
+			strings.ToUpper(name[:1])+name[1:],
+			wideFS.FlagUsagesWrapped(cols),
+		)
 
 		if cols > 24 {
 			i := strings.Index(buf.String(), zzz)
