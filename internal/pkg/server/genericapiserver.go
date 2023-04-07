@@ -1,3 +1,8 @@
+// Copyright 2023 lichangao(李长傲) <changao.li.work@outlook.com>. All rights reserved.
+// Use of this source code is governed by a MIT style
+// license that can be found in the LICENSE file. The original repo for
+// this file is https://github.com/changaolee/skeleton.
+
 package server
 
 import (
@@ -8,12 +13,13 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gin-gonic/gin"
+	"golang.org/x/sync/errgroup"
+
 	"github.com/changaolee/skeleton/internal/pkg/core"
 	"github.com/changaolee/skeleton/internal/pkg/middleware"
 	"github.com/changaolee/skeleton/pkg/log"
 	"github.com/changaolee/skeleton/pkg/version"
-	"github.com/gin-gonic/gin"
-	"golang.org/x/sync/errgroup"
 )
 
 // GenericAPIServer 包含一个 skeleton api 服务器的配置.

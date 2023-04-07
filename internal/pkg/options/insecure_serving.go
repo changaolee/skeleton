@@ -1,3 +1,8 @@
+// Copyright 2023 lichangao(李长傲) <changao.li.work@outlook.com>. All rights reserved.
+// Use of this source code is governed by a MIT style
+// license that can be found in the LICENSE file. The original repo for
+// this file is https://github.com/changaolee/skeleton.
+
 package options
 
 import (
@@ -5,8 +10,9 @@ import (
 	"net"
 	"strconv"
 
-	"github.com/changaolee/skeleton/internal/pkg/server"
 	"github.com/spf13/pflag"
+
+	"github.com/changaolee/skeleton/internal/pkg/server"
 )
 
 // InsecureServingOptions 定义了 HTTP 服务配置，无需认证、鉴权.
