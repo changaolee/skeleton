@@ -41,10 +41,19 @@ func createAPIServer(cfg *config.Config) (*apiServer, error) {
 	return server, nil
 }
 
-func buildGenericConfig(cfg *config.Config) (genericConfig *genericapiserver.Config, lastErr error) {
+func buildGenericConfig(cfg *config.Config) (genericConfig *genericapiserver.Config, err error) {
 	genericConfig = genericapiserver.NewConfig()
 
-	// todo: 将 cfg 中的配置更新到 genericConfig 中
+	// 将 cfg 中的配置更新到 genericConfig 中
+	if err = cfg.GenericServerRunOptions.ApplyTo(genericConfig); err != nil {
+		return
+	}
+	if err = cfg.InsecureServing.ApplyTo(genericConfig); err != nil {
+		return
+	}
+	if err = cfg.SecureServing.ApplyTo(genericConfig); err != nil {
+		return
+	}
 
 	return
 }

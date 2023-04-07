@@ -15,6 +15,9 @@ type Options struct {
 }
 
 func (o *Options) Flags() (fss app.NamedFlagSets) {
+	o.GenericServerRunOptions.AddFlags(fss.FlagSet("generic"))
+	o.InsecureServing.AddFlags(fss.FlagSet("insecure serving"))
+	o.SecureServing.AddFlags(fss.FlagSet("secure serving"))
 	o.MySQLOptions.AddFlags(fss.FlagSet("mysql"))
 	o.Log.AddFlags(fss.FlagSet("log"))
 
