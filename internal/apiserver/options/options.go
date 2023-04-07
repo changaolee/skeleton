@@ -14,6 +14,18 @@ type Options struct {
 	Log                     *log.Options                       `json:"log"      mapstructure:"log"`
 }
 
+// NewOptions 使用默认参数创建一个 options 对象.
+func NewOptions() *Options {
+	o := Options{
+		GenericServerRunOptions: genoptions.NewServerRunOptions(),
+		InsecureServing:         genoptions.NewInsecureServingOptions(),
+		SecureServing:           genoptions.NewSecureServingOptions(),
+		MySQLOptions:            genoptions.NewMySQLOptions(),
+		Log:                     log.NewOptions(),
+	}
+	return &o
+}
+
 func (o *Options) Flags() (fss app.NamedFlagSets) {
 	o.GenericServerRunOptions.AddFlags(fss.FlagSet("generic"))
 	o.InsecureServing.AddFlags(fss.FlagSet("insecure serving"))
@@ -31,13 +43,4 @@ func (o *Options) Validate() []error {
 	errs = append(errs, o.Log.Validate()...)
 
 	return errs
-}
-
-// NewOptions 使用默认参数创建一个 options 对象.
-func NewOptions() *Options {
-	o := Options{
-		MySQLOptions: genoptions.NewMySQLOptions(),
-		Log:          log.NewOptions(),
-	}
-	return &o
 }
