@@ -142,6 +142,7 @@ func (s *GenericAPIServer) ping(ctx context.Context) error {
 		case <-ctx.Done():
 			log.Fatalw("Can not ping http server within the specified time interval.")
 			return err
+		default:
 		}
 	}
 }
