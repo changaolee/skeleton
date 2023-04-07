@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Copyright 2023 lichangao(李长傲) <changao.li.work@outlook.com>. All rights reserved.
 # Use of this source code is governed by a MIT style

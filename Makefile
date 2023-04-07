@@ -1,15 +1,21 @@
-# 默认执行 all 目标
+# ==============================================================================
+# 定义 Makefile all 伪目标，执行 `make` 时，会默认会执行 all 伪目标.
+
 .DEFAULT_GOAL := all
 
-# ==============================================================================
-# 定义 Makefile all 伪目标，执行 `make` 时，会默认会执行 all 伪目标
 .PHONY: all
-all: gen.add-copyright go.format go.lint go.cover go.build
+all: tidy gen add-copyright format lint cover build
+
+# ==============================================================================
+# 定义包名
+
+ROOT_PACKAGE=github.com/changaolee/skeleton
+VERSION_PACKAGE=github.com/changaolee/skeleton/pkg/version
 
 # ==============================================================================
 # Includes
 
-# 确保 `include common.mk` 位于第一行，common.mk 中定义了一些变量，后面的子 makefile 有依赖
+# 确保 `include common.mk` 位于第一行，common.mk 中定义了一些变量，后面的子 makefile 有依赖.
 include scripts/make-rules/common.mk
 include scripts/make-rules/tools.mk
 include scripts/make-rules/golang.mk
@@ -22,108 +28,148 @@ define USAGE_OPTIONS
 
 Options:
   BINS             The binaries to build. Default is all of cmd.
-                   This option is available when using: make build/build.multiarch
-                   Example: make build BINS="skeleton test"
+                   This option is available when using: `make build` or `make build.multiarch`
+                   Example: `make build BINS="skt-apiserver skt-authz-server"`
+  PLATFORMS        The multiple platforms to build. Default is linux_amd64 and linux_arm64.
+                   This option is available when using: `make build.multiarch` or `make image.multiarch` or `make push.multiarch`
+                   Example: `make image.multiarch IMAGES="iam-apiserver" PLATFORMS="linux_amd64 linux_arm64"`
   VERSION          The version information compiled into binaries.
                    The default is obtained from gsemver or git.
   V                Set to 1 enable verbose build. Default is 0.
 endef
 export USAGE_OPTIONS
 
-## --------------------------------------
-## Generate / Manifests
-## --------------------------------------
+# ==============================================================================
+# Targets
 
-##@ generate:
-
-.PHONY: add-copyright
-add-copyright: ## 添加版权头信息.
-	@$(MAKE) gen.add-copyright
-
-.PHONY: ca
-ca: ## 生成 CA 文件.
-	@$(MAKE) gen.ca
-
-.PHONY: protoc
-protoc: ## 编译 protobuf 文件.
-	@$(MAKE) gen.protoc
-
-.PHONY: deps
-deps: ## 安装依赖，例如：生成需要的代码、安装需要的工具等.
-	@$(MAKE) gen.deps
-
-## --------------------------------------
-## Binaries
-## --------------------------------------
-
-##@ build:
-
+## build: 为主机所在平台构建源代码.
 .PHONY: build
-build: go.tidy  ## 编译源码，依赖 tidy 目标自动添加/移除依赖包.
+build:
 	@$(MAKE) go.build
 
-## --------------------------------------
-## Cleanup
-## --------------------------------------
+## build.multiarch: 为多个平台构建源代码，参考选项 PLATFORMS.
+.PHONY: build.multiarch
+build.multiarch:
+	@$(MAKE) go.build.multiarch
 
-##@ clean:
+## image: 为主机所在平台构建 docker 镜像.
+.PHONY: image
+image:
+	@$(MAKE) image.build
 
+## image.multiarch: 为多个平台构建 docker 镜像，参考选项 PLATFORMS.
+.PHONY: image.multiarch
+image.multiarch:
+	@$(MAKE) image.build.multiarch
+
+## push: 为主机所在平台构建 docker 镜像并推送到仓库.
+.PHONY: push
+push:
+	@$(MAKE) image.push
+
+## push.multiarch: 为多个平台构建 docker 镜像并推送到仓库，参考选项 PLATFORMS.
+.PHONY: push.multiarch
+push.multiarch:
+	@$(MAKE) image.push.multiarch
+
+## deploy: 将更新的组件部署到开发环境.
+.PHONY: deploy
+deploy:
+	@$(MAKE) deploy.run
+
+## clean: 移除所有构建过程产生的文件.
 .PHONY: clean
-clean: ## 清理构建产物、临时文件等.
+clean:
 	@echo "===========> Cleaning all build output"
 	@-rm -vrf $(OUTPUT_DIR)
 
-
-## --------------------------------------
-## Lint / Verification
-## --------------------------------------
-
-##@ lint and verify:
-
+## lint: 检查 GO 源代码的语法和风格.
 .PHONY: lint
-lint: ## 执行静态代码检查.
+lint:
 	@$(MAKE) go.lint
 
-
-## --------------------------------------
-## Testing
-## --------------------------------------
-
-##@ test:
-
+## test: 运行单元测试.
 .PHONY: test
-test: ## 执行单元测试.
+test:
 	@$(MAKE) go.test
 
+## cover: 运行单元测试并获取测试覆盖率.
 .PHONY: cover
-cover: ## 执行单元测试，并校验覆盖率阈值.
-	@$(MAKE) go.cover
+cover:
+	@$(MAKE) go.test.cover
 
+## release.build: 构建项目.
+.PHONY: release.build
+release.build:
+	@$(MAKE) push.multiarch
 
-## --------------------------------------
-## Hack / Tools
-## --------------------------------------
+## release: 发布项目.
+.PHONY: release
+release:
+	@$(MAKE) release.run
 
-##@ hack/tools:
-
+## format: 格式化源代码.
 .PHONY: format
-format:  ## 格式化 Go 源码.
-	@$(MAKE) go.format
+format: tools.verify.golines tools.verify.goimports
+	@echo "===========> Formatting codes"
+	@$(FIND) -type f -name '*.go' | $(XARGS) gofmt -s -w
+	@$(FIND) -type f -name '*.go' | $(XARGS) goimports -w -local $(ROOT_PACKAGE)
+	@$(FIND) -type f -name '*.go' | $(XARGS) golines -w --max-len=120 --reformat-tags --shorten-comments --ignore-generated .
+	@$(GO) mod edit -fmt
 
+## verify-copyright: 验证所有文件的版权声明.
+.PHONY: verify-copyright
+verify-copyright:
+	@$(MAKE) copyright.verify
+
+## add-copyright: 确保所有文件都有版权声明.
+.PHONY: add-copyright
+add-copyright:
+	@$(MAKE) copyright.add
+
+## gen: 生成所有必要的文件.
+.PHONY: gen
+gen:
+	@$(MAKE) gen.run
+
+## ca: 为所有组件生成 CA 证书.
+.PHONY: ca
+ca:
+	@$(MAKE) gen.ca
+
+## swagger: 生成 Swagger 文档.
 .PHONY: swagger
-swagger: tools.verify.swagger ## 启动 swagger 在线文档（监听端口：65534）.
-	@swagger serve -F=swagger --no-open --port 65534 $(ROOT_DIR)/api/openapi/openapi.yaml
+swagger:
+	@$(MAKE) swagger.run
 
-.PHONY: tidy
-tidy: ## 自动添加/移除依赖包.
-	@$(MAKE) go.tidy
+## serve-swagger: 开启 Swagger 文档服务.
+.PHONY: swagger.serve
+serve-swagger:
+	@$(MAKE) swagger.serve
 
-.PHONY: help
-help: Makefile ## 打印 Makefile help 信息.
-	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<TARGETS> <OPTIONS>\033[0m\n\n\033[35mTargets:\033[0m\n"} /^[0-9A-Za-z._-]+:.*?##/ { printf "  \033[36m%-45s\033[0m %s\n", $$1, $$2 } /^\$$\([0-9A-Za-z_-]+\):.*?##/ { gsub("_","-", $$1); printf "  \033[36m%-45s\033[0m %s\n", tolower(substr($$1, 3, length($$1)-7)), $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' Makefile # $(MAKEFILE_LIST)
-	@echo -e "$$USAGE_OPTIONS"
+## dependencies: 安装必要的依赖.
+.PHONY: dependencies
+dependencies:
+	@$(MAKE) dependencies.run
 
-## tools: install dependent tools.
+## tools: 安装依赖工具.
 .PHONY: tools
 tools:
 	@$(MAKE) tools.install
+
+## check-updates: 检查项目的过时依赖.
+.PHONY: check-updates
+check-updates:
+	@$(MAKE) go.updates
+
+## tidy: 整理 Go 模块依赖.
+.PHONY: tidy
+tidy:
+	@$(GO) mod tidy
+
+## help: 展示帮助信息.
+.PHONY: help
+help: Makefile
+	@printf "\nUsage: make <TARGETS> <OPTIONS> ...\n\nTargets:\n"
+	@sed -n 's/^##//p' $< | column -t -s ':' | sed -e 's/^/ /'
+	@echo "$$USAGE_OPTIONS"
