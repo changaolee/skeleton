@@ -14,7 +14,7 @@
   - Panic 级别的日志使用 `log.Panicw`;
   - Fatal 级别的日志使用 `log.Fatalw`.
 - 日志设置：
-  - 开发测试环境：日志级别设置为 `debug`、日志格式可根据需要设置为 `console` / `json`、开启 caller；
+  - 开发测试环境：日志级别设置为 `debug`、日志格式可根据需要设置为 `console`/`json`、开启 caller；
   - 生产环境：日志级别设置为 `info`、日志格式设置为 `json`、开启 caller。（注意：上线初期，为了方便现网排障，日志级别可以设置为 `debug`）
 - 在记录日志时，不要输出一些敏感信息，例如密码、密钥等。
-- 如果在具有 `context.Context` 参数的函数/方法中，调用日志函数，建议使用 `log.L(ctx).Infow()` 进行日志记录。
+- 如果在具有 `context.Context` 参数的函数/方法中，调用日志函数，建议使用 `log.C(ctx).Infow()` 进行日志记录。

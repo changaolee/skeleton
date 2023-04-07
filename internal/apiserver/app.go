@@ -7,10 +7,7 @@ import (
 	"github.com/changaolee/skeleton/pkg/log"
 )
 
-const commandDesc = `The SKT API Server validates and configures data
-for the api objects which include users, policies, secrets, and others.
-
-The API Server services REST operations to do the api objects management.`
+const commandDesc = `The SKT API Server services REST operations to do the api objects management.`
 
 func NewApp(basename string) *app.App {
 	opts := options.NewOptions()

@@ -16,7 +16,7 @@ import (
 	"golang.org/x/sync/errgroup"
 )
 
-// GenericAPIServer contains state for an iam api server.
+// GenericAPIServer 包含一个 skeleton api 服务器的配置.
 // type GenericAPIServer gin.Engine.
 type GenericAPIServer struct {
 	middlewares []string

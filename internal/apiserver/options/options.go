@@ -7,8 +7,11 @@ import (
 )
 
 type Options struct {
-	MySQLOptions *genoptions.MySQLOptions `json:"mysql" mapstructure:"mysql"`
-	Log          *log.Options             `json:"log"   mapstructure:"log"`
+	GenericServerRunOptions *genoptions.ServerRunOptions       `json:"server"   mapstructure:"server"`
+	InsecureServing         *genoptions.InsecureServingOptions `json:"insecure" mapstructure:"insecure"`
+	SecureServing           *genoptions.SecureServingOptions   `json:"secure"   mapstructure:"secure"`
+	MySQLOptions            *genoptions.MySQLOptions           `json:"mysql"    mapstructure:"mysql"`
+	Log                     *log.Options                       `json:"log"      mapstructure:"log"`
 }
 
 func (o *Options) Flags() (fss app.NamedFlagSets) {

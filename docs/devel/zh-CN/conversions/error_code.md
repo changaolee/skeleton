@@ -11,12 +11,12 @@
 
 ### 第一级公共错误码
 
-| 错误码 | 错误描述 | 错误类型 |
-| ---- | ---- | ---- |
-| InternalError | 内部错误 | 1 |
-| InvalidParameter | 参数错误（包括参数类型、格式、值等错误） | 0 |
-| AuthFailure | 认证 / 授权错误 | 0 |
-| ResourceNotFound | 资源不存在 | 0 |
-| FailedOperation | 操作失败 | 2 |
+| 错误码              | 错误描述                 | 错误类型 |
+|------------------|----------------------|------|
+| InternalError    | 内部错误                 | 1    |
+| InvalidParameter | 参数错误（包括参数类型、格式、值等错误） | 0    |
+| AuthFailure      | 认证/授权错误              | 0    |
+| ResourceNotFound | 资源不存在                | 0    |
+| FailedOperation  | 操作失败                 | 2    |
 
 > 错误类型：0 代表客户端，1 代表服务端，2 代表客户端 / 服务端。
