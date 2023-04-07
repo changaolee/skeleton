@@ -72,7 +72,7 @@ COPY_GITHOOK:=$(shell cp -f githooks/* .git/hooks/)
 
 # 指定需要证书的组件
 ifeq ($(origin CERTIFICATES),undefined)
-CERTIFICATES=skt-apiserver
+CERTIFICATES=skt-apiserver skt-authz-server
 endif
 
 # 设置工具的严重级别: BLOCKER_TOOLS, CRITICAL_TOOLS, TRIVIAL_TOOLS.

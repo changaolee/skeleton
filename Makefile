@@ -110,12 +110,8 @@ release:
 
 ## format: 格式化源代码.
 .PHONY: format
-format: tools.verify.golines tools.verify.goimports
-	@echo "===========> Formatting codes"
-	@$(FIND) -type f -name '*.go' | $(XARGS) gofmt -s -w
-	@$(FIND) -type f -name '*.go' | $(XARGS) goimports -w -local $(ROOT_PACKAGE)
-	@$(FIND) -type f -name '*.go' | $(XARGS) golines -w --max-len=120 --reformat-tags --shorten-comments --ignore-generated .
-	@$(GO) mod edit -fmt
+format:
+	@$(MAKE) go.format
 
 ## verify-copyright: 验证所有文件的版权声明.
 .PHONY: verify-copyright
@@ -165,7 +161,7 @@ check-updates:
 ## tidy: 整理 Go 模块依赖.
 .PHONY: tidy
 tidy:
-	@$(GO) mod tidy
+	@$(MAKE) go.tidy
 
 ## help: 展示帮助信息.
 .PHONY: help
