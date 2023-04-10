@@ -7,6 +7,7 @@ package apiserver
 
 import (
 	"github.com/changaolee/skeleton/internal/apiserver/config"
+	"github.com/changaolee/skeleton/internal/apiserver/store/mysql"
 	genericapiserver "github.com/changaolee/skeleton/internal/pkg/server"
 	"github.com/changaolee/skeleton/pkg/shutdown"
 	"github.com/changaolee/skeleton/pkg/shutdown/managers/posixsignal"
@@ -67,7 +68,12 @@ func (s *apiServer) PrepareRun() *preparedAPIServer {
 	initRouter(s.genericAPIServer.Engine)
 
 	s.gs.AddCallback(shutdown.CallbackFunc(func(string) error {
-		// todo: mysql、grpc 优雅关闭
+		// todo: grpc 优雅关闭
+
+		mysqlIns, _ := mysql.GetMySQLInstance(nil)
+		if mysqlIns != nil {
+			_ = mysqlIns.Close()
+		}
 
 		s.genericAPIServer.Shutdown()
 

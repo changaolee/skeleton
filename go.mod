@@ -3,6 +3,7 @@ module github.com/changaolee/skeleton
 go 1.18
 
 require (
+	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2
 	github.com/fatih/color v1.13.0
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.8.2
@@ -10,6 +11,8 @@ require (
 	github.com/google/uuid v1.1.2
 	github.com/gosuri/uitable v0.0.4
 	github.com/moby/term v0.0.0-20221205130635-1aeaba878587
+	github.com/sony/sonyflake v1.1.0
+	github.com/speps/go-hashids v2.0.0+incompatible
 	github.com/spf13/cobra v1.6.1
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.14.0

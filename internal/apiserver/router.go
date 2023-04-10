@@ -5,7 +5,11 @@
 
 package apiserver
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/changaolee/skeleton/internal/apiserver/controller/v1/user"
+	"github.com/changaolee/skeleton/internal/apiserver/store/mysql"
+	"github.com/gin-gonic/gin"
+)
 
 func initRouter(g *gin.Engine) {
 	installMiddleware(g)
@@ -16,4 +20,17 @@ func installMiddleware(g *gin.Engine) {
 }
 
 func installController(g *gin.Engine) {
+	storeIns, _ := mysql.GetMySQLInstance(nil)
+
+	// v1 路由分组
+	v1 := g.Group("/v1")
+	{
+		userController := user.New(storeIns)
+
+		// users 路由分组
+		userv1 := v1.Group("/users")
+		{
+			userv1.POST("", userController.Create) // 创建用户
+		}
+	}
 }

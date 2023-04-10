@@ -37,7 +37,7 @@ func (o *MySQLOptions) DSN() string {
 		"Local")
 }
 
-// NewMySQL 使用给定的选项创建一个新的 gorm 数据库实例.
+// NewMySQL 使用给定的选项创建一个新的 MySQL 数据库实例.
 func NewMySQL(opts *MySQLOptions) (*gorm.DB, error) {
 	logLevel := logger.Silent
 	if opts.LogLevel != 0 {
@@ -55,10 +55,10 @@ func NewMySQL(opts *MySQLOptions) (*gorm.DB, error) {
 		return nil, err
 	}
 
-	// SetMaxOpenConns 设置到数据库的最大打开连接数
+	// SetMaxOpenConns 设置数据库的最大打开连接数
 	sqlDB.SetMaxOpenConns(opts.MaxOpenConnections)
 
-	// SetConnMaxLifetime 设置连接可重用的最长时间
+	// SetConnMaxLifetime 设置数据库连接的最长可重用时间
 	sqlDB.SetConnMaxLifetime(opts.MaxConnectionLifeTime)
 
 	// SetMaxIdleConns 设置空闲连接池的最大连接数
