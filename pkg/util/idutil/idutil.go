@@ -1,12 +1,18 @@
+// Copyright 2023 lichangao(李长傲) <changao.li.work@outlook.com>. All rights reserved.
+// Use of this source code is governed by a MIT style
+// license that can be found in the LICENSE file. The original repo for
+// this file is https://github.com/changaolee/skeleton.
+
 package idutil
 
 import (
 	"crypto/rand"
 
-	"github.com/changaolee/skeleton/pkg/util/iputil"
-	"github.com/changaolee/skeleton/pkg/util/stringutil"
 	"github.com/sony/sonyflake"
 	hashids "github.com/speps/go-hashids"
+
+	"github.com/changaolee/skeleton/pkg/util/iputil"
+	"github.com/changaolee/skeleton/pkg/util/stringutil"
 )
 
 // Define alphabet.

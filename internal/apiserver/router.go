@@ -6,9 +6,10 @@
 package apiserver
 
 import (
+	"github.com/gin-gonic/gin"
+
 	"github.com/changaolee/skeleton/internal/apiserver/controller/v1/user"
 	"github.com/changaolee/skeleton/internal/apiserver/store/mysql"
-	"github.com/gin-gonic/gin"
 )
 
 func initRouter(g *gin.Engine) {

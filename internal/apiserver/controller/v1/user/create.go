@@ -1,14 +1,20 @@
+// Copyright 2023 lichangao(李长傲) <changao.li.work@outlook.com>. All rights reserved.
+// Use of this source code is governed by a MIT style
+// license that can be found in the LICENSE file. The original repo for
+// this file is https://github.com/changaolee/skeleton.
+
 package user
 
 import (
 	"time"
 
 	"github.com/asaskevich/govalidator"
+	"github.com/gin-gonic/gin"
+
 	"github.com/changaolee/skeleton/internal/pkg/core"
 	"github.com/changaolee/skeleton/internal/pkg/errno"
 	"github.com/changaolee/skeleton/internal/pkg/model"
 	"github.com/changaolee/skeleton/pkg/log"
-	"github.com/gin-gonic/gin"
 )
 
 func (u *UserController) Create(c *gin.Context) {
