@@ -21,8 +21,8 @@ secure:
   bind-port: 8443
   tls:
     cert-key:
-      cert-file: ./_output/cert/server.crt  # 证书
-      private-key-file: ./_output/cert/server.key  # 证书 Key 文件
+      cert-file: ./_output/cert/skt-apiserver.pem  # 签名证书
+      private-key-file: ./_output/cert/skt-apiserver-key.pem  # 私钥
 
 # MySQL 数据库相关配置
 db:
