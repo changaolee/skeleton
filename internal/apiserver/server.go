@@ -7,6 +7,7 @@ package apiserver
 
 import (
 	"github.com/changaolee/skeleton/internal/apiserver/config"
+	"github.com/changaolee/skeleton/internal/apiserver/store"
 	"github.com/changaolee/skeleton/internal/apiserver/store/mysql"
 	genericapiserver "github.com/changaolee/skeleton/internal/pkg/server"
 	"github.com/changaolee/skeleton/pkg/shutdown"
@@ -26,6 +27,10 @@ func createAPIServer(cfg *config.Config) (*apiServer, error) {
 	// 新建优雅关闭组件
 	gs := shutdown.New()
 	gs.AddManager(posixsignal.NewPosixSignalManager())
+
+	// Store 实例
+	storeIns, _ := mysql.GetMySQLInstance(cfg.MySQLOptions)
+	store.SetStore(storeIns)
 
 	// APIServer
 	genericConfig, err := buildGenericConfig(cfg)
