@@ -7,7 +7,6 @@ import (
 	"github.com/changaolee/skeleton/internal/apiserver/store"
 	genoptions "github.com/changaolee/skeleton/internal/pkg/options"
 	"github.com/changaolee/skeleton/pkg/db"
-	"github.com/pkg/errors"
 	"gorm.io/gorm"
 )
 
@@ -24,7 +23,7 @@ func (ds *datastore) Users() store.UserStore {
 func (ds *datastore) Close() error {
 	conn, err := ds.db.DB()
 	if err != nil {
-		return errors.Wrap(err, "get gorm db instance failed")
+		return fmt.Errorf("get gorm db instance failed")
 	}
 	return conn.Close()
 }
