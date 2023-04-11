@@ -30,7 +30,7 @@ func newUsers(b *biz) *userBiz {
 
 func (b *userBiz) Create(ctx context.Context, user *model.User) error {
 	if err := b.s.Users().Create(ctx, user); err != nil {
-		if matched, _ := regexp.MatchString("", err.Error()); matched {
+		if matched, _ := regexp.MatchString("Duplicate entry '.*' for key 'index_name'", err.Error()); matched {
 			return errno.ErrUserAlreadyExist
 		}
 		return err

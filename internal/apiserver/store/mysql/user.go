@@ -12,16 +12,16 @@ import (
 	"github.com/changaolee/skeleton/internal/pkg/model"
 )
 
-type users struct {
+type userStore struct {
 	ds *datastore
 }
 
-var _ store.UserStore = (*users)(nil)
+var _ store.UserStore = (*userStore)(nil)
 
-func newUsers(ds *datastore) *users {
-	return &users{ds: ds}
+func newUsers(ds *datastore) *userStore {
+	return &userStore{ds: ds}
 }
 
-func (u *users) Create(ctx context.Context, user *model.User) error {
+func (u *userStore) Create(ctx context.Context, user *model.User) error {
 	return u.ds.db.Create(&user).Error
 }
