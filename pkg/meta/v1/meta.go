@@ -13,8 +13,9 @@ import (
 type ObjectMeta struct {
 	ID           uint64    `json:"id,omitempty"         gorm:"primary_key;AUTO_INCREMENT;column:id"`
 	InstanceID   string    `json:"instanceID,omitempty" gorm:"unique;column:instanceID;type:varchar(32);not null"`
-	Extend       Extend    `json:"extend,omitempty"     gorm:"-"                                                  validate:"omitempty"`
-	ExtendShadow string    `json:"-"                    gorm:"column:extendShadow"                                validate:"omitempty"`
+	Name         string    `json:"name,omitempty"       gorm:"column:name;type:varchar(64);not null"               validate:"name"`
+	Extend       Extend    `json:"extend,omitempty"     gorm:"-"                                                   validate:"omitempty"`
+	ExtendShadow string    `json:"-"                    gorm:"column:extendShadow"                                 validate:"omitempty"`
 	CreatedAt    time.Time `json:"createdAt,omitempty"  gorm:"column:createdAt"`
 	UpdatedAt    time.Time `json:"updatedAt,omitempty"  gorm:"column:updatedAt"`
 }
