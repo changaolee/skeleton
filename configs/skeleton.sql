@@ -34,7 +34,7 @@ CREATE TABLE `user`
     `phone`        varchar(20)                  DEFAULT NULL,
     `isAdmin`      tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '1:管理员，0:非管理员',
     `extendShadow` longtext                     DEFAULT NULL,
-    `loginedAt`    timestamp           NULL     DEFAULT NULL COMMENT '最近登录时间',
+    `loginAt`      timestamp           NULL     DEFAULT NULL COMMENT '最近登录时间',
     `createdAt`    timestamp           NOT NULL DEFAULT current_timestamp(),
     `updatedAt`    timestamp           NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
     PRIMARY KEY (`id`),
