@@ -28,7 +28,7 @@ func WordSepNormalizeFunc(f *pflag.FlagSet, name string) pflag.NormalizedName {
 // InitFlags 规范化、解析并记录命令行标志.
 func InitFlags(flags *pflag.FlagSet) {
 	flags.SetNormalizeFunc(WordSepNormalizeFunc)
-	flags.AddGoFlagSet(goflag.CommandLine)
+	flags.AddGoFlagSet(goflag.CommandLine) // 兼容 golang flag
 }
 
 // PrintFlags 打印指定 FlagSet 中的所有标记.

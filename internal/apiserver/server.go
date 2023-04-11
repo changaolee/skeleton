@@ -24,7 +24,7 @@ type preparedAPIServer struct {
 }
 
 func createAPIServer(cfg *config.Config) (*apiServer, error) {
-	// 新建优雅关闭组件
+	// 优雅关闭组件
 	gs := shutdown.New()
 	gs.AddManager(posixsignal.NewPosixSignalManager())
 

@@ -29,8 +29,8 @@ type App struct {
 	options     CliOptions           // 命令行选项参数
 	runFunc     RunFunc              // 应用程序启动的回调函数
 	silence     bool                 // 是否打印执行信息
-	noVersion   bool                 // 是否不显示版本信息
-	noConfig    bool                 // 是否未指定配置文件
+	noVersion   bool                 // 是否不存在版本信息
+	noConfig    bool                 // 是否不存在配置文件
 	commands    []*Command           // 应用程序包含的子命令
 	args        cobra.PositionalArgs // 预期参数
 	cmd         *cobra.Command       // 根命令，用于启动应用
@@ -57,6 +57,30 @@ func WithRunFunc(run RunFunc) Option {
 func WithDescription(desc string) Option {
 	return func(a *App) {
 		a.description = desc
+	}
+}
+
+func WithSilence() Option {
+	return func(a *App) {
+		a.silence = true
+	}
+}
+
+func WithNoVersion() Option {
+	return func(a *App) {
+		a.noVersion = true
+	}
+}
+
+func WithNoConfig() Option {
+	return func(a *App) {
+		a.noConfig = true
+	}
+}
+
+func WithValidArgs(args cobra.PositionalArgs) Option {
+	return func(a *App) {
+		a.args = args
 	}
 }
 
