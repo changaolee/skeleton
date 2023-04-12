@@ -14,6 +14,8 @@ import (
 	"strings"
 )
 
+const UNKNOWN = "unknown"
+
 // Frame 表示一个栈帧中的程序计数器.
 type Frame uintptr
 
@@ -24,7 +26,7 @@ func (f Frame) pc() uintptr { return uintptr(f) - 1 }
 func (f Frame) file() string {
 	fn := runtime.FuncForPC(f.pc())
 	if fn == nil {
-		return "unknown"
+		return UNKNOWN
 	}
 	file, _ := fn.FileLine(f.pc())
 	return file
@@ -44,7 +46,7 @@ func (f Frame) line() int {
 func (f Frame) name() string {
 	fn := runtime.FuncForPC(f.pc())
 	if fn == nil {
-		return "unknown"
+		return UNKNOWN
 	}
 	return fn.Name()
 }
@@ -83,7 +85,7 @@ func (f Frame) Format(s fmt.State, verb rune) {
 // 输出与 fmt.Sprintf("%+v", f) 相同，但没有换行符或制表符.
 func (f Frame) MarshalText() ([]byte, error) {
 	name := f.name()
-	if name == "unknown" {
+	if name == UNKNOWN {
 		return []byte(name), nil
 	}
 	return []byte(fmt.Sprintf("%s %s:%d", name, f.file(), f.line())), nil

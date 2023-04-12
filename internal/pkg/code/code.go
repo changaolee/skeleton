@@ -41,6 +41,8 @@ func (e ErrCode) Reference() string {
 	return e.Ref
 }
 
+// nolint: unparam
+// ignore unused check
 func register(code int, httpStatus int, message string, refs ...string) {
 	found, _ := gubrak.Includes([]int{200, 400, 401, 403, 404, 500}, httpStatus)
 	if !found {
