@@ -94,6 +94,10 @@ install.richgo:
 install.rts:
 	@$(GO) install github.com/galeone/rts/cmd/rts@latest
 
+.PHONY: install.codegen
+install.codegen:
+	@$(GO) install ${ROOT_DIR}/tools/codegen/codegen.go
+
 .PHONY: install.kube-score
 install.kube-score:
 	@$(GO) install github.com/zegl/kube-score/cmd/kube-score@latest
