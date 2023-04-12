@@ -1,3 +1,8 @@
+// Copyright 2023 lichangao(李长傲) <changao.li.work@outlook.com>. All rights reserved.
+// Use of this source code is governed by a MIT style
+// license that can be found in the LICENSE file. The original repo for
+// this file is https://github.com/changaolee/skeleton.
+
 // Package main is a tool to automate the creation of code init function.
 // reference: `https://github.com/marmotedu/iam/blob/master/tools/codegen/codegen.go`.
 package main
@@ -241,7 +246,9 @@ func (g *Generator) generate(typeName string) {
 		log.Fatalf("no values defined for type %s", typeName)
 	}
 	// Generate code that will fail if the constants change value.
-	g.Printf("\t// init register error codes defines in this source code to `github.com/changaolee/skeleton/pkg/errors`\n")
+	g.Printf(
+		"\t// init register error codes defines in this source code to `github.com/changaolee/skeleton/pkg/errors`\n",
+	)
 	g.Printf("func init() {\n")
 	for _, v := range values {
 		code, description := v.ParseComment()

@@ -1,3 +1,8 @@
+// Copyright 2023 lichangao(李长傲) <changao.li.work@outlook.com>. All rights reserved.
+// Use of this source code is governed by a MIT style
+// license that can be found in the LICENSE file. The original repo for
+// this file is https://github.com/changaolee/skeleton.
+
 package errors
 
 import (
@@ -6,9 +11,12 @@ import (
 	"sync"
 )
 
-var (
-	unknownCoder = defaultCoder{0, http.StatusInternalServerError, "An internal server error occurred", "https://github.com/changaolee/skeleton/tree/main/pkg/errors"}
-)
+var unknownCoder = defaultCoder{
+	0,
+	http.StatusInternalServerError,
+	"An internal server error occurred",
+	"https://github.com/changaolee/skeleton/tree/main/pkg/errors",
+}
 
 // Coder 定义了错误码详细信息的接口.
 type Coder interface {
