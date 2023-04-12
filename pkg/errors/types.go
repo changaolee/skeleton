@@ -6,8 +6,11 @@
 package errors
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"io"
+	"strings"
 )
 
 // base Error.
@@ -49,6 +52,60 @@ func (w *withCode) Error() string { return fmt.Sprintf("%v", w) }
 func (w *withCode) Cause() error { return w.cause }
 
 func (w *withCode) Unwrap() error { return w.cause }
+
+func (w *withCode) Format(state fmt.State, verb rune) {
+	switch verb {
+	case 'v':
+		str := bytes.NewBuffer([]byte{})
+		var jsonData []map[string]interface{}
+
+		var (
+			flagDetail bool
+			flagTrace  bool
+			modeJSON   bool
+		)
+
+		if state.Flag('#') {
+			modeJSON = true
+		}
+
+		if state.Flag('-') {
+			flagDetail = true
+		}
+		if state.Flag('+') {
+			flagTrace = true
+		}
+
+		sep := ""
+		errs := list(w)
+		length := len(errs)
+		for k, e := range errs {
+			finfo := buildFormatInfo(e)
+			jsonData, str = format(length-k-1, jsonData, str, finfo, sep, flagDetail, flagTrace, modeJSON)
+			sep = "; "
+
+			if !flagTrace {
+				break
+			}
+
+			if !flagDetail && !flagTrace && !modeJSON {
+				break
+			}
+		}
+		if modeJSON {
+			var byts []byte
+			byts, _ = json.Marshal(jsonData)
+
+			str.Write(byts)
+		}
+
+		_, _ = fmt.Fprintf(state, "%s", strings.Trim(str.String(), "\r\n\t"))
+	default:
+		finfo := buildFormatInfo(w)
+		// Externally-safe error message
+		_, _ = fmt.Fprintf(state, finfo.message)
+	}
+}
 
 // withStack Error.
 type withStack struct {

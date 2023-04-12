@@ -14,48 +14,47 @@ import (
 
 func main() {
 	if err := bindUser(); err != nil {
-		// %s: Returns the user-safe error string mapped to the error code or the error message if none is specified.
-		fmt.Printf(`====================> %%s <====================`)
+		// %s: 打印对外部用户的错误字符串.
+		fmt.Printf("====================> %%s <====================\n")
 		fmt.Printf("%s\n\n", err)
 
-		// %v: Alias for %s.
-		fmt.Printf(`====================> %%v <====================`)
+		// %v: 等同于 %s.
+		fmt.Printf("====================> %%v <====================\n")
 		fmt.Printf("%v\n\n", err)
 
-		// %-v: Output caller details, useful for troubleshooting.
-		fmt.Printf(`====================> %%-v <====================`)
+		// %-v: 打印调用详情，用于错误定位.
+		fmt.Printf("====================> %%-v <====================\n")
 		fmt.Printf("%-v\n\n", err)
 
-		// %+v: Output full error stack details, useful for debugging.
-		fmt.Printf("====================> %%+v <====================")
+		// %+v: 打印完整的错误堆栈信息，用于调试.
+		fmt.Printf("====================> %%+v <====================\n")
 		fmt.Printf("%+v\n\n", err)
 
-		// %#-v: Output caller details, useful for troubleshooting with JSON formatted output.
-		fmt.Printf("====================> %%#-v <====================")
+		// %#-v: 以 JSON 格式打印调用详情.
+		fmt.Printf("====================> %%#-v <====================\n")
 		fmt.Printf("%#-v\n\n", err)
 
-		// %#+v: Output full error stack details, useful for debugging with JSON formatted output.
-		fmt.Printf("====================> %%#+v <====================")
+		// %#+v: 以 JSON 格式打印完整的错误堆栈信息.
+		fmt.Printf("====================> %%#+v <====================\n")
 		fmt.Printf("%#+v\n\n", err)
 
-		// do some business process based on the error type
+		// 业务方进行错误码判定.
 		if errors.IsCode(err, code.ErrEncodingFailed) {
 			fmt.Println("this is a ErrEncodingFailed error")
 		}
-
 		if errors.IsCode(err, code.ErrDatabase) {
 			fmt.Println("this is a ErrDatabase error")
 		}
 
-		// we can also find the cause error
+		// 打印错误根因.
 		fmt.Println(errors.Cause(err))
 	}
 }
 
 func bindUser() error {
 	if err := getUser(); err != nil {
-		// Step3: Wrap the error with a new error message and a new error code if needed.
-		return errors.WrapC(err, code.ErrEncodingFailed, "encoding user 'Lingfei Kong' failed.")
+		// 第三步：用指定 message 和错误码对 err 进行包装.
+		return errors.WrapC(err, code.ErrEncodingFailed, "encoding user 'xxx' failed.")
 	}
 
 	return nil
@@ -63,7 +62,7 @@ func bindUser() error {
 
 func getUser() error {
 	if err := queryDatabase(); err != nil {
-		// Step2: Wrap the error with a new error message.
+		// 第二步：用指定 message 对 err 进行包装.
 		return errors.Wrap(err, "get user failed.")
 	}
 
@@ -71,6 +70,6 @@ func getUser() error {
 }
 
 func queryDatabase() error {
-	// Step1. Create error with specified error code.
-	return errors.WithCode(code.ErrDatabase, "user 'Lingfei Kong' not found.")
+	// 第一步：创建一个指定错误码的 Error.
+	return errors.WithCode(code.ErrDatabase, "user 'xxx' not found.")
 }
