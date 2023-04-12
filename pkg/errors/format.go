@@ -28,6 +28,7 @@ func list(e error) []error {
 
 func format(k int, jsonData []map[string]interface{}, str *bytes.Buffer, finfo *formatInfo,
 	sep string, flagDetail, flagTrace, modeJSON bool) ([]map[string]interface{}, *bytes.Buffer) {
+	// nolint: nestif
 	if modeJSON {
 		data := map[string]interface{}{}
 		if flagDetail || flagTrace {
