@@ -1,3 +1,8 @@
+// Copyright 2023 lichangao(李长傲) <changao.li.work@outlook.com>. All rights reserved.
+// Use of this source code is governed by a MIT style
+// license that can be found in the LICENSE file. The original repo for
+// this file is https://github.com/changaolee/skeleton.
+
 package errors
 
 import (
@@ -27,7 +32,8 @@ func list(e error) []error {
 }
 
 func format(k int, jsonData []map[string]interface{}, str *bytes.Buffer, finfo *formatInfo,
-	sep string, flagDetail, flagTrace, modeJSON bool) ([]map[string]interface{}, *bytes.Buffer) {
+	sep string, flagDetail, flagTrace, modeJSON bool,
+) ([]map[string]interface{}, *bytes.Buffer) {
 	// nolint: nestif
 	if modeJSON {
 		data := map[string]interface{}{}
@@ -70,7 +76,6 @@ func format(k int, jsonData []map[string]interface{}, str *bytes.Buffer, finfo *
 			} else {
 				_, _ = fmt.Fprintf(str, "%s%s - #%d %s", sep, finfo.err, k, finfo.message)
 			}
-
 		} else {
 			_, _ = fmt.Fprintf(str, finfo.message)
 		}
