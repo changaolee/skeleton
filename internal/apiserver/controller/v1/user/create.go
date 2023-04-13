@@ -9,10 +9,11 @@ import (
 	"time"
 
 	"github.com/asaskevich/govalidator"
+	"github.com/changaolee/skeleton/internal/pkg/code"
+	"github.com/changaolee/skeleton/pkg/errors"
 	"github.com/gin-gonic/gin"
 
 	"github.com/changaolee/skeleton/internal/pkg/core"
-	"github.com/changaolee/skeleton/internal/pkg/errno"
 	"github.com/changaolee/skeleton/internal/pkg/model"
 	"github.com/changaolee/skeleton/pkg/log"
 )
@@ -22,12 +23,12 @@ func (u *UserController) Create(c *gin.Context) {
 
 	var r model.User
 	if err := c.ShouldBindJSON(&r); err != nil {
-		core.WriteResponse(c, errno.ErrBind, nil)
+		core.WriteResponse(c, errors.WithCode(code.ErrBind, err.Error()), nil)
 		return
 	}
 
 	if _, err := govalidator.ValidateStruct(r); err != nil {
-		core.WriteResponse(c, errno.ErrInvalidParameter.SetMessage(err.Error()), nil)
+		core.WriteResponse(c, errors.WithCode(code.ErrValidation, err.Error()), nil)
 		return
 	}
 
