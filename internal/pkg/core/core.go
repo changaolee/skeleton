@@ -8,9 +8,10 @@ package core
 import (
 	"net/http"
 
+	"github.com/gin-gonic/gin"
+
 	"github.com/changaolee/skeleton/pkg/errors"
 	"github.com/changaolee/skeleton/pkg/log"
-	"github.com/gin-gonic/gin"
 )
 
 // ErrResponse 定义了发生错误时的返回消息.

@@ -9,9 +9,10 @@ import (
 	"time"
 
 	"github.com/asaskevich/govalidator"
+	"github.com/gin-gonic/gin"
+
 	"github.com/changaolee/skeleton/internal/pkg/code"
 	"github.com/changaolee/skeleton/pkg/errors"
-	"github.com/gin-gonic/gin"
 
 	"github.com/changaolee/skeleton/internal/pkg/core"
 	"github.com/changaolee/skeleton/internal/pkg/model"
