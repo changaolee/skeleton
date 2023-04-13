@@ -1,3 +1,8 @@
+// Copyright 2023 lichangao(李长傲) <changao.li.work@outlook.com>. All rights reserved.
+// Use of this source code is governed by a MIT style
+// license that can be found in the LICENSE file. The original repo for
+// this file is https://github.com/changaolee/skeleton.
+
 package apiserver
 
 import (
@@ -8,13 +13,14 @@ import (
 	"time"
 
 	jwt "github.com/appleboy/gin-jwt/v2"
+	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
+
 	"github.com/changaolee/skeleton/internal/apiserver/store"
 	"github.com/changaolee/skeleton/internal/pkg/middleware"
 	"github.com/changaolee/skeleton/internal/pkg/middleware/auth"
 	"github.com/changaolee/skeleton/internal/pkg/model"
 	"github.com/changaolee/skeleton/pkg/log"
-	"github.com/gin-gonic/gin"
-	"github.com/spf13/viper"
 )
 
 const (

@@ -9,11 +9,12 @@ import (
 	"context"
 	"regexp"
 
+	"gorm.io/gorm"
+
 	"github.com/changaolee/skeleton/internal/apiserver/store"
 	"github.com/changaolee/skeleton/internal/pkg/code"
 	"github.com/changaolee/skeleton/internal/pkg/model"
 	"github.com/changaolee/skeleton/pkg/errors"
-	"gorm.io/gorm"
 )
 
 type userStore struct {

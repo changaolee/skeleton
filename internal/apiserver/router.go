@@ -6,12 +6,13 @@
 package apiserver
 
 import (
+	"github.com/gin-gonic/gin"
+
 	"github.com/changaolee/skeleton/internal/apiserver/store/mysql"
 	"github.com/changaolee/skeleton/internal/pkg/code"
 	"github.com/changaolee/skeleton/internal/pkg/core"
 	"github.com/changaolee/skeleton/internal/pkg/middleware/auth"
 	"github.com/changaolee/skeleton/pkg/errors"
-	"github.com/gin-gonic/gin"
 
 	"github.com/changaolee/skeleton/internal/apiserver/controller/v1/user"
 )
@@ -48,9 +49,9 @@ func installController(g *gin.Engine) {
 			userv1.Use(auto.AuthFunc())
 
 			// todo
-			//userv1.PUT(":name", userController.Update)
-			//userv1.GET("", userController.List)
-			//userv1.GET(":name", userController.Get) // admin api
+			// userv1.PUT(":name", userController.Update)
+			// userv1.GET("", userController.List)
+			// userv1.GET(":name", userController.Get) // admin api
 		}
 	}
 }
