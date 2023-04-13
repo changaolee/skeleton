@@ -42,3 +42,10 @@ log:
   level: debug  # 日志级别，可选值：debug, info, warn, error, dpanic, panic, fatal
   format: json  # 日志显示格式，可选值：console, json
   output-paths: [ stdout ]  # 日志输出位置
+
+# JWT 配置
+jwt:
+  realm: JWT  # jwt 标识
+  key: BHpZUtWXhQM2f09bLcPLLoRB6yCEX04IpyXKZD3DxwU  # 服务端密钥
+  timeout: 24h  # token 过期时间(小时)
+  max-refresh: 24h  # token 更新时间(小时)
