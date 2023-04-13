@@ -13,4 +13,6 @@ import (
 
 type UserStore interface {
 	Create(ctx context.Context, user *model.User) error
+	Update(ctx context.Context, user *model.User) error
+	Get(ctx context.Context, username string) (*model.User, error)
 }

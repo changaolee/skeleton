@@ -6,6 +6,7 @@
 package model
 
 import (
+	"fmt"
 	"time"
 
 	"gorm.io/gorm"
@@ -48,4 +49,12 @@ func (u *User) AfterCreate(tx *gorm.DB) error {
 	u.InstanceID = idutil.GetInstanceID(u.ID, "user-")
 
 	return tx.Save(u).Error
+}
+
+// Compare 验证用户密码是否正确.
+func (u *User) Compare(pwd string) error {
+	if err := auth.Compare(u.Password, pwd); err != nil {
+		return fmt.Errorf("failed to compare password: %w", err)
+	}
+	return nil
 }

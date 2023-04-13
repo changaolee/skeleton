@@ -7,9 +7,13 @@ package mysql
 
 import (
 	"context"
+	"regexp"
 
 	"github.com/changaolee/skeleton/internal/apiserver/store"
+	"github.com/changaolee/skeleton/internal/pkg/code"
 	"github.com/changaolee/skeleton/internal/pkg/model"
+	"github.com/changaolee/skeleton/pkg/errors"
+	"gorm.io/gorm"
 )
 
 type userStore struct {
@@ -23,5 +27,32 @@ func newUsers(ds *datastore) *userStore {
 }
 
 func (u *userStore) Create(ctx context.Context, user *model.User) error {
-	return u.ds.db.Create(&user).Error
+	err := u.ds.db.Create(&user).Error
+	if err != nil {
+		if matched, _ := regexp.MatchString("Duplicate entry '.*' for key 'index_name'", err.Error()); matched {
+			return errors.WithCode(code.ErrUserAlreadyExist, err.Error())
+		}
+		return errors.WithCode(code.ErrDatabase, err.Error())
+	}
+	return nil
+}
+
+func (u *userStore) Update(ctx context.Context, user *model.User) error {
+	err := u.ds.db.Save(user).Error
+	if err != nil {
+		return errors.WithCode(code.ErrDatabase, err.Error())
+	}
+	return nil
+}
+
+func (u *userStore) Get(ctx context.Context, username string) (*model.User, error) {
+	user := &model.User{}
+	err := u.ds.db.Where("name = ? and status = 1", username).First(&user).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.WithCode(code.ErrUserNotFound, err.Error())
+		}
+		return nil, errors.WithCode(code.ErrDatabase, err.Error())
+	}
+	return user, nil
 }

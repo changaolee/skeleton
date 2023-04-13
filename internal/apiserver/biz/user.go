@@ -7,12 +7,9 @@ package biz
 
 import (
 	"context"
-	"regexp"
 
 	"github.com/changaolee/skeleton/internal/apiserver/store"
-	"github.com/changaolee/skeleton/internal/pkg/code"
 	"github.com/changaolee/skeleton/internal/pkg/model"
-	"github.com/changaolee/skeleton/pkg/errors"
 )
 
 type UserBiz interface {
@@ -30,11 +27,5 @@ func newUsers(b *biz) *userBiz {
 }
 
 func (b *userBiz) Create(ctx context.Context, user *model.User) error {
-	if err := b.s.Users().Create(ctx, user); err != nil {
-		if matched, _ := regexp.MatchString("Duplicate entry '.*' for key 'index_name'", err.Error()); matched {
-			return errors.WithCode(code.ErrUserAlreadyExist, err.Error())
-		}
-		return err
-	}
-	return nil
+	return b.s.Users().Create(ctx, user)
 }
