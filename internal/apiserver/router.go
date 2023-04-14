@@ -6,8 +6,9 @@
 package apiserver
 
 import (
-	_ "github.com/changaolee/skeleton/internal/pkg/validator"
 	"github.com/gin-gonic/gin"
+
+	_ "github.com/changaolee/skeleton/internal/pkg/validator"
 
 	"github.com/changaolee/skeleton/internal/apiserver/store/mysql"
 	"github.com/changaolee/skeleton/internal/pkg/code"
