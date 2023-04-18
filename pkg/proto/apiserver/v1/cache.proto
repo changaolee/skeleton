@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package proto;
+option go_package = "github.com/changaolee/skeleton/proto/apiserver/v1";
+
+// protoc ./cache.proto --go_out=plugins=grpc,paths=source_relative:.
+
+// Cache 实现一个 cache RPC 服务.
+service Cache{
+  rpc ListSecrets(ListSecretsRequest) returns (ListSecretsResponse) {}
+  rpc ListPolicies(ListPoliciesRequest) returns (ListPoliciesResponse) {}
+}
+
+// ListSecretsRequest 定义 ListSecrets 请求结构体.
+message ListSecretsRequest {
+  optional int64 offset = 1;
+  optional int64 limit = 2;
+}
+
+// SecretInfo 定义 secret 详情信息.
+message SecretInfo {
+  string name = 1;
+  string secret_id = 2;
+  string username = 3;
+  string secret_key = 4;
+  int64 expires = 5;
+  string description = 6;
+  string created_at = 7;
+  string updated_at = 8;
+}
+
+// ListSecretsResponse 定义 ListSecrets 响应结构体.
+message ListSecretsResponse {
+  int64 total_count = 1;
+  repeated  SecretInfo items = 2;
+}
+
+// ListPoliciesRequest 定义 ListPolicies 请求结构体.
+message ListPoliciesRequest {
+  optional int64 offset = 1;
+  optional int64 limit = 2;
+}
+
+// PolicyInfo 定义 policy 详情信息.
+message PolicyInfo {
+  string name = 1;
+  string username = 2;
+  string policy_str = 3;
+  string policy_shadow = 4;
+  string created_at = 5;
+}
+
+// ListPoliciesResponse 定义 ListPolicies 响应结构体.
+message ListPoliciesResponse {
+  int64 total_count = 1;
+  repeated  PolicyInfo items = 2;
+}

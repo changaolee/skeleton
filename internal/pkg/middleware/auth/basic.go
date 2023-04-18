@@ -28,9 +28,7 @@ var _ middleware.AuthStrategy = &BasicStrategy{}
 
 // NewBasicStrategy 基于给定的 compare 方法创建一个 Basic 认证策略.
 func NewBasicStrategy(compare CompareFunc) BasicStrategy {
-	return BasicStrategy{
-		compare: compare,
-	}
+	return BasicStrategy{compare}
 }
 
 // AuthFunc 定义 Basic 认证策略作为 Gin 中间件.

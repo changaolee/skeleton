@@ -46,7 +46,7 @@ func GetMySQLInstance(opts *genoptions.MySQLOptions) (store.IStore, error) {
 	}
 
 	var err error
-	var dbIns *gorm.DB
+	var ins *gorm.DB
 
 	if mysqlIns == nil {
 		once.Do(func() {
@@ -60,8 +60,8 @@ func GetMySQLInstance(opts *genoptions.MySQLOptions) (store.IStore, error) {
 				MaxConnectionLifeTime: opts.MaxConnectionLifeTime,
 				LogLevel:              opts.LogLevel,
 			}
-			dbIns, err = db.NewMySQL(options)
-			mysqlIns = &datastore{db: dbIns}
+			ins, err = db.NewMySQL(options)
+			mysqlIns = &datastore{db: ins}
 		})
 	}
 	if mysqlIns == nil || err != nil {

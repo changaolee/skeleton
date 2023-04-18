@@ -29,7 +29,10 @@ func createAPIServer(cfg *config.Config) (*apiServer, error) {
 	gs.AddManager(posixsignal.NewPosixSignalManager())
 
 	// Store 实例
-	storeIns, _ := mysql.GetMySQLInstance(cfg.MySQLOptions)
+	storeIns, err := mysql.GetMySQLInstance(cfg.MySQLOptions)
+	if err != nil {
+		return nil, err
+	}
 	store.SetStore(storeIns)
 
 	// APIServer

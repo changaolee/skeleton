@@ -1,0 +1,52 @@
+# Copyright 2023 lichangao(李长傲) <changao.li.work@outlook.com>. All rights reserved.
+# Use of this source code is governed by a MIT style
+# license that can be found in the LICENSE file. The original repo for
+# this file is https://github.com/changaolee/skeleton.
+
+# RPC 服务地址
+rpcserver: 127.0.0.1:8081  # skt-apiserver grpc 服务器地址和端口
+
+# TLS 客户端证书文件
+client-ca-file: ./_output/cert/ca.pem  # TLS 客户端证书，如果指定，则该客户端证书将被用于认证
+
+# REST 服务配置
+server:
+  mode: debug  # 可选值 release, debug, test
+  healthz: true  # 是否开启健康检查，如果开启会安装 /healthz 路由
+  middlewares: recovery,secure,nocache,cors,dump  # 加载的 gin 中间件列表，多个中间件，逗号(,)隔开
+
+# HTTP 相关配置
+insecure:
+  bind-address: 127.0.0.1
+  bind-port: 9090
+
+# HTTPS 相关配置
+secure:
+  bind-address: 0.0.0.0
+  bind-port: 9443
+  tls:
+    cert-key:
+      cert-file: ./_output/cert/skt-authz-server.pem  # 签名证书
+      private-key-file: ./_output/cert/skt-authz-server-key.pem  # 私钥
+
+# Redis 相关配置
+redis:
+  host: 127.0.0.1  # Redis 地址
+  port: 6379  # Redis 端口
+  password: ''  # Redis 密码
+  database: 0  # Redis 数据库
+
+# 日志配置
+log:
+  disable-caller: false  # 是否禁止 caller，如果开启会在日志中显示调用日志所在的文件和行号
+  disable-stacktrace: false  # 是否禁止在 panic 及以上级别打印堆栈信息
+  level: debug  # 日志级别，可选值：debug, info, warn, error, dpanic, panic, fatal
+  format: json  # 日志显示格式，可选值：console, json
+  output-paths: [ stdout ]  # 日志输出位置
+
+# JWT 配置
+jwt:
+  realm: JWT  # jwt 标识
+  key: BHpZUtWXhQM2f09bLcPLLoRB6yCEX04IpyXKZD3DxwU  # 服务端密钥
+  timeout: 24h  # token 过期时间(小时)
+  max-refresh: 24h  # token 更新时间(小时)

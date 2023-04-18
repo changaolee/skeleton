@@ -115,7 +115,7 @@ func authenticator() func(c *gin.Context) (interface{}, error) {
 		// 基于登录用户名查找用户
 		user, err := store.Store().Users().Get(c, login.Username)
 		if err != nil {
-			log.Errorf("get user information failed: %s", err.Error())
+			log.Errorf("Get user information failed: %s", err.Error())
 
 			return "", jwt.ErrFailedAuthentication
 		}
@@ -135,21 +135,21 @@ func authenticator() func(c *gin.Context) (interface{}, error) {
 func parseWithHeader(c *gin.Context) (loginInfo, error) {
 	authHeader := strings.SplitN(c.Request.Header.Get("Authorization"), " ", 2)
 	if len(authHeader) != 2 || authHeader[0] != "Basic" {
-		log.Errorf("get basic string from Authorization header failed")
+		log.Errorf("Get basic string from Authorization header failed")
 
 		return loginInfo{}, jwt.ErrFailedAuthentication
 	}
 
 	payload, err := base64.StdEncoding.DecodeString(authHeader[1])
 	if err != nil {
-		log.Errorf("decode basic string: %s", err.Error())
+		log.Errorf("Decode basic string: %s", err.Error())
 
 		return loginInfo{}, jwt.ErrFailedAuthentication
 	}
 
 	pair := strings.SplitN(string(payload), ":", 2)
 	if len(pair) != 2 {
-		log.Errorf("parse payload failed")
+		log.Errorf("Parse payload failed")
 
 		return loginInfo{}, jwt.ErrFailedAuthentication
 	}
@@ -163,7 +163,7 @@ func parseWithHeader(c *gin.Context) (loginInfo, error) {
 func parseWithBody(c *gin.Context) (loginInfo, error) {
 	var login loginInfo
 	if err := c.ShouldBindJSON(&login); err != nil {
-		log.Errorf("parse login parameters: %s", err.Error())
+		log.Errorf("Parse login parameters: %s", err.Error())
 
 		return loginInfo{}, jwt.ErrFailedAuthentication
 	}
@@ -205,7 +205,7 @@ func payloadFunc() func(data interface{}) jwt.MapClaims {
 func authorizator() func(data interface{}, c *gin.Context) bool {
 	return func(data interface{}, c *gin.Context) bool {
 		if v, ok := data.(string); ok {
-			log.C(c).Infof("user `%s` is authenticated.", v)
+			log.C(c).Infof("User `%s` is authenticated.", v)
 			return true
 		}
 		return false

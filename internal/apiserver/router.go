@@ -50,7 +50,7 @@ func installController(g *gin.Engine) {
 			userv1.POST("", userController.Create) // 创建用户
 			userv1.Use(auto.AuthFunc())
 
-			// todo
+			// todo: 管理接口
 			// userv1.PUT(":name", userController.Update)
 			// userv1.GET("", userController.List)
 			// userv1.GET(":name", userController.Get) // admin api

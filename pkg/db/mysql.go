@@ -28,7 +28,7 @@ type MySQLOptions struct {
 
 // DSN 从 MySQLOptions 返回 DSN.
 func (o *MySQLOptions) DSN() string {
-	return fmt.Sprintf(`%s:%s@tcp(%s)/%s?charset=utf8&parseTime=%t&loc=%s`,
+	return fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=%t&loc=%s",
 		o.Username,
 		o.Password,
 		o.Host,
