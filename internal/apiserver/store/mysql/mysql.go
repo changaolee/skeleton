@@ -45,25 +45,26 @@ func GetMySQLInstance(opts *genoptions.MySQLOptions) (store.IStore, error) {
 		return nil, fmt.Errorf("failed to get mysql instance")
 	}
 
-	var err error
-	var ins *gorm.DB
+	var (
+		err error
+		ins *gorm.DB
+	)
 
-	if mysqlIns == nil {
-		once.Do(func() {
-			options := &db.MySQLOptions{
-				Host:                  opts.Host,
-				Username:              opts.Username,
-				Password:              opts.Password,
-				Database:              opts.Database,
-				MaxIdleConnections:    opts.MaxIdleConnections,
-				MaxOpenConnections:    opts.MaxOpenConnections,
-				MaxConnectionLifeTime: opts.MaxConnectionLifeTime,
-				LogLevel:              opts.LogLevel,
-			}
-			ins, err = db.NewMySQL(options)
-			mysqlIns = &datastore{db: ins}
-		})
-	}
+	once.Do(func() {
+		options := &db.MySQLOptions{
+			Host:                  opts.Host,
+			Username:              opts.Username,
+			Password:              opts.Password,
+			Database:              opts.Database,
+			MaxIdleConnections:    opts.MaxIdleConnections,
+			MaxOpenConnections:    opts.MaxOpenConnections,
+			MaxConnectionLifeTime: opts.MaxConnectionLifeTime,
+			LogLevel:              opts.LogLevel,
+		}
+		ins, err = db.NewMySQL(options)
+		mysqlIns = &datastore{db: ins}
+	})
+
 	if mysqlIns == nil || err != nil {
 		return nil, fmt.Errorf("failed to get mysql instance, mysqlIns: %+v, error: %w", mysqlIns, err)
 	}
