@@ -76,7 +76,11 @@ func (s *authzServer) initialize() error {
 	s.redisCancelFunc = cancel
 
 	// 后台定时从 apiserver 重载 secrets 和 policies.
-	cacheIns, err := load.GetCacheInstance(apiserver.GetAPIServerInstance(s.rpcServer, s.clientCA))
+	client, err := apiserver.GetAPIServerCacheClientInstance(s.rpcServer, s.clientCA)
+	if err != nil {
+		return errors.Wrap(err, "get cache client failed")
+	}
+	cacheIns, err := load.GetCacheInstance(client)
 	if err != nil {
 		return errors.Wrap(err, "get cache instance failed")
 	}

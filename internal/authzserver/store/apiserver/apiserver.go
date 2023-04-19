@@ -18,13 +18,11 @@ type datastore struct {
 var _ store.IStore = (*datastore)(nil)
 
 func (d *datastore) Policies() store.PolicyStore {
-	//TODO implement me
-	panic("implement me")
+	return newPolicies(d)
 }
 
 func (d *datastore) Secrets() store.SecretStore {
-	//TODO implement me
-	panic("implement me")
+	return newSecrets(d)
 }
 
 var (
