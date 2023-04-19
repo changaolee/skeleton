@@ -1,14 +1,20 @@
+// Copyright 2023 lichangao(李长傲) <changao.li.work@outlook.com>. All rights reserved.
+// Use of this source code is governed by a MIT style
+// license that can be found in the LICENSE file. The original repo for
+// this file is https://github.com/changaolee/skeleton.
+
 package load
 
 import (
 	"sync"
 
+	"github.com/dgraph-io/ristretto"
+	"github.com/ory/ladon"
+
 	"github.com/changaolee/skeleton/internal/authzserver/authorization"
 	"github.com/changaolee/skeleton/internal/authzserver/store"
 	"github.com/changaolee/skeleton/pkg/errors"
 	pb "github.com/changaolee/skeleton/pkg/proto/apiserver/v1"
-	"github.com/dgraph-io/ristretto"
-	"github.com/ory/ladon"
 )
 
 // Cache 用于存储 secrets 和 policies.

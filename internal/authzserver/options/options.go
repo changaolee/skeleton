@@ -6,10 +6,11 @@
 package options
 
 import (
+	"github.com/spf13/pflag"
+
 	genoptions "github.com/changaolee/skeleton/internal/pkg/options"
 	"github.com/changaolee/skeleton/pkg/app"
 	"github.com/changaolee/skeleton/pkg/log"
-	"github.com/spf13/pflag"
 )
 
 type Options struct {

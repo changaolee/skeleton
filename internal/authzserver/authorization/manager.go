@@ -1,8 +1,14 @@
+// Copyright 2023 lichangao(李长傲) <changao.li.work@outlook.com>. All rights reserved.
+// Use of this source code is governed by a MIT style
+// license that can be found in the LICENSE file. The original repo for
+// this file is https://github.com/changaolee/skeleton.
+
 package authorization
 
 import (
-	"github.com/changaolee/skeleton/pkg/errors"
 	"github.com/ory/ladon"
+
+	"github.com/changaolee/skeleton/pkg/errors"
 )
 
 // PolicyManager 是一个基于 MySQL 实现的授权策略持久化 Manager.

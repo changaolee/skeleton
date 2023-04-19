@@ -3,11 +3,4 @@
 // license that can be found in the LICENSE file. The original repo for
 // this file is https://github.com/changaolee/skeleton.
 
-package store
-
-import "github.com/ory/ladon"
-
-// PolicyStore defines the policy storage interface.
-type PolicyStore interface {
-	List() (map[string][]*ladon.DefaultPolicy, error)
-}
+package v1 // import "github.com/changaolee/skeleton/pkg/proto/apiserver/v1"

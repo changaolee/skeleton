@@ -1,3 +1,8 @@
+// Copyright 2023 lichangao(李长傲) <changao.li.work@outlook.com>. All rights reserved.
+// Use of this source code is governed by a MIT style
+// license that can be found in the LICENSE file. The original repo for
+// this file is https://github.com/changaolee/skeleton.
+
 package load
 
 import (
@@ -6,8 +11,9 @@ import (
 	"encoding/hex"
 	"encoding/json"
 
-	"github.com/changaolee/skeleton/pkg/log"
 	"github.com/redis/go-redis/v9"
+
+	"github.com/changaolee/skeleton/pkg/log"
 )
 
 // NotificationCommand 定义一个新的通知类型.
