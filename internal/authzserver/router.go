@@ -1,7 +1,8 @@
 package authzserver
 
 import (
-	"github.com/changaolee/skeleton/internal/authzserver/cache"
+	"github.com/changaolee/skeleton/internal/authzserver/controller/v1/authorize"
+	"github.com/changaolee/skeleton/internal/authzserver/load"
 	"github.com/changaolee/skeleton/internal/pkg/code"
 	"github.com/changaolee/skeleton/internal/pkg/core"
 	"github.com/changaolee/skeleton/pkg/errors"
@@ -23,19 +24,18 @@ func installController(g *gin.Engine) *gin.Engine {
 		core.WriteResponse(c, errors.WithCode(code.ErrPageNotFound, "page not found."), nil)
 	})
 
-	cacheIns, _ := cache.GetRedisInstance(nil)
+	cacheIns, _ := load.GetCacheInstance(nil)
 	if cacheIns == nil {
 		log.Panicf("Get nil cache instance")
 	}
 
-	// todo: authz 服务路由注册
-	//apiv1 := g.Group("/v1", auth.AuthFunc())
-	//{
-	//	authzController := authorize.NewAuthzController(cacheIns)
-	//
-	//	// Router for authorization
-	//	apiv1.POST("/authz", authzController.Authorize)
-	//}
+	v1 := g.Group("/v1", auth.AuthFunc())
+	{
+		authzController := authorize.NewAuthzController(cacheIns)
+
+		// 授权接口
+		v1.POST("/authz", authzController.Authorize)
+	}
 
 	return g
 }

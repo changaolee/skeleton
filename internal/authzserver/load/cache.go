@@ -3,6 +3,7 @@ package load
 import (
 	"sync"
 
+	"github.com/changaolee/skeleton/internal/authzserver/authorization"
 	"github.com/changaolee/skeleton/internal/authzserver/store"
 	"github.com/changaolee/skeleton/pkg/errors"
 	pb "github.com/changaolee/skeleton/pkg/proto/apiserver/v1"
@@ -17,6 +18,10 @@ type Cache struct {
 	secrets  *ristretto.Cache
 	policies *ristretto.Cache
 }
+
+// 需要实现的接口.
+var _ Loader = &Cache{}
+var _ authorization.PolicyGetter = &Cache{}
 
 var (
 	ErrSecretNotFound = errors.New("secret not found") // secret 未找到
@@ -66,7 +71,7 @@ func GetCacheInstance(s store.IStore) (*Cache, error) {
 	return cacheIns, err
 }
 
-// GetSecret 获取指定 key 对应的 secret 详情.
+// GetSecret 获取指定用户对应的 secret 详情.
 func (c *Cache) GetSecret(key string) (*pb.SecretInfo, error) {
 	c.lock.Lock()
 	defer c.lock.Unlock()

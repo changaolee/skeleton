@@ -45,7 +45,7 @@ func installController(g *gin.Engine) {
 		// users 路由分组
 		userv1 := v1.Group("/users")
 		{
-			userController := user.New(storeIns)
+			userController := user.NewUserController(storeIns)
 
 			userv1.POST("", userController.Create) // 创建用户
 			userv1.Use(auto.AuthFunc())

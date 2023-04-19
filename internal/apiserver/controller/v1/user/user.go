@@ -14,7 +14,7 @@ type UserController struct {
 	b biz.IBiz
 }
 
-// New 创建一个 user controller.
-func New(s store.IStore) *UserController {
+// NewUserController 创建一个 user controller.
+func NewUserController(s store.IStore) *UserController {
 	return &UserController{b: biz.New(s)}
 }
