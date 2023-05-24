@@ -34,7 +34,7 @@ Options:
                    Example: `make build BINS="skt-apiserver skt-authz-server"`
   PLATFORMS        The multiple platforms to build. Default is linux_amd64 and linux_arm64.
                    This option is available when using: `make build.multiarch` or `make image.multiarch` or `make push.multiarch`
-                   Example: `make image.multiarch IMAGES="iam-apiserver" PLATFORMS="linux_amd64 linux_arm64"`
+                   Example: `make image.multiarch IMAGES="skt-apiserver" PLATFORMS="linux_amd64 linux_arm64"`
   VERSION          The version information compiled into binaries.
                    The default is obtained from gsemver or git.
   V                Set to 1 enable verbose build. Default is 0.

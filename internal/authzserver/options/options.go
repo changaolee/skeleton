@@ -50,7 +50,7 @@ func (o *Options) Flags() (fss app.NamedFlagSets) {
 }
 
 func (o *Options) addMiscFlags(fs *pflag.FlagSet) {
-	fs.StringVar(&o.RPCServer, "rpcserver", o.RPCServer, "The address of iam rpc server. "+
+	fs.StringVar(&o.RPCServer, "rpcserver", o.RPCServer, "The address of skt rpc server. "+
 		"The rpc server can provide all the secrets and policies to use.")
 	fs.StringVar(&o.ClientCA, "client-ca-file", o.ClientCA, ""+
 		"If set, any request presenting a client certificate signed by one of "+

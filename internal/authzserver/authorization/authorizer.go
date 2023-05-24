@@ -108,6 +108,8 @@ func (a *client) LogRejectedAccessRequest(r *ladon.Request, p ladon.Policies, d 
 		Policies:   pstring,
 		Deciders:   dstring,
 	}
+
+	// todo: local cache + redis
 	log.Infof("Log rejected access request: %+v", record)
 }
 
@@ -123,6 +125,8 @@ func (a *client) LogGrantedAccessRequest(r *ladon.Request, p ladon.Policies, d l
 		Policies:   pstring,
 		Deciders:   dstring,
 	}
+
+	// todo: local cache + redis
 	log.Infof("Log granted access request: %+v", record)
 }
 
