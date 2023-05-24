@@ -6,6 +6,12 @@
 package authorization
 
 import (
+	"encoding/json"
+	"fmt"
+	"strings"
+	"time"
+
+	"github.com/changaolee/skeleton/internal/authzserver/analytics"
 	"github.com/ory/ladon"
 
 	"github.com/changaolee/skeleton/internal/pkg/model"
@@ -79,12 +85,58 @@ func (a *client) List(username string) ([]*ladon.DefaultPolicy, error) {
 	return a.getter.GetPolicy(username)
 }
 
-func (a *client) LogRejectedAccessRequest(request *ladon.Request, pool ladon.Policies, deciders ladon.Policies) {
-	// todo: log rejected access request
-	log.Infow("TODO: log rejected access request")
+func (a *client) LogRejectedAccessRequest(r *ladon.Request, p ladon.Policies, d ladon.Policies) {
+	var conclusion string
+	if len(d) > 1 {
+		allowed := joinPoliciesNames(d[0 : len(d)-1])
+		denied := d[len(d)-1].GetID()
+		conclusion = fmt.Sprintf("policies %s allow access, but policy %s forcefully denied it", allowed, denied)
+	} else if len(d) == 1 {
+		denied := d[len(d)-1].GetID()
+		conclusion = fmt.Sprintf("policy %s forcefully denied the access", denied)
+	} else {
+		conclusion = "no policy allowed access"
+	}
+	rstring, pstring, dstring := convertToString(r, p, d)
+	record := analytics.Record{
+		TimeStamp:  time.Now().Unix(),
+		Username:   r.Context["username"].(string),
+		Effect:     ladon.DenyAccess,
+		Conclusion: conclusion,
+		Request:    rstring,
+		Policies:   pstring,
+		Deciders:   dstring,
+	}
+	log.Infof("Log rejected access request: %+v", record)
 }
 
-func (a *client) LogGrantedAccessRequest(request *ladon.Request, pool ladon.Policies, deciders ladon.Policies) {
-	// todo: log granted access request
-	log.Infow("TODO: log granted access request")
+func (a *client) LogGrantedAccessRequest(r *ladon.Request, p ladon.Policies, d ladon.Policies) {
+	conclusion := fmt.Sprintf("policies %s allow access", joinPoliciesNames(d))
+	rstring, pstring, dstring := convertToString(r, p, d)
+	record := analytics.Record{
+		TimeStamp:  time.Now().Unix(),
+		Username:   r.Context["username"].(string),
+		Effect:     ladon.AllowAccess,
+		Conclusion: conclusion,
+		Request:    rstring,
+		Policies:   pstring,
+		Deciders:   dstring,
+	}
+	log.Infof("Log granted access request: %+v", record)
+}
+func joinPoliciesNames(policies ladon.Policies) string {
+	var names []string
+	for _, policy := range policies {
+		names = append(names, policy.GetID())
+	}
+
+	return strings.Join(names, ", ")
+}
+
+func convertToString(r *ladon.Request, p ladon.Policies, d ladon.Policies) (string, string, string) {
+	rbytes, _ := json.Marshal(r)
+	pbytes, _ := json.Marshal(p)
+	dbytes, _ := json.Marshal(d)
+
+	return string(rbytes), string(pbytes), string(dbytes)
 }
