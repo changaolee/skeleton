@@ -11,8 +11,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/changaolee/skeleton/internal/authzserver/analytics"
 	"github.com/ory/ladon"
+
+	"github.com/changaolee/skeleton/internal/authzserver/analytics"
 
 	"github.com/changaolee/skeleton/internal/pkg/model"
 	"github.com/changaolee/skeleton/pkg/log"
@@ -124,6 +125,7 @@ func (a *client) LogGrantedAccessRequest(r *ladon.Request, p ladon.Policies, d l
 	}
 	log.Infof("Log granted access request: %+v", record)
 }
+
 func joinPoliciesNames(policies ladon.Policies) string {
 	names := make([]string, 0, len(policies))
 	for _, policy := range policies {
