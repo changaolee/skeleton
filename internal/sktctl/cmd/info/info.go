@@ -10,12 +10,12 @@ import (
 	"reflect"
 	"strconv"
 
+	"github.com/changaolee/skeleton/internal/pkg/clioptions"
 	hoststat "github.com/likexian/host-stat-go"
 	"github.com/spf13/cobra"
 
 	"github.com/changaolee/skeleton/internal/sktctl/util"
 	"github.com/changaolee/skeleton/internal/sktctl/util/templates"
-	"github.com/changaolee/skeleton/pkg/clioptions"
 	"github.com/changaolee/skeleton/pkg/util/iputil"
 )
 

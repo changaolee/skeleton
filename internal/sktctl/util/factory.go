@@ -7,8 +7,8 @@ package util
 
 import (
 	"github.com/changaolee/skeleton/internal/pkg/client"
+	"github.com/changaolee/skeleton/internal/pkg/clioptions"
 	"github.com/changaolee/skeleton/internal/pkg/rest"
-	"github.com/changaolee/skeleton/pkg/clioptions"
 )
 
 type Factory interface {

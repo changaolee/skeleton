@@ -10,14 +10,13 @@ import (
 	"io"
 	"os"
 
+	"github.com/changaolee/skeleton/internal/pkg/clioptions"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
 	genericapiserver "github.com/changaolee/skeleton/internal/pkg/server"
 	"github.com/changaolee/skeleton/internal/sktctl/cmd/info"
 	"github.com/changaolee/skeleton/internal/sktctl/util"
-	"github.com/changaolee/skeleton/pkg/clioptions"
-
 	"github.com/changaolee/skeleton/pkg/app"
 )
 

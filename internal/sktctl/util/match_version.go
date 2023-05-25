@@ -10,11 +10,11 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/changaolee/skeleton/internal/pkg/clioptions"
 	"github.com/spf13/pflag"
 
 	"github.com/changaolee/skeleton/internal/pkg/client"
 	"github.com/changaolee/skeleton/internal/pkg/rest"
-	"github.com/changaolee/skeleton/pkg/clioptions"
 	"github.com/changaolee/skeleton/pkg/version"
 )
 

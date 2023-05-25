@@ -3,4 +3,4 @@
 // license that can be found in the LICENSE file. The original repo for
 // this file is https://github.com/changaolee/skeleton.
 
-package clioptions // import "github.com/changaolee/skeleton/pkg/clioptions"
+package clioptions // import "github.com/changaolee/skeleton/internal/pkg/clioptions"
