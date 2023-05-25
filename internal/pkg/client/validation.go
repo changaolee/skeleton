@@ -1,3 +1,8 @@
+// Copyright 2023 lichangao(李长傲) <changao.li.work@outlook.com>. All rights reserved.
+// Use of this source code is governed by a MIT style
+// license that can be found in the LICENSE file. The original repo for
+// this file is https://github.com/changaolee/skeleton.
+
 package client
 
 import (
@@ -5,13 +10,16 @@ import (
 	"os"
 	"reflect"
 
-	"github.com/changaolee/skeleton/pkg/errors"
 	"go.uber.org/multierr"
+
+	"github.com/changaolee/skeleton/pkg/errors"
 )
 
 var (
 	// ErrEmptyConfig defines no configuration has been provided error.
-	ErrEmptyConfig = errors.New("no configuration has been provided, try setting SKT_SERVER_ADDRESS environment variable")
+	ErrEmptyConfig = errors.New(
+		"no configuration has been provided, try setting SKT_SERVER_ADDRESS environment variable",
+	)
 
 	// ErrEmptyServer defines a no server defined error.
 	ErrEmptyServer = errors.New("server has no server defined")

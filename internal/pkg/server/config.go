@@ -13,9 +13,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/changaolee/skeleton/pkg/log"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
+
+	"github.com/changaolee/skeleton/pkg/log"
 )
 
 const (

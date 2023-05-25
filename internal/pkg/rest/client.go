@@ -1,3 +1,8 @@
+// Copyright 2023 lichangao(李长傲) <changao.li.work@outlook.com>. All rights reserved.
+// Use of this source code is governed by a MIT style
+// license that can be found in the LICENSE file. The original repo for
+// this file is https://github.com/changaolee/skeleton.
+
 package rest
 
 import (
@@ -30,7 +35,8 @@ type RESTClient struct {
 
 // NewRESTClient 创建一个新的 RESTClient.
 func NewRESTClient(baseURL *url.URL, versionedAPIPath string,
-	config ClientContentConfig, client *gorequest.SuperAgent) (*RESTClient, error) {
+	config ClientContentConfig, client *gorequest.SuperAgent,
+) (*RESTClient, error) {
 	if len(config.ContentType) == 0 {
 		config.ContentType = "application/json"
 	}

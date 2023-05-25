@@ -1,3 +1,8 @@
+// Copyright 2023 lichangao(李长傲) <changao.li.work@outlook.com>. All rights reserved.
+// Use of this source code is governed by a MIT style
+// license that can be found in the LICENSE file. The original repo for
+// this file is https://github.com/changaolee/skeleton.
+
 package cmd
 
 import (
@@ -5,12 +10,13 @@ import (
 	"io"
 	"os"
 
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+
 	genericapiserver "github.com/changaolee/skeleton/internal/pkg/server"
 	"github.com/changaolee/skeleton/internal/sktctl/cmd/info"
 	"github.com/changaolee/skeleton/internal/sktctl/util"
 	"github.com/changaolee/skeleton/pkg/clioptions"
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 
 	"github.com/changaolee/skeleton/pkg/app"
 )
