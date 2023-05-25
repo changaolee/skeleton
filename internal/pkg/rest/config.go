@@ -161,7 +161,7 @@ func TLSConfigFor(c *Config) (*tls.Config, error) {
 		// Can't use TLSv1.0 because of POODLE and BEAST using CBC cipher
 		// Can't use TLSv1.1 because of RC4 cipher usage
 		MinVersion: tls.VersionTLS12,
-		
+
 		InsecureSkipVerify: c.Insecure,
 		ServerName:         c.ServerName,
 		NextProtos:         c.NextProtos,
