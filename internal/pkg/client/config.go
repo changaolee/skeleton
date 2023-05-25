@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/changaolee/skeleton/internal/pkg/rest"
+	"github.com/changaolee/skeleton/pkg/errors"
 )
 
 type Server struct {
@@ -77,7 +78,7 @@ func (config *DirectClientConfig) ConfirmUsable() error {
 	validationErrors = append(validationErrors, validateServerInfo(server)...)
 	// when direct client config is specified, and our only error is that no server is defined, we should
 	// return a standard "no config" error
-	if len(validationErrors) == 1 && validationErrors[0] == ErrEmptyServer {
+	if len(validationErrors) == 1 && errors.Is(validationErrors[0], ErrEmptyServer) {
 		return newErrConfigurationInvalid([]error{ErrEmptyConfig})
 	}
 

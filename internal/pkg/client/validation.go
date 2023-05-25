@@ -64,7 +64,7 @@ func validateServerInfo(serverInfo Server) []error {
 		clientCertCA, err := os.Open(serverInfo.CertificateAuthority)
 		if err != nil {
 			validationErrors = append(validationErrors,
-				fmt.Errorf("unable to read certificate-authority %v due to %v", serverInfo.CertificateAuthority, err))
+				fmt.Errorf("unable to read certificate-authority %v due to %w", serverInfo.CertificateAuthority, err))
 		} else {
 			defer clientCertCA.Close()
 		}
@@ -73,12 +73,7 @@ func validateServerInfo(serverInfo Server) []error {
 	return validationErrors
 }
 
-// validateAuthInfo looks for conflicts and errors in the auth info.
-func validateAuthInfo(authInfo AuthInfo) []error {
-	validationErrors := make([]error, 0)
-
-	usingAuthPath := false
-
+func getAuthMethods(authInfo AuthInfo) []string {
 	methods := make([]string, 0, 3)
 	if len(authInfo.Token) != 0 {
 		methods = append(methods, "token")
@@ -91,10 +86,17 @@ func validateAuthInfo(authInfo AuthInfo) []error {
 	if len(authInfo.SecretID) != 0 || len(authInfo.SecretKey) != 0 {
 		methods = append(methods, "secretAuth")
 	}
+	return methods
+}
+
+// validateAuthInfo looks for conflicts and errors in the auth info.
+func validateAuthInfo(authInfo AuthInfo) []error {
+	validationErrors := make([]error, 0)
 
 	// authPath also provides information for the client to identify the server,
 	// so allow multiple auth methods in that case
-	if (len(methods) > 1) && (!usingAuthPath) {
+	methods := getAuthMethods(authInfo)
+	if len(methods) > 1 {
 		validationErrors = append(validationErrors,
 			fmt.Errorf("more than one authentication method found; found %v, only one is allowed", methods))
 	}
@@ -123,7 +125,7 @@ func validateAuthInfo(authInfo AuthInfo) []error {
 		clientCertFile, err := os.Open(authInfo.ClientCertificate)
 		if err != nil {
 			validationErrors = append(validationErrors,
-				fmt.Errorf("unable to read client-cert %v due to %v", authInfo.ClientCertificate, err))
+				fmt.Errorf("unable to read client-cert %v due to %w", authInfo.ClientCertificate, err))
 		} else {
 			defer clientCertFile.Close()
 		}
@@ -133,7 +135,7 @@ func validateAuthInfo(authInfo AuthInfo) []error {
 		clientKeyFile, err := os.Open(authInfo.ClientKey)
 		if err != nil {
 			validationErrors = append(validationErrors,
-				fmt.Errorf("unable to read client-key %v due to %v", authInfo.ClientKey, err))
+				fmt.Errorf("unable to read client-key %v due to %w", authInfo.ClientKey, err))
 		} else {
 			defer clientKeyFile.Close()
 		}
