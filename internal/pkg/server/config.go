@@ -7,10 +7,15 @@ package server
 
 import (
 	"net"
+	"os"
+	"path/filepath"
 	"strconv"
+	"strings"
 	"time"
 
+	"github.com/changaolee/skeleton/pkg/log"
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 )
 
 const (
@@ -108,4 +113,26 @@ func (c *CompletedConfig) New() (*GenericAPIServer, error) {
 	initGenericAPIServer(s)
 
 	return s, nil
+}
+
+// LoadConfig 读取配置文件和 ENV 变量.
+func LoadConfig(cfg string, defaultName string) {
+	if cfg != "" {
+		viper.SetConfigFile(cfg)
+	} else {
+		viper.AddConfigPath(".")
+		home, _ := os.UserHomeDir()
+		viper.AddConfigPath(filepath.Join(home, RecommendedHomeDir))
+		viper.AddConfigPath("/etc/skt")
+		viper.SetConfigName(defaultName)
+	}
+
+	viper.SetConfigType("yaml")
+	viper.AutomaticEnv()
+	viper.SetEnvPrefix(RecommendedEnvPrefix)
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_", "-", "_"))
+
+	if err := viper.ReadInConfig(); err != nil {
+		log.Warnf("WARNING: viper failed to discover and load the configuration file: %s", err.Error())
+	}
 }

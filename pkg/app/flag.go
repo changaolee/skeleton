@@ -25,6 +25,17 @@ func WordSepNormalizeFunc(f *pflag.FlagSet, name string) pflag.NormalizedName {
 	return pflag.NormalizedName(name)
 }
 
+// WarnWordSepNormalizeFunc 替换 "_" 分隔符并打印警告.
+func WarnWordSepNormalizeFunc(f *pflag.FlagSet, name string) pflag.NormalizedName {
+	if strings.Contains(name, "_") {
+		nname := strings.ReplaceAll(name, "_", "-")
+		log.Warnf("%s is DEPRECATED and will be removed in a future version. Use %s instead.", name, nname)
+
+		return pflag.NormalizedName(nname)
+	}
+	return pflag.NormalizedName(name)
+}
+
 // InitFlags 规范化、解析并记录命令行标志.
 func InitFlags(flags *pflag.FlagSet) {
 	flags.SetNormalizeFunc(WordSepNormalizeFunc)
