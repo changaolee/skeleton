@@ -13,6 +13,7 @@ source "${SKT_ROOT}/scripts/install/mariadb.sh"
 source "${SKT_ROOT}/scripts/install/redis.sh"
 source "${SKT_ROOT}/scripts/install/mongodb.sh"
 source "${SKT_ROOT}/scripts/install/skt-apiserver.sh"
+source "${SKT_ROOT}/scripts/install/skt-auth-server.sh"
 
 # 准备 Linux 环境
 skt::install::prepare_linux() {
@@ -296,11 +297,11 @@ function skt::install::install_skeleton() {
   # 3. 安装 skt-apiserver 服务
   skt::apiserver::install || return 1
 
-  #  # 4. 安装 sktctl 客户端工具
+  # 4. 安装 skt-authz-server 服务
+  skt::authzserver::install || return 1
+
+  #  # 5. 安装 sktctl 客户端工具
   #  skt::sktctl::install || return 1
-  #
-  #  # 5. 安装 skt-authz-server 服务
-  #  skt::authzserver::install || return 1
   #
   #  # 6. 安装 skt-pump 服务
   #  skt::pump::install || return 1
