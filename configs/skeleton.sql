@@ -3,6 +3,9 @@
 -- license that can be found in the LICENSE file. The original repo for
 -- this file is https://github.com/changaolee/skeleton.
 
+CREATE DATABASE IF NOT EXISTS `skeleton` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+USE `skeleton`;
+
 -- MariaDB dump 10.19  Distrib 10.5.19-MariaDB, for Linux (x86_64)
 --
 -- Host: localhost    Database: skeleton
