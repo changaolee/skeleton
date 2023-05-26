@@ -263,7 +263,7 @@ show databases;
 EOF
 
   # 4. 创建必要的目录
-  echo ${LINUX_PASSWORD} | sudo -S mkdir -p ${SKT_DATA_DIR}/{skt-apiserver,skt-authz-server,skt-pump,skt-watcher}
+  echo ${LINUX_PASSWORD} | sudo -S mkdir -p ${SKT_DATA_DIR}/{skt-apiserver,skt-authz-server,skt-pump}
   skt::common::sudo "mkdir -p ${SKT_INSTALL_DIR}/bin"
   skt::common::sudo "mkdir -p ${SKT_CONFIG_DIR}/cert"
   skt::common::sudo "mkdir -p ${SKT_LOG_DIR}"
@@ -305,10 +305,7 @@ function skt::install::install_skeleton() {
   #  # 6. 安装 skt-pump 服务
   #  skt::pump::install || return 1
   #
-  #  # 7. 安装 skt-watcher 服务
-  #  skt::watcher::install || return 1
-  #
-  #  # 8. 安装 man page
+  #  # 7. 安装 man page
   #  skt::man::install || return 1
 
   skt::log::info "install skt application successfully"

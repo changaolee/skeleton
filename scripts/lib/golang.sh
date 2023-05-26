@@ -28,7 +28,6 @@ skt::golang::server_targets() {
     skt-apiserver
     skt-authz-server
     skt-pump
-    skt-watcher
   )
   echo "${targets[@]}"
 }
@@ -44,7 +43,6 @@ skt::golang::server_image_targets() {
     cmd/skt-apiserver
     cmd/skt-authz-server
     cmd/skt-pump
-    cmd/skt-watcher
   )
   echo "${targets[@]}"
 }

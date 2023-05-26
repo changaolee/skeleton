@@ -227,14 +227,12 @@ skt::util::gen-docs() {
   "${gensktdocs}" "${dest}/docs/guide/en-US/cmd/" "skt-apiserver"
   "${gensktdocs}" "${dest}/docs/guide/en-US/cmd/" "skt-authz-server"
   "${gensktdocs}" "${dest}/docs/guide/en-US/cmd/" "skt-pump"
-  "${gensktdocs}" "${dest}/docs/guide/en-US/cmd/" "skt-watcher"
   "${gensktdocs}" "${dest}/docs/guide/en-US/cmd/sktctl" "sktctl"
 
   mkdir -p "${dest}/docs/man/man1/"
   "${genman}" "${dest}/docs/man/man1/" "skt-apiserver"
   "${genman}" "${dest}/docs/man/man1/" "skt-authz-server"
   "${genman}" "${dest}/docs/man/man1/" "skt-pump"
-  "${genman}" "${dest}/docs/man/man1/" "skt-watcher"
   "${genman}" "${dest}/docs/man/man1/" "sktctl"
 
   mkdir -p "${dest}/docs/guide/en-US/yaml/sktctl/"

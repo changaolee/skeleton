@@ -81,9 +81,6 @@ readonly SKT_PUMP_HOST=${SKT_PUMP_HOST:-127.0.0.1} # skt-pump 部署机器 IP �
 readonly SKT_PUMP_COLLECTION_NAME=${SKT_PUMP_COLLECTION_NAME:-skt_analytics}
 readonly SKT_PUMP_MONGO_URL=${SKT_PUMP_MONGO_URL:-mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${SKT_PUMP_COLLECTION_NAME}?authSource=${SKT_PUMP_COLLECTION_NAME}}
 
-# skt-watcher配置
-readonly SKT_WATCHER_HOST=${SKT_WATCHER_HOST:-127.0.0.1} # skt-watcher 部署机器 IP 地址
-
 # sktctl 配置
 readonly CONFIG_USER_USERNAME=${CONFIG_USER_USERNAME:-admin}
 readonly CONFIG_USER_PASSWORD=${CONFIG_USER_PASSWORD:-Admin@2023}
