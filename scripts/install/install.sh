@@ -5,7 +5,6 @@
 # license that can be found in the LICENSE file. The original repo for
 # this file is https://github.com/changaolee/skeleton.
 
-
 # The root of the build/dist directory
 SKT_ROOT=$(dirname "${BASH_SOURCE[0]}")/../..
 source "${SKT_ROOT}/scripts/install/common.sh"
@@ -13,6 +12,7 @@ source "${SKT_ROOT}/scripts/install/common.sh"
 source "${SKT_ROOT}/scripts/install/mariadb.sh"
 source "${SKT_ROOT}/scripts/install/redis.sh"
 source "${SKT_ROOT}/scripts/install/mongodb.sh"
+source "${SKT_ROOT}/scripts/install/skt-apiserver.sh"
 
 # 准备 Linux 环境
 skt::install::prepare_linux() {
@@ -293,9 +293,9 @@ function skt::install::install_skeleton() {
   # 2. 先准备安装环境
   skt::install::prepare_skeleton || return 1
 
-  #  # 3. 安装 skt-apiserver 服务
-  #  skt::apiserver::install || return 1
-  #
+  # 3. 安装 skt-apiserver 服务
+  skt::apiserver::install || return 1
+
   #  # 4. 安装 sktctl 客户端工具
   #  skt::sktctl::install || return 1
   #

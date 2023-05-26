@@ -5,8 +5,7 @@
 # license that can be found in the LICENSE file. The original repo for
 # this file is https://github.com/changaolee/skeleton.
 
-
-: << EOF
+: <<EOF
 API 性能测试脚本，会自动执行 wrk 命令，采集数据、分析数据并调用 gnuplot 画图
 使用方式 ( 测试 API 性能)：
 1. 启动 skeleton (8080 端口)
@@ -22,7 +21,7 @@ sktroot="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
 wrkdir="${sktroot}/_output/wrk"
 jobname="skeleton"
 duration="300s"
-threads=$((3 * `grep -c processor /proc/cpuinfo`))
+threads=$((3 * $(grep -c processor /proc/cpuinfo)))
 
 source "${sktroot}/scripts/lib/color.sh"
 
@@ -33,9 +32,8 @@ skt::wrk::setup() {
 }
 
 # Print usage infomation
-skt::wrk::usage()
-{
-  cat << EOF
+skt::wrk::usage() {
+  cat <<EOF
 Usage: $0 [OPTION] [diff] URL
 Performance automation test script.
   URL                    HTTP request url, like: http://127.0.0.1:8080/healthz
@@ -49,8 +47,7 @@ EOF
 }
 
 # Convert plot data to useable data
-function skt::wrk::convert_plot_data()
-{
+function skt::wrk::convert_plot_data() {
   echo "$1" | awk -v datfile="${wrkdir}/${datfile}" ' {
   if ($0 ~ "Running") {
     common_time=$2
@@ -105,14 +102,13 @@ if (s ~ "s") {
 }
 
 # Remove existing data file
-function skt::wrk::prepare()
-{
+function skt::wrk::prepare() {
   rm -f ${wrkdir}/${datfile}
 }
 
 # Plot according to gunplot data file
 function skt::wrk::plot() {
-  gnuplot <<  EOF
+  gnuplot <<EOF
 set terminal png enhanced #输出格式为png文件
 set ylabel 'QPS'
 set xlabel 'Concurrent'
@@ -145,9 +141,8 @@ EOF
 }
 
 # Plot diff graphic
-function skt::wrk::plot_diff()
-{
-  gnuplot <<  EOF
+function skt::wrk::plot_diff() {
+  gnuplot <<EOF
 set terminal png enhanced #输出格式为png文件
 set xlabel 'Concurrent'
 set ylabel 'QPS'
@@ -188,64 +183,63 @@ EOF
 skt::wrk::start_performance_test() {
   skt::wrk::prepare
 
-  for c in ${concurrent}
-  do
+  for c in ${concurrent}; do
     wrkcmd="${cmd} -c ${c} $1"
     echo "Running wrk command: ${wrkcmd}"
-    result=`eval ${wrkcmd}`
+    result=$(eval ${wrkcmd})
     skt::wrk::convert_plot_data "${result}"
   done
 
   echo -e "\nNow plot according to ${COLOR_MAGENTA}${wrkdir}/${datfile}${COLOR_NORMAL}"
-  skt::wrk::plot &> /dev/null
+  skt::wrk::plot &>/dev/null
   echo -e "QPS graphic file is: ${COLOR_MAGENTA}${wrkdir}/${qpsttlb}${COLOR_NORMAL}
 Success rate graphic file is: ${COLOR_MAGENTA}${wrkdir}/${successrate}${COLOR_NORMAL}"
 }
 
-while getopts "hd:n:" opt;do
+while getopts "hd:n:" opt; do
   case ${opt} in
-    d)
-      wrkdir=${OPTARG}
-      ;;
-    n)
-      jobname=${OPTARG}
-      ;;
-    ?)
-      skt::wrk::usage
-      exit 0
-      ;;
+  d)
+    wrkdir=${OPTARG}
+    ;;
+  n)
+    jobname=${OPTARG}
+    ;;
+  ?)
+    skt::wrk::usage
+    exit 0
+    ;;
   esac
 done
 
-shift $(($OPTIND-1))
+shift $(($OPTIND - 1))
 
 mkdir -p ${wrkdir}
 case $1 in
-  "diff")
-    if [ "$#" -lt 3 ];then
-      skt::wrk::usage
-      exit 0
-    fi
-
-    t1=$(basename $2|sed 's/.dat//g') # 对比图中红色线条名称
-    t2=$(basename $3|sed 's/.dat//g') # 对比图中粉色线条名称
-
-    join $2 $3 > /tmp/plot_diff.dat
-    skt::wrk::plot_diff `basename $2` `basename $3`
+"diff")
+  if [ "$#" -lt 3 ]; then
+    skt::wrk::usage
     exit 0
-    ;;
-  *)
-    if [ "$#" -lt 1 ];then
-      skt::wrk::usage
-      exit 0
-    fi
-    url="$1"
+  fi
 
-    qpsttlb="${jobname}_qps_ttlb.png"
-    successrate="${jobname}_successrate.png"
-    datfile="${jobname}.dat"
+  t1=$(basename $2 | sed 's/.dat//g') # 对比图中红色线条名称
+  t2=$(basename $3 | sed 's/.dat//g') # 对比图中粉色线条名称
 
-    skt::wrk::setup
-    skt::wrk::start_performance_test "${url}"
-    ;;
+  join $2 $3 >/tmp/plot_diff.dat
+  skt::wrk::plot_diff $(basename $2) $(basename $3)
+  exit 0
+  ;;
+*)
+  if [ "$#" -lt 1 ]; then
+    skt::wrk::usage
+    exit 0
+  fi
+  url="$1"
+
+  qpsttlb="${jobname}_qps_ttlb.png"
+  successrate="${jobname}_successrate.png"
+  datfile="${jobname}.dat"
+
+  skt::wrk::setup
+  skt::wrk::start_performance_test "${url}"
+  ;;
 esac

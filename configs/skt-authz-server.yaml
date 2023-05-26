@@ -4,10 +4,10 @@
 # this file is https://github.com/changaolee/skeleton.
 
 # RPC 服务地址
-rpcserver: 127.0.0.1:8081  # skt-apiserver grpc 服务器地址和端口
+rpcserver: ${SKT_AUTHZ_SERVER_RPCSERVER}  # skt-apiserver grpc 服务器地址和端口
 
 # TLS 客户端证书文件
-client-ca-file: ./_output/cert/ca.pem  # TLS 客户端证书，如果指定，则该客户端证书将被用于认证
+client-ca-file: ${SKT_AUTHZ_SERVER_CLIENT_CA_FILE}  # TLS 客户端证书，如果指定，则该客户端证书将被用于认证
 
 # REST 服务配置
 server:
@@ -17,24 +17,24 @@ server:
 
 # HTTP 相关配置
 insecure:
-  bind-address: 127.0.0.1
-  bind-port: 9090
+  bind-address: ${SKT_AUTHZ_SERVER_INSECURE_BIND_ADDRESS} # 绑定的不安全 IP 地址，设置为 0.0.0.0 表示使用全部网络接口，默认为 127.0.0.1
+  bind-port: ${SKT_AUTHZ_SERVER_INSECURE_BIND_PORT} # 提供非安全认证的监听端口，默认为 9090
 
 # HTTPS 相关配置
 secure:
-  bind-address: 0.0.0.0
-  bind-port: 9443
+  bind-address: ${SKT_AUTHZ_SERVER_SECURE_BIND_ADDRESS} # HTTPS 安全模式的 IP 地址，默认为 0.0.0.0
+  bind-port: ${SKT_AUTHZ_SERVER_SECURE_BIND_PORT} # 使用 HTTPS 安全模式的端口号，设置为 0 表示不启用 HTTPS，默认为 9443
   tls:
     cert-key:
-      cert-file: ./_output/cert/skt-authz-server.pem  # 签名证书
-      private-key-file: ./_output/cert/skt-authz-server-key.pem  # 私钥
+      cert-file: ${SKT_AUTHZ_SERVER_SECURE_TLS_CERT_KEY_CERT_FILE} # 包含 x509 证书的文件路径，用 HTTPS 认证
+      private-key-file: ${SKT_AUTHZ_SERVER_SECURE_TLS_CERT_KEY_PRIVATE_KEY_FILE} # TLS 私钥
 
 # Redis 相关配置
 redis:
-  host: 127.0.0.1  # Redis 地址
-  port: 6379  # Redis 端口
-  password: ''  # Redis 密码
-  database: 0  # Redis 数据库
+  host: ${REDIS_HOST} # Redis 地址，默认 127.0.0.1:6379
+  port: ${REDIS_PORT} # Redis 端口，默认 6379
+  password: ${REDIS_PASSWORD} # Redis 密码
+  database:  0 # Redis 数据库
 
 # 日志配置
 log:

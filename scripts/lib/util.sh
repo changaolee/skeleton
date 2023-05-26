@@ -5,7 +5,6 @@
 # license that can be found in the LICENSE file. The original repo for
 # this file is https://github.com/changaolee/skeleton.
 
-
 function skt::util::sourced_variable {
   # Call this function to tell shellcheck that a variable is supposed to
   # be used from other calling context. This helps quiet an "unused
@@ -26,7 +25,7 @@ skt::util::array_contains() {
   for element; do
     if [[ "${element}" == "${search}" ]]; then
       return 0
-     fi
+    fi
   done
   return 1
 }
@@ -59,7 +58,7 @@ skt::util::wait_for_url() {
 # Example:  skt::util::wait_for_success 120 5 "sktctl get nodes|grep localhost"
 # arguments: wait time, sleep time, shell command
 # returns 0 if the shell command get output, 1 otherwise.
-skt::util::wait_for_success(){
+skt::util::wait_for_success() {
   local wait_time="$1"
   local sleep_time="$2"
   local cmd="$3"
@@ -68,7 +67,7 @@ skt::util::wait_for_success(){
       return 0
     else
       sleep "$sleep_time"
-      wait_time=$((wait_time-sleep_time))
+      wait_time=$((wait_time - sleep_time))
     fi
   done
   return 1
@@ -86,7 +85,7 @@ skt::util::trap_add() {
     local new_cmd
 
     # Grab the currently defined trap commands for this trap
-    existing_cmd=$(trap -p "${trap_add_name}" |  awk -F"'" '{print $2}')
+    existing_cmd=$(trap -p "${trap_add_name}" | awk -F"'" '{print $2}')
 
     if [[ -z "${existing_cmd}" ]]; then
       new_cmd="${trap_add_cmd}"
@@ -122,16 +121,16 @@ skt::util::ensure-temp-dir() {
 skt::util::host_os() {
   local host_os
   case "$(uname -s)" in
-    Darwin)
-      host_os=darwin
-      ;;
-    Linux)
-      host_os=linux
-      ;;
-    *)
-      skt::log::error "Unsupported host OS.  Must be Linux or Mac OS X."
-      exit 1
-      ;;
+  Darwin)
+    host_os=darwin
+    ;;
+  Linux)
+    host_os=linux
+    ;;
+  *)
+    skt::log::error "Unsupported host OS.  Must be Linux or Mac OS X."
+    exit 1
+    ;;
   esac
   echo "${host_os}"
 }
@@ -139,37 +138,37 @@ skt::util::host_os() {
 skt::util::host_arch() {
   local host_arch
   case "$(uname -m)" in
-    x86_64*)
-      host_arch=amd64
-      ;;
-    i?86_64*)
-      host_arch=amd64
-      ;;
-    amd64*)
-      host_arch=amd64
-      ;;
-    aarch64*)
-      host_arch=arm64
-      ;;
-    arm64*)
-      host_arch=arm64
-      ;;
-    arm*)
-      host_arch=arm
-      ;;
-    i?86*)
-      host_arch=x86
-      ;;
-    s390x*)
-      host_arch=s390x
-      ;;
-    ppc64le*)
-      host_arch=ppc64le
-      ;;
-    *)
-      skt::log::error "Unsupported host arch. Must be x86_64, 386, arm, arm64, s390x or ppc64le."
-      exit 1
-      ;;
+  x86_64*)
+    host_arch=amd64
+    ;;
+  i?86_64*)
+    host_arch=amd64
+    ;;
+  amd64*)
+    host_arch=amd64
+    ;;
+  aarch64*)
+    host_arch=arm64
+    ;;
+  arm64*)
+    host_arch=arm64
+    ;;
+  arm*)
+    host_arch=arm
+    ;;
+  i?86*)
+    host_arch=x86
+    ;;
+  s390x*)
+    host_arch=s390x
+    ;;
+  ppc64le*)
+    host_arch=ppc64le
+    ;;
+  *)
+    skt::log::error "Unsupported host arch. Must be x86_64, 386, arm, arm64, s390x or ppc64le."
+    exit 1
+    ;;
   esac
   echo "${host_arch}"
 }
@@ -194,7 +193,7 @@ skt::util::find-binary-for-platform() {
   )
 
   # List most recently-updated location.
-  local -r bin=$( (ls -t "${locations[@]}" 2>/dev/null || true) | head -1 )
+  local -r bin=$( (ls -t "${locations[@]}" 2>/dev/null || true) | head -1)
   echo -n "${bin}"
 }
 
@@ -239,10 +238,10 @@ skt::util::gen-docs() {
   "${genyaml}" "${dest}/docs/guide/en-US/yaml/sktctl/"
 
   # create the list of generated files
-  pushd "${dest}" > /dev/null || return 1
+  pushd "${dest}" >/dev/null || return 1
   touch docs/.generated_docs
-  find . -type f | cut -sd / -f 2- | LC_ALL=C sort > docs/.generated_docs
-  popd > /dev/null || return 1
+  find . -type f | cut -sd / -f 2- | LC_ALL=C sort >docs/.generated_docs
+  popd >/dev/null || return 1
 }
 
 # Removes previously generated docs-- we don't want to check them in. $SKT_ROOT
@@ -261,8 +260,8 @@ skt::util::remove-gen-docs() {
 # Returns the name of the upstream remote repository name for the local git
 # repo, e.g. "upstream" or "origin".
 skt::util::git_upstream_remote_name() {
-  git remote -v | grep fetch |\
-    grep -E 'github.com[/:]changaolee/skeleton' |\
+  git remote -v | grep fetch |
+    grep -E 'github.com[/:]changaolee/skeleton' |
     head -n 1 | awk '{print $1}'
 }
 
@@ -272,10 +271,10 @@ skt::util::ensure_clean_working_dir() {
   while ! git diff HEAD --exit-code &>/dev/null; do
     echo -e "\nUnexpected dirty working directory:\n"
     if tty -s; then
-        git status -s
+      git status -s
     else
-        git diff -a # be more verbose in log files without tty
-        exit 1
+      git diff -a # be more verbose in log files without tty
+      exit 1
     fi | sed 's/^/  /'
     echo -e "\nCommit your changes in another terminal and then continue here by pressing enter."
     read -r
@@ -318,11 +317,11 @@ skt::util::has_changes() {
   echo "Checking for '${pattern}' changes against '${base_ref}'"
 
   # notice this uses ... to find the first shared ancestor
-  if git diff --name-only "${base_ref}...HEAD" | grep -v -E "${not_pattern}" | grep "${pattern}" > /dev/null; then
+  if git diff --name-only "${base_ref}...HEAD" | grep -v -E "${not_pattern}" | grep "${pattern}" >/dev/null; then
     return 0
   fi
   # also check for pending changes
-  if git status --porcelain | grep -v -E "${not_pattern}" | grep "${pattern}" > /dev/null; then
+  if git status --porcelain | grep -v -E "${not_pattern}" | grep "${pattern}" >/dev/null; then
     echo "Detected '${pattern}' uncommitted changes."
     return 0
   fi
@@ -334,12 +333,11 @@ skt::util::download_file() {
   local -r url=$1
   local -r destination_file=$2
 
-  rm "${destination_file}" 2&> /dev/null || true
+  rm "${destination_file}" 2 &>/dev/null || true
 
-  for i in $(seq 5)
-  do
+  for i in $(seq 5); do
     if ! curl -fsSL --retry 3 --keepalive-time 2 "${url}" -o "${destination_file}"; then
-      echo "Downloading ${url} failed. $((5-i)) retries left."
+      echo "Downloading ${url} failed. $((5 - i)) retries left."
       sleep 1
     else
       echo "Downloading ${url} succeed"
@@ -353,12 +351,12 @@ skt::util::download_file() {
 # Sets:
 #  OPENSSL_BIN: The path to the openssl binary to use
 function skt::util::test_openssl_installed {
-    if ! openssl version >& /dev/null; then
-      echo "Failed to run openssl. Please ensure openssl is installed"
-      exit 1
-    fi
+  if ! openssl version >&/dev/null; then
+    echo "Failed to run openssl. Please ensure openssl is installed"
+    exit 1
+  fi
 
-    OPENSSL_BIN=$(command -v openssl)
+  OPENSSL_BIN=$(command -v openssl)
 }
 
 # creates a client CA, args are sudo, dest-dir, ca-id, purpose
@@ -367,12 +365,12 @@ function skt::util::test_openssl_installed {
 # '"server auth"'
 # '"client auth","server auth"'
 function skt::util::create_signing_certkey {
-    local sudo=$1
-    local dest_dir=$2
-    local id=$3
-    local purpose=$4
-    # Create client ca
-    ${sudo} /usr/bin/env bash -e <<EOF
+  local sudo=$1
+  local dest_dir=$2
+  local id=$3
+  local purpose=$4
+  # Create client ca
+  ${sudo} /usr/bin/env bash -e <<EOF
     rm -f "${dest_dir}/${id}-ca.crt" "${dest_dir}/${id}-ca.key"
     ${OPENSSL_BIN} req -x509 -sha256 -new -nodes -days 365 -newkey rsa:2048 -keyout "${dest_dir}/${id}-ca.key" -out "${dest_dir}/${id}-ca.crt" -subj "/C=xx/ST=x/L=x/O=x/OU=x/CN=ca/emailAddress=x/"
     echo '{"signing":{"default":{"expiry":"43800h","usages":["signing","key encipherment",${purpose}]}}}' > "${dest_dir}/${id}-ca-config.json"
@@ -381,20 +379,20 @@ EOF
 
 # signs a client certificate: args are sudo, dest-dir, CA, filename (roughly), username, groups...
 function skt::util::create_client_certkey {
-    local sudo=$1
-    local dest_dir=$2
-    local ca=$3
-    local id=$4
-    local cn=${5:-$4}
-    local groups=""
-    local SEP=""
-    shift 5
-    while [ -n "${1:-}" ]; do
-        groups+="${SEP}{\"O\":\"$1\"}"
-        SEP=","
-        shift 1
-    done
-    ${sudo} /usr/bin/env bash -e <<EOF
+  local sudo=$1
+  local dest_dir=$2
+  local ca=$3
+  local id=$4
+  local cn=${5:-$4}
+  local groups=""
+  local SEP=""
+  shift 5
+  while [ -n "${1:-}" ]; do
+    groups+="${SEP}{\"O\":\"$1\"}"
+    SEP=","
+    shift 1
+  done
+  ${sudo} /usr/bin/env bash -e <<EOF
     cd ${dest_dir}
     echo '{"CN":"${cn}","names":[${groups}],"hosts":[""],"key":{"algo":"rsa","size":2048}}' | ${CFSSL_BIN} gencert -ca=${ca}.crt -ca-key=${ca}.key -config=${ca}-config.json - | ${CFSSLJSON_BIN} -bare client-${id}
     mv "client-${id}-key.pem" "client-${id}.key"
@@ -405,20 +403,20 @@ EOF
 
 # signs a serving certificate: args are sudo, dest-dir, ca, filename (roughly), subject, hosts...
 function skt::util::create_serving_certkey {
-    local sudo=$1
-    local dest_dir=$2
-    local ca=$3
-    local id=$4
-    local cn=${5:-$4}
-    local hosts=""
-    local SEP=""
-    shift 5
-    while [ -n "${1:-}" ]; do
-        hosts+="${SEP}\"$1\""
-        SEP=","
-        shift 1
-    done
-    ${sudo} /usr/bin/env bash -e <<EOF
+  local sudo=$1
+  local dest_dir=$2
+  local ca=$3
+  local id=$4
+  local cn=${5:-$4}
+  local hosts=""
+  local SEP=""
+  shift 5
+  while [ -n "${1:-}" ]; do
+    hosts+="${SEP}\"$1\""
+    SEP=","
+    shift 1
+  done
+  ${sudo} /usr/bin/env bash -e <<EOF
     cd ${dest_dir}
     echo '{"CN":"${cn}","hosts":[${hosts}],"key":{"algo":"rsa","size":2048}}' | ${CFSSL_BIN} gencert -ca=${ca}.crt -ca-key=${ca}.key -config=${ca}-config.json - | ${CFSSLJSON_BIN} -bare serving-${id}
     mv "serving-${id}-key.pem" "serving-${id}.key"
@@ -429,14 +427,14 @@ EOF
 
 # creates a self-contained sktconfig: args are sudo, dest-dir, ca file, host, port, client id, token(optional)
 function skt::util::write_client_sktconfig {
-    local sudo=$1
-    local dest_dir=$2
-    local ca_file=$3
-    local api_host=$4
-    local api_port=$5
-    local client_id=$6
-    local token=${7:-}
-    cat <<EOF | ${sudo} tee "${dest_dir}"/"${client_id}".sktconfig > /dev/null
+  local sudo=$1
+  local dest_dir=$2
+  local ca_file=$3
+  local api_host=$4
+  local api_port=$5
+  local client_id=$6
+  local token=${7:-}
+  cat <<EOF | ${sudo} tee "${dest_dir}"/"${client_id}".sktconfig >/dev/null
 apiVersion: v1
 kind: Config
 clusters:
@@ -458,9 +456,9 @@ contexts:
 current-context: local-up-cluster
 EOF
 
-    # flatten the sktconfig files to make them self contained
-    username=$(whoami)
-    ${sudo} /usr/bin/env bash -e <<EOF
+  # flatten the sktconfig files to make them self contained
+  username=$(whoami)
+  ${sudo} /usr/bin/env bash -e <<EOF
     $(skt::util::find-binary sktctl) --sktconfig="${dest_dir}/${client_id}.sktconfig" config view --minify --flatten > "/tmp/${client_id}.sktconfig"
     mv -f "/tmp/${client_id}.sktconfig" "${dest_dir}/${client_id}.sktconfig"
     chown ${username} "${dest_dir}/${client_id}.sktconfig"
@@ -469,11 +467,11 @@ EOF
 
 # Determines if docker can be run, failures may simply require that the user be added to the docker group.
 function skt::util::ensure_docker_daemon_connectivity {
-  IFS=" " read -ra DOCKER <<< "${DOCKER_OPTS}"
+  IFS=" " read -ra DOCKER <<<"${DOCKER_OPTS}"
   # Expand ${DOCKER[@]} only if it's not unset. This is to work around
   # Bash 3 issue with unbound variable.
   DOCKER=(docker ${DOCKER[@]:+"${DOCKER[@]}"})
-  if ! "${DOCKER[@]}" info > /dev/null 2>&1 ; then
+  if ! "${DOCKER[@]}" info >/dev/null 2>&1; then
     cat <<'EOF' >&2
 Can't connect to 'docker' daemon.  please fix and retry.
 
@@ -551,25 +549,26 @@ function skt::util::ensure-cfssl {
   fi
 
   mkdir -p "${cfssldir}"
-  pushd "${cfssldir}" > /dev/null || return 1
+  pushd "${cfssldir}" >/dev/null || return 1
 
   echo "Unable to successfully run 'cfssl' from ${PATH}; downloading instead..."
   kernel=$(uname -s)
   case "${kernel}" in
-    Linux)
-      curl --retry 10 -L -o cfssl https://pkg.cfssl.org/R1.2/cfssl_linux-amd64
-      curl --retry 10 -L -o cfssljson https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
-      curl --retry 10 -L -o cfssl-certinfo https://pkg.cfssl.org/R1.2/cfssl-certinfo_linux-amd64
-      ;;
-    Darwin)
-      curl --retry 10 -L -o cfssl https://pkg.cfssl.org/R1.2/cfssl_darwin-amd64
-      curl --retry 10 -L -o cfssljson https://pkg.cfssl.org/R1.2/cfssljson_darwin-amd64
-      curl --retry 10 -L -o cfssl-certinfo https://pkg.cfssl.org/R1.2/cfssl-certinfo_darwin-amd64
-      ;;
-    *)
-      echo "Unknown, unsupported platform: ${kernel}." >&2
-      echo "Supported platforms: Linux, Darwin." >&2
-      exit 2
+  Linux)
+    curl --retry 10 -L -o cfssl https://pkg.cfssl.org/R1.2/cfssl_linux-amd64
+    curl --retry 10 -L -o cfssljson https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
+    curl --retry 10 -L -o cfssl-certinfo https://pkg.cfssl.org/R1.2/cfssl-certinfo_linux-amd64
+    ;;
+  Darwin)
+    curl --retry 10 -L -o cfssl https://pkg.cfssl.org/R1.2/cfssl_darwin-amd64
+    curl --retry 10 -L -o cfssljson https://pkg.cfssl.org/R1.2/cfssljson_darwin-amd64
+    curl --retry 10 -L -o cfssl-certinfo https://pkg.cfssl.org/R1.2/cfssl-certinfo_darwin-amd64
+    ;;
+  *)
+    echo "Unknown, unsupported platform: ${kernel}." >&2
+    echo "Supported platforms: Linux, Darwin." >&2
+    exit 2
+    ;;
   esac
 
   chmod +x cfssl || true
@@ -585,7 +584,7 @@ function skt::util::ensure-cfssl {
     echo "Hint: export PATH=\$PATH:\$GOPATH/bin; go get -u github.com/cloudflare/cfssl/cmd/..."
     exit 1
   fi
-  popd > /dev/null || return 1
+  popd >/dev/null || return 1
 }
 
 # skt::util::ensure-gnu-sed
@@ -621,7 +620,7 @@ function skt::util::check-file-in-alphabetical-order {
       echo "  LC_ALL=C sort -o ${failure_file} ${failure_file}"
       echo
     } >&2
-  false
+    false
   fi
 }
 

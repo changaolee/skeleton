@@ -1,0 +1,15 @@
+[Unit]
+Description=SKT APIServer
+Documentation=https://github.com/changaolee/skeleton/blob/main/init/README.md
+
+[Service]
+WorkingDirectory=${SKT_DATA_DIR}/skt-apiserver
+ExecStartPre=/usr/bin/mkdir -p ${SKT_DATA_DIR}/skt-apiserver
+ExecStartPre=/usr/bin/mkdir -p ${SKT_LOG_DIR}
+ExecStart=${SKT_INSTALL_DIR}/bin/skt-apiserver --config=${SKT_CONFIG_DIR}/skt-apiserver.yaml
+Restart=always
+RestartSec=5
+StartLimitInterval=0
+
+[Install]
+WantedBy=multi-user.target

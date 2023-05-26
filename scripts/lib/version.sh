@@ -5,7 +5,6 @@
 # license that can be found in the LICENSE file. The original repo for
 # this file is https://github.com/changaolee/skeleton.
 
-
 # -----------------------------------------------------------------------------
 # Version management helpers.  These functions help to set, save and load the
 # following variables:

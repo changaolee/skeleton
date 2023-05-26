@@ -5,7 +5,6 @@
 # license that can be found in the LICENSE file. The original repo for
 # this file is https://github.com/changaolee/skeleton.
 
-
 # The root of the build/dist directory
 SKT_ROOT=$(dirname "${BASH_SOURCE[0]}")/../..
 
