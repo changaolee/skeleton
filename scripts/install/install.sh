@@ -13,7 +13,7 @@ source "${SKT_ROOT}/scripts/install/mariadb.sh"
 source "${SKT_ROOT}/scripts/install/redis.sh"
 source "${SKT_ROOT}/scripts/install/mongodb.sh"
 source "${SKT_ROOT}/scripts/install/skt-apiserver.sh"
-source "${SKT_ROOT}/scripts/install/skt-auth-server.sh"
+source "${SKT_ROOT}/scripts/install/skt-authz-server.sh"
 
 # 准备 Linux 环境
 skt::install::prepare_linux() {
