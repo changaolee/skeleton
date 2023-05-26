@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/changaolee/skeleton/pkg/runtime"
-	"github.com/changaolee/skeleton/pkg/third_party/gorequest"
+	"github.com/changaolee/skeleton/third_party/gorequest"
 )
 
 // Result 包含调用 Request.Do() 的返回结果.

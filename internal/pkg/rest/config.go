@@ -16,7 +16,7 @@ import (
 
 	"github.com/changaolee/skeleton/internal/pkg/scheme"
 	"github.com/changaolee/skeleton/pkg/runtime"
-	"github.com/changaolee/skeleton/pkg/third_party/gorequest"
+	"github.com/changaolee/skeleton/third_party/gorequest"
 )
 
 // Config 包含可以在初始化时传递给 SKT 客户端的通用属性.

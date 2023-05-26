@@ -17,7 +17,7 @@ import (
 
 	"github.com/changaolee/skeleton/pkg/auth"
 	"github.com/changaolee/skeleton/pkg/errors"
-	"github.com/changaolee/skeleton/pkg/third_party/gorequest"
+	"github.com/changaolee/skeleton/third_party/gorequest"
 )
 
 type Request struct {

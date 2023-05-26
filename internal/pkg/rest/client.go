@@ -11,7 +11,7 @@ import (
 
 	"github.com/changaolee/skeleton/internal/pkg/scheme"
 	"github.com/changaolee/skeleton/pkg/runtime"
-	"github.com/changaolee/skeleton/pkg/third_party/gorequest"
+	"github.com/changaolee/skeleton/third_party/gorequest"
 )
 
 // Interface 定义了和 SKT API 的全部交互方法.
