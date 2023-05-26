@@ -7,7 +7,7 @@ SKT_ROOT=$(dirname "${BASH_SOURCE[0]}")/../..
 # 安装后打印必要的信息
 function skt::sktctl::info() {
   cat <<EOF
-sktctl test command: sktctl user list
+sktctl test command: sktctl info
 EOF
 }
 
