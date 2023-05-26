@@ -24,10 +24,8 @@ Skeleton 是一个基于 Go 语言的开发脚手架，供开发者克隆后二�
 ## Installation
 
 ```bash
-$ git clone https://github.com/changaolee/skeleton.git
-$ go work use skeleton # 如果 Go 版本 > 1.18
-$ cd skeleton
-$ make # 编译源码
+$ cd /tmp && git clone https://github.com/changaolee/skeleton.git
+$ cd skeleton && bash ./scripts/install/install.sh skt::install::install
 ```
 
 ## Documentation
