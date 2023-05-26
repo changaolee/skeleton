@@ -56,8 +56,8 @@ function skt::sktctl::uninstall() {
 
 # 状态检查
 function skt::sktctl::status() {
-  sktctl user list | grep -q admin || {
-    skt::log::error "cannot list user, sktctl maybe not installed properly"
+  sktctl info | grep -q HostName || {
+    skt::log::error "cannot show info, sktctl maybe not installed properly"
     return 1
   }
 
