@@ -29,6 +29,13 @@ $ unzip skeleton.zip && cd skeleton-main
 $ bash ./scripts/install/install.sh skt::install::install
 ```
 
+## Test
+
+```bash
+# 创建用户
+$ sktctl user create foo Foo@2023 foo@test.com
+```
+
 ## Documentation
 
 - [开发手册](./docs/devel/zh-CN/README.md)
