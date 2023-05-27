@@ -11,6 +11,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
 )
 
@@ -67,4 +68,20 @@ func RequireNoArguments(c *cobra.Command, args []string) {
 func UsageErrorf(cmd *cobra.Command, format string, args ...interface{}) error {
 	msg := fmt.Sprintf(format, args...)
 	return fmt.Errorf("%s\nSee '%s -h' for help and examples", msg, cmd.CommandPath())
+}
+
+func TableWriterDefaultConfig(table *tablewriter.Table) *tablewriter.Table {
+	table.SetAutoWrapText(false)
+	table.SetAutoFormatHeaders(true)
+	table.SetHeaderAlignment(tablewriter.ALIGN_LEFT)
+	table.SetAlignment(tablewriter.ALIGN_LEFT)
+	table.SetCenterSeparator("")
+	table.SetColumnSeparator("")
+	table.SetRowSeparator("")
+	table.SetHeaderLine(false)
+	table.SetBorder(false)
+	table.SetTablePadding("  ") // pad with two space
+	table.SetNoWhiteSpace(true)
+
+	return table
 }

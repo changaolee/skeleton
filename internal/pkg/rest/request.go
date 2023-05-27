@@ -187,6 +187,31 @@ func (r *Request) Resource(resource string) *Request {
 	return r
 }
 
+func (r *Request) Name(resourceName string) *Request {
+	if r.err != nil {
+		return r
+	}
+
+	if len(resourceName) == 0 {
+		r.err = fmt.Errorf("resource name may not be empty")
+		return r
+	}
+
+	if len(r.resourceName) != 0 {
+		r.err = fmt.Errorf("resource name already set to %q, cannot change to %q", r.resourceName, resourceName)
+		return r
+	}
+
+	if msgs := IsValidPathSegmentName(resourceName); len(msgs) != 0 {
+		r.err = fmt.Errorf("invalid resource name %q: %v", resourceName, msgs)
+		return r
+	}
+
+	r.resourceName = resourceName
+
+	return r
+}
+
 var NameMayNotBe = []string{".", ".."}
 var NameMayNotContain = []string{"/", "%"}
 

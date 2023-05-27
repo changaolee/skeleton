@@ -14,6 +14,7 @@ import (
 
 type UserBiz interface {
 	Create(ctx context.Context, user *user.User) error
+	Get(ctx context.Context, username string) (*user.User, error)
 }
 
 type userBiz struct {
@@ -28,4 +29,8 @@ func newUsers(b *biz) *userBiz {
 
 func (b *userBiz) Create(ctx context.Context, user *user.User) error {
 	return b.s.Users().Create(ctx, user)
+}
+
+func (b *userBiz) Get(ctx context.Context, username string) (*user.User, error) {
+	return b.s.Users().Get(ctx, username)
 }

@@ -13,6 +13,7 @@ type UsersGetter interface {
 
 type UserInterface interface {
 	Create(ctx context.Context, user *mu.User) (*mu.User, error)
+	Get(ctx context.Context, name string) (*mu.User, error)
 }
 
 type users struct {
@@ -32,6 +33,17 @@ func (u *users) Create(ctx context.Context, user *mu.User) (result *mu.User, err
 	err = u.client.Post().
 		Resource("users").
 		Body(user).
+		Do(ctx).
+		Into(result)
+
+	return
+}
+
+func (u *users) Get(ctx context.Context, name string) (result *mu.User, err error) {
+	result = &mu.User{}
+	err = u.client.Get().
+		Resource("users").
+		Name(name).
 		Do(ctx).
 		Into(result)
 
