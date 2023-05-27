@@ -29,9 +29,11 @@ func installMiddleware(g *gin.Engine) {
 
 func installController(g *gin.Engine) {
 	jwtStrategy, _ := newJWTAuth().(auth.JWTStrategy)
-	g.POST("/login", jwtStrategy.LoginHandler)
-	g.POST("/logout", jwtStrategy.LogoutHandler)
-	g.POST("/refresh", jwtStrategy.RefreshHandler)
+
+	// 认证相关接口
+	g.POST("/login", jwtStrategy.LoginHandler)     // 用户登录
+	g.POST("/logout", jwtStrategy.LogoutHandler)   // 用户登出
+	g.POST("/refresh", jwtStrategy.RefreshHandler) // 刷新 Token
 
 	auto := newAutoAuth()
 	g.NoRoute(auto.AuthFunc(), func(c *gin.Context) {
@@ -42,7 +44,7 @@ func installController(g *gin.Engine) {
 	storeIns, _ := mysql.GetMySQLInstance(nil)
 	v1 := g.Group("/v1")
 	{
-		// users 路由分组
+		// 用户相关接口
 		userv1 := v1.Group("/users")
 		{
 			userController := user.NewUserController(storeIns)
