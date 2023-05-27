@@ -23,7 +23,7 @@ func NewCmdUser(f util.Factory, ioStreams clioptions.IOStreams) *cobra.Command {
 	}
 
 	cmd.AddCommand(NewCmdCreate(f, ioStreams))
-	//cmd.AddCommand(NewCmdGet(f, ioStreams))
+	cmd.AddCommand(NewCmdGet(f, ioStreams))
 	//cmd.AddCommand(NewCmdList(f, ioStreams))
 	//cmd.AddCommand(NewCmdDelete(f, ioStreams))
 	//cmd.AddCommand(NewCmdUpdate(f, ioStreams))
