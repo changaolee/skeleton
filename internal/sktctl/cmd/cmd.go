@@ -10,6 +10,7 @@ import (
 	"io"
 	"os"
 
+	"github.com/changaolee/skeleton/internal/sktctl/cmd/user"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
@@ -74,6 +75,12 @@ func NewSKTCtlCommand(in io.Reader, out, err io.Writer) *cobra.Command {
 			Message: "Basic Commands:",
 			Commands: []*cobra.Command{
 				info.NewCmdInfo(f, ioStreams),
+			},
+		},
+		{
+			Message: "Identity and Access Management Commands:",
+			Commands: []*cobra.Command{
+				user.NewCmdUser(f, ioStreams),
 			},
 		},
 	}
