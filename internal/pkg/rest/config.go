@@ -289,10 +289,12 @@ func buildUserAgent(command, version, os, arch, commit string) string {
 		"%s/%s (%s/%s) skt/%s", command, version, os, arch, commit)
 }
 
+const UNKNOWN = "unknown"
+
 func adjustCommand(p string) string {
 	// Unlikely, but better than returning "".
 	if len(p) == 0 {
-		return "unknown"
+		return UNKNOWN
 	}
 
 	return filepath.Base(p)
@@ -300,7 +302,7 @@ func adjustCommand(p string) string {
 
 func adjustVersion(v string) string {
 	if len(v) == 0 {
-		return "unknown"
+		return UNKNOWN
 	}
 
 	seg := strings.SplitN(v, "-", 2)
@@ -310,7 +312,7 @@ func adjustVersion(v string) string {
 
 func adjustCommit(c string) string {
 	if len(c) == 0 {
-		return "unknown"
+		return UNKNOWN
 	}
 
 	if len(c) > 7 {
