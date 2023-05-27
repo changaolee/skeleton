@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"net/url"
 	"path"
+	"reflect"
 	"strings"
 	"time"
 
@@ -164,6 +165,16 @@ func (r *Request) URL() *url.URL {
 	finalURL.RawQuery = query.Encode()
 
 	return finalURL
+}
+
+func (r *Request) Body(obj interface{}) *Request {
+	if v := reflect.ValueOf(obj); v.Kind() == reflect.Struct {
+		r.SetHeader("Content-Type", r.c.content.ContentType)
+	}
+
+	r.body = obj
+
+	return r
 }
 
 func (r *Request) Do(ctx context.Context) Result {

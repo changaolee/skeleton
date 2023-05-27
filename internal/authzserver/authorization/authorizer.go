@@ -11,11 +11,11 @@ import (
 	"strings"
 	"time"
 
+	"github.com/changaolee/skeleton/internal/pkg/response"
 	"github.com/ory/ladon"
 
 	"github.com/changaolee/skeleton/internal/authzserver/analytics"
 
-	"github.com/changaolee/skeleton/internal/pkg/model"
 	"github.com/changaolee/skeleton/pkg/log"
 )
 
@@ -41,17 +41,17 @@ func NewAuthorizer(getter PolicyGetter) *Authorizer {
 }
 
 // Authorize 确定访问权限.
-func (a *Authorizer) Authorize(request *ladon.Request) *model.AuthzResponse {
+func (a *Authorizer) Authorize(request *ladon.Request) *response.AuthzResponse {
 	log.Debugw("authorize request", "request", request)
 
 	if err := a.warden.IsAllowed(request); err != nil {
-		return &model.AuthzResponse{
+		return &response.AuthzResponse{
 			Denied: true,
 			Reason: err.Error(),
 		}
 	}
 
-	return &model.AuthzResponse{
+	return &response.AuthzResponse{
 		Allowed: true,
 	}
 }

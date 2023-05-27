@@ -9,11 +9,11 @@ import (
 	"context"
 
 	"github.com/changaolee/skeleton/internal/apiserver/store"
-	"github.com/changaolee/skeleton/internal/pkg/model"
+	"github.com/changaolee/skeleton/internal/pkg/model/user"
 )
 
 type UserBiz interface {
-	Create(ctx context.Context, user *model.User) error
+	Create(ctx context.Context, user *user.User) error
 }
 
 type userBiz struct {
@@ -26,6 +26,6 @@ func newUsers(b *biz) *userBiz {
 	return &userBiz{s: b.s}
 }
 
-func (b *userBiz) Create(ctx context.Context, user *model.User) error {
+func (b *userBiz) Create(ctx context.Context, user *user.User) error {
 	return b.s.Users().Create(ctx, user)
 }

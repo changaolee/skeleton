@@ -8,11 +8,11 @@ package store
 import (
 	"context"
 
-	"github.com/changaolee/skeleton/internal/pkg/model"
+	"github.com/changaolee/skeleton/internal/pkg/model/user"
 )
 
 type UserStore interface {
-	Create(ctx context.Context, user *model.User) error
-	Update(ctx context.Context, user *model.User) error
-	Get(ctx context.Context, username string) (*model.User, error)
+	Create(ctx context.Context, user *user.User) error
+	Update(ctx context.Context, user *user.User) error
+	Get(ctx context.Context, username string) (*user.User, error)
 }

@@ -13,13 +13,13 @@ import (
 	"time"
 
 	jwt "github.com/appleboy/gin-jwt/v2"
+	"github.com/changaolee/skeleton/internal/pkg/model/user"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 
 	"github.com/changaolee/skeleton/internal/apiserver/store"
 	"github.com/changaolee/skeleton/internal/pkg/middleware"
 	"github.com/changaolee/skeleton/internal/pkg/middleware/auth"
-	"github.com/changaolee/skeleton/internal/pkg/model"
 	"github.com/changaolee/skeleton/pkg/log"
 )
 
@@ -194,7 +194,7 @@ func payloadFunc() func(data interface{}) jwt.MapClaims {
 			"iss": APIServerIssuer,
 			"aud": APIServerAudience,
 		}
-		if u, ok := data.(*model.User); ok {
+		if u, ok := data.(*user.User); ok {
 			claims[jwt.IdentityKey] = u.Name
 			claims["sub"] = u.Name
 		}

@@ -20,6 +20,7 @@ require (
 	github.com/likexian/host-stat-go v0.0.0-20190516151207-c9cf36dd6ce9
 	github.com/moby/term v0.0.0-20221205130635-1aeaba878587
 	github.com/novalagung/gubrak v1.0.0
+	github.com/olekukonko/tablewriter v0.0.5
 	github.com/ory/ladon v1.2.0
 	github.com/pkg/errors v0.9.1
 	github.com/redis/go-redis/v9 v9.0.3

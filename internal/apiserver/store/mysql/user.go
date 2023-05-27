@@ -9,11 +9,11 @@ import (
 	"context"
 	"regexp"
 
+	"github.com/changaolee/skeleton/internal/pkg/model/user"
 	"gorm.io/gorm"
 
 	"github.com/changaolee/skeleton/internal/apiserver/store"
 	"github.com/changaolee/skeleton/internal/pkg/code"
-	"github.com/changaolee/skeleton/internal/pkg/model"
 	"github.com/changaolee/skeleton/pkg/errors"
 )
 
@@ -27,7 +27,7 @@ func newUsers(ds *datastore) *userStore {
 	return &userStore{ds: ds}
 }
 
-func (u *userStore) Create(ctx context.Context, user *model.User) error {
+func (u *userStore) Create(ctx context.Context, user *user.User) error {
 	err := u.ds.db.Create(&user).Error
 	if err != nil {
 		if matched, _ := regexp.MatchString("Duplicate entry '.*' for key 'index_name'", err.Error()); matched {
@@ -38,7 +38,7 @@ func (u *userStore) Create(ctx context.Context, user *model.User) error {
 	return nil
 }
 
-func (u *userStore) Update(ctx context.Context, user *model.User) error {
+func (u *userStore) Update(ctx context.Context, user *user.User) error {
 	err := u.ds.db.Save(user).Error
 	if err != nil {
 		return errors.WithCode(code.ErrDatabase, err.Error())
@@ -46,8 +46,8 @@ func (u *userStore) Update(ctx context.Context, user *model.User) error {
 	return nil
 }
 
-func (u *userStore) Get(ctx context.Context, username string) (*model.User, error) {
-	user := &model.User{}
+func (u *userStore) Get(ctx context.Context, username string) (*user.User, error) {
+	user := &user.User{}
 	err := u.ds.db.Where("name = ? and status = 1", username).First(&user).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {

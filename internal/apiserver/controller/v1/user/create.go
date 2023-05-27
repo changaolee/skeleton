@@ -9,13 +9,13 @@ import (
 	"time"
 
 	"github.com/asaskevich/govalidator"
+	"github.com/changaolee/skeleton/internal/pkg/model/user"
 	"github.com/gin-gonic/gin"
 
 	"github.com/changaolee/skeleton/internal/pkg/code"
 	"github.com/changaolee/skeleton/pkg/errors"
 
 	"github.com/changaolee/skeleton/internal/pkg/core"
-	"github.com/changaolee/skeleton/internal/pkg/model"
 	"github.com/changaolee/skeleton/pkg/log"
 )
 
@@ -23,7 +23,7 @@ import (
 func (u *UserController) Create(c *gin.Context) {
 	log.C(c).Infow("Create user function called")
 
-	var r model.User
+	var r user.User
 	if err := c.ShouldBindJSON(&r); err != nil {
 		core.WriteResponse(c, errors.WithCode(code.ErrBind, err.Error()), nil)
 		return
