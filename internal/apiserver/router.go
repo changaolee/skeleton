@@ -10,13 +10,9 @@ import (
 
 	_ "github.com/changaolee/skeleton/internal/pkg/validator"
 
-	"github.com/changaolee/skeleton/internal/apiserver/store/mysql"
-	"github.com/changaolee/skeleton/internal/pkg/code"
-	"github.com/changaolee/skeleton/internal/pkg/core"
-	"github.com/changaolee/skeleton/internal/pkg/middleware/auth"
-	"github.com/changaolee/skeleton/pkg/errors"
-
 	"github.com/changaolee/skeleton/internal/apiserver/controller/v1/user"
+	"github.com/changaolee/skeleton/internal/apiserver/store/mysql"
+	"github.com/changaolee/skeleton/internal/pkg/middleware/auth"
 )
 
 func initRouter(g *gin.Engine) {
@@ -35,10 +31,10 @@ func installController(g *gin.Engine) {
 	g.POST("/logout", jwtStrategy.LogoutHandler)   // 用户登出
 	g.POST("/refresh", jwtStrategy.RefreshHandler) // 刷新 Token
 
-	auto := newAutoAuth()
-	g.NoRoute(auto.AuthFunc(), func(c *gin.Context) {
-		core.WriteResponse(c, errors.WithCode(code.ErrPageNotFound, "Page not found."), nil)
-	})
+	//auto := newAutoAuth()
+	//g.NoRoute(auto.AuthFunc(), func(c *gin.Context) {
+	//	core.WriteResponse(c, errors.WithCode(code.ErrPageNotFound, "Page not found."), nil)
+	//})
 
 	// v1 路由分组
 	storeIns, _ := mysql.GetMySQLInstance(nil)
