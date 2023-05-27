@@ -6,10 +6,10 @@ import (
 
 	"github.com/changaolee/skeleton/internal/pkg/clioptions"
 	"github.com/changaolee/skeleton/internal/pkg/model/user"
-	"github.com/changaolee/skeleton/internal/pkg/rest"
 	"github.com/changaolee/skeleton/internal/sktctl/util"
 	"github.com/changaolee/skeleton/internal/sktctl/util/templates"
 	metav1 "github.com/changaolee/skeleton/pkg/meta/v1"
+	apiclientv1 "github.com/changaolee/skeleton/pkg/sdk/apiserver/v1"
 	"github.com/spf13/cobra"
 )
 
@@ -23,7 +23,7 @@ type CreateOptions struct {
 
 	User *user.User
 
-	client rest.Interface
+	Client apiclientv1.APIV1Interface
 	clioptions.IOStreams
 }
 
@@ -99,7 +99,7 @@ func (o *CreateOptions) Complete(f util.Factory, cmd *cobra.Command, args []stri
 	if err != nil {
 		return err
 	}
-	o.client, err = rest.RESTClientFor(clientConfig)
+	o.Client, err = apiclientv1.NewForConfig(clientConfig)
 	if err != nil {
 		return err
 	}
@@ -116,19 +116,12 @@ func (o *CreateOptions) Validate(cmd *cobra.Command, args []string) error {
 }
 
 func (o *CreateOptions) Run(args []string) error {
-	var u *user.User
-
-	err := o.client.Post().
-		AbsPath("/v1/users").
-		Body(o.User).
-		Do(context.TODO()).
-		Into(&u)
-
+	ret, err := o.Client.Users().Create(context.TODO(), o.User)
 	if err != nil {
 		return err
 	}
 
-	_, _ = fmt.Fprintf(o.Out, "user/%s created\n", u.Name)
+	_, _ = fmt.Fprintf(o.Out, "user/%s created\n", ret.Name)
 
 	return nil
 }

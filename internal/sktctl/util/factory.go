@@ -45,5 +45,6 @@ func (f *factory) RESTClient() (*rest.RESTClient, error) {
 	if err != nil {
 		return nil, err
 	}
+	_ = setSKTDefaults(clientConfig)
 	return rest.RESTClientFor(clientConfig)
 }

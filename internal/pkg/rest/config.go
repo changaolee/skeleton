@@ -12,10 +12,15 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"path/filepath"
+	"strings"
 	"time"
+
+	gruntime "runtime"
 
 	"github.com/changaolee/skeleton/internal/pkg/scheme"
 	"github.com/changaolee/skeleton/pkg/runtime"
+	"github.com/changaolee/skeleton/pkg/version"
 	"github.com/changaolee/skeleton/third_party/gorequest"
 )
 
@@ -260,4 +265,57 @@ func rootCertPool(caData []byte) *x509.CertPool {
 	certPool.AppendCertsFromPEM(caData)
 
 	return certPool
+}
+
+func SetSKTDefaults(config *Config) error {
+	if len(config.UserAgent) == 0 {
+		config.UserAgent = DefaultUserAgent()
+	}
+
+	return nil
+}
+
+func DefaultUserAgent() string {
+	return buildUserAgent(
+		adjustCommand(os.Args[0]),
+		adjustVersion(version.Get().GitVersion),
+		gruntime.GOOS,
+		gruntime.GOARCH,
+		adjustCommit(version.Get().GitCommit))
+}
+
+func buildUserAgent(command, version, os, arch, commit string) string {
+	return fmt.Sprintf(
+		"%s/%s (%s/%s) skt/%s", command, version, os, arch, commit)
+}
+
+func adjustCommand(p string) string {
+	// Unlikely, but better than returning "".
+	if len(p) == 0 {
+		return "unknown"
+	}
+
+	return filepath.Base(p)
+}
+
+func adjustVersion(v string) string {
+	if len(v) == 0 {
+		return "unknown"
+	}
+
+	seg := strings.SplitN(v, "-", 2)
+
+	return seg[0]
+}
+
+func adjustCommit(c string) string {
+	if len(c) == 0 {
+		return "unknown"
+	}
+
+	if len(c) > 7 {
+		return c[:7]
+	}
+
+	return c
 }

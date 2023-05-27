@@ -10,6 +10,8 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/changaolee/skeleton/internal/pkg/scheme"
+	"github.com/changaolee/skeleton/pkg/runtime"
 	"github.com/spf13/pflag"
 
 	"github.com/changaolee/skeleton/internal/pkg/clioptions"
@@ -45,6 +47,7 @@ func (f *MatchVersionFlags) checkMatchingServerVersion() error {
 			return
 		}
 
+		_ = setSKTDefaults(clientConfig)
 		restClient, err := rest.RESTClientFor(clientConfig)
 		if err != nil {
 			f.matchesServerVersionErr = err
@@ -81,6 +84,7 @@ func (f *MatchVersionFlags) ToRESTConfig() (*rest.Config, error) {
 	if err != nil {
 		return nil, err
 	}
+	_ = setSKTDefaults(clientConfig)
 	return clientConfig, nil
 }
 
@@ -101,4 +105,16 @@ func NewMatchVersionFlags(delegate clioptions.RESTClientGetter) *MatchVersionFla
 	return &MatchVersionFlags{
 		Delegate: delegate,
 	}
+}
+
+func setSKTDefaults(config *rest.Config) error {
+	config.GroupVersion = &scheme.GroupVersion{Group: "skt.api", Version: "v1"}
+
+	if config.APIPath == "" {
+		config.APIPath = "/api"
+	}
+	if config.Negotiator == nil {
+		config.Negotiator = runtime.NewSimpleClientNegotiator()
+	}
+	return rest.SetSKTDefaults(config)
 }

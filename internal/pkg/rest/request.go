@@ -167,6 +167,47 @@ func (r *Request) URL() *url.URL {
 	return finalURL
 }
 
+func (r *Request) Resource(resource string) *Request {
+	if r.err != nil {
+		return r
+	}
+
+	if len(r.resource) != 0 {
+		r.err = fmt.Errorf("resource already set to %q, cannot change to %q", r.resource, resource)
+		return r
+	}
+
+	if msgs := IsValidPathSegmentName(resource); len(msgs) != 0 {
+		r.err = fmt.Errorf("invalid resource %q: %v", resource, msgs)
+		return r
+	}
+
+	r.resource = resource
+
+	return r
+}
+
+var NameMayNotBe = []string{".", ".."}
+var NameMayNotContain = []string{"/", "%"}
+
+func IsValidPathSegmentName(name string) []string {
+	for _, illegalName := range NameMayNotBe {
+		if name == illegalName {
+			return []string{fmt.Sprintf(`may not be '%s'`, illegalName)}
+		}
+	}
+
+	var errs []string
+
+	for _, illegalContent := range NameMayNotContain {
+		if strings.Contains(name, illegalContent) {
+			errs = append(errs, fmt.Sprintf(`may not contain '%s'`, illegalContent))
+		}
+	}
+
+	return errs
+}
+
 func (r *Request) Body(obj interface{}) *Request {
 	if v := reflect.ValueOf(obj); v.Kind() == reflect.Struct {
 		r.SetHeader("Content-Type", r.c.content.ContentType)

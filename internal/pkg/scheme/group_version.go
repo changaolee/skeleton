@@ -10,3 +10,24 @@ type GroupVersion struct {
 	Group   string
 	Version string
 }
+
+func (gv GroupVersion) WithResource(resource string) GroupVersionResource {
+	return GroupVersionResource{Group: gv.Group, Version: gv.Version, Resource: resource}
+}
+
+// GroupResource 是组内资源的标识.
+type GroupResource struct {
+	Group    string
+	Resource string
+}
+
+// GroupVersionResource 是指定版本的组内资源的标识.
+type GroupVersionResource struct {
+	Group    string
+	Version  string
+	Resource string
+}
+
+func (gvr GroupVersionResource) GroupResource() GroupResource {
+	return GroupResource{Group: gvr.Group, Resource: gvr.Resource}
+}
