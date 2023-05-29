@@ -9,7 +9,6 @@ import (
 	"github.com/changaolee/skeleton/internal/pkg/code"
 	"github.com/changaolee/skeleton/internal/pkg/core"
 	"github.com/changaolee/skeleton/pkg/errors"
-	"github.com/changaolee/skeleton/pkg/log"
 	"github.com/gin-gonic/gin"
 
 	_ "github.com/changaolee/skeleton/internal/pkg/validator"
@@ -37,8 +36,7 @@ func installController(g *gin.Engine) {
 
 	auto := newAutoAuth()
 	g.NoRoute(auto.AuthFunc(), func(c *gin.Context) {
-		log.Errorw("No route", "path", c.FullPath())
-		core.WriteResponse(c, errors.WithCode(code.ErrPageNotFound, "Page not found."), nil)
+		core.WriteResponse(c, errors.WithCode(code.ErrPageNotFound, "Page not found."), c.FullPath())
 	})
 
 	// v1 路由分组
