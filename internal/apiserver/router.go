@@ -36,11 +36,7 @@ func installController(g *gin.Engine) {
 
 	auto := newAutoAuth()
 	g.NoRoute(auto.AuthFunc(), func(c *gin.Context) {
-		core.WriteResponse(c, errors.WithCode(
-			code.ErrPageNotFound,
-			"Page not found. Current full path is `%s`",
-			c.FullPath(),
-		), nil)
+		core.WriteResponse(c, errors.WithCode(code.ErrPageNotFound, "Page not found."), c.FullPath())
 	})
 
 	// v1 路由分组

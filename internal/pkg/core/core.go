@@ -25,7 +25,7 @@ type ErrResponse struct {
 // WriteResponse 使用 errors.ParseCoder 方法，根据错误类型，尝试从 err 中提取业务错误码和错误信息.
 func WriteResponse(c *gin.Context, err error, data interface{}) {
 	if err != nil {
-		log.Errorf("%#+v", err)
+		log.Errorf("%#+v %v", err, data)
 		coder := errors.ParseCoder(err)
 		c.JSON(coder.HTTPStatus(), ErrResponse{
 			Code:      coder.Code(),
