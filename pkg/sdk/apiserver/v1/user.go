@@ -31,7 +31,7 @@ func newUsers(c *APIV1Client) *users {
 func (u *users) Create(ctx context.Context, user *mu.User) (result *mu.User, err error) {
 	result = &mu.User{}
 	err = u.client.Post().
-		Resource("users").
+		AbsPath("/v1/users").
 		Body(user).
 		Do(ctx).
 		Into(result)
@@ -42,8 +42,7 @@ func (u *users) Create(ctx context.Context, user *mu.User) (result *mu.User, err
 func (u *users) Get(ctx context.Context, name string) (result *mu.User, err error) {
 	result = &mu.User{}
 	err = u.client.Get().
-		Resource("users").
-		Name(name).
+		AbsPath("/v1/users/" + name).
 		Do(ctx).
 		Into(result)
 
