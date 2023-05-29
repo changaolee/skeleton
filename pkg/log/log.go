@@ -8,7 +8,6 @@ package log
 import (
 	"context"
 	"sync"
-	"time"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -61,37 +60,50 @@ func NewLogger(opts *Options) *zapLogger {
 		zapLevel = zapcore.InfoLevel
 	}
 
-	// 创建一个默认的 encoder 配置
-	encoderConfig := zap.NewProductionEncoderConfig()
-	// 自定义 MessageKey 为 message，message 语义更明确
-	encoderConfig.MessageKey = "message"
-	// 自定义 TimeKey 为 timestamp，timestamp 语义更明确
-	encoderConfig.TimeKey = "timestamp"
-	// 指定时间序列化函数，将时间序列化为 `2006-01-02 15:04:05.000` 格式，更易读
-	encoderConfig.EncodeTime = func(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
-		enc.AppendString(t.Format("2006-01-02 15:04:05.000"))
+	// 仅在 console 格式下支持颜色选项
+	encodeLevel := zapcore.CapitalLevelEncoder
+	if opts.Format == consoleFormat && opts.EnableColor {
+		encodeLevel = zapcore.CapitalColorLevelEncoder
 	}
-	// 指定 time.Duration 序列化函数，将 time.Duration 序列化为经过的毫秒数的浮点数
-	// 毫秒数比默认的秒数更精确
-	encoderConfig.EncodeDuration = func(d time.Duration, enc zapcore.PrimitiveArrayEncoder) {
-		enc.AppendFloat64(float64(d) / float64(time.Millisecond))
+
+	// 配置 zap encoder
+	encoderConfig := zapcore.EncoderConfig{
+		MessageKey:     "message",
+		LevelKey:       "level",
+		TimeKey:        "timestamp",
+		NameKey:        "logger",
+		CallerKey:      "caller",
+		StacktraceKey:  "stacktrace",
+		LineEnding:     zapcore.DefaultLineEnding,
+		EncodeLevel:    encodeLevel,
+		EncodeTime:     timeEncoder,
+		EncodeDuration: milliSecondsDurationEncoder,
+		EncodeCaller:   zapcore.ShortCallerEncoder,
 	}
 
 	// 创建构建 zap.Logger 需要的配置
 	cfg := &zap.Config{
+		// 指定日志级别
+		Level: zap.NewAtomicLevelAt(zapLevel),
+		// 是否处于开发模式
+		Development: opts.Development,
 		// 是否在日志中显示调用日志所在的文件和行号，例如：`"caller":"skeleton/skeleton.go:75"`
 		DisableCaller: opts.DisableCaller,
 		// 是否禁止在 panic 及以上级别打印堆栈信息
 		DisableStacktrace: opts.DisableStacktrace,
-		// 指定日志级别
-		Level: zap.NewAtomicLevelAt(zapLevel),
+		// 设置采样策略
+		Sampling: &zap.SamplingConfig{
+			Initial:    100,
+			Thereafter: 100,
+		},
 		// 指定日志显示格式，可选值：console, json
-		Encoding:      opts.Format,
+		Encoding: opts.Format,
+		// 指定 encode 配置
 		EncoderConfig: encoderConfig,
 		// 指定日志输出位置
 		OutputPaths: opts.OutputPaths,
 		// 设置 zap 内部错误输出位置
-		ErrorOutputPaths: []string{"stderr"},
+		ErrorOutputPaths: opts.ErrorOutputPaths,
 	}
 
 	// 使用 cfg 创建 *zap.Logger 对象

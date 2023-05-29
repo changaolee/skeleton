@@ -37,11 +37,16 @@ mysql:
 
 # 日志配置
 log:
-  disable-caller: false  # 是否禁止 caller，如果开启会在日志中显示调用日志所在的文件和行号
-  disable-stacktrace: false  # 是否禁止在 panic 及以上级别打印堆栈信息
-  level: debug  # 日志级别，可选值：debug, info, warn, error, dpanic, panic, fatal
-  format: json  # 日志显示格式，可选值：console, json
-  output-paths: [ stdout ]  # 日志输出位置
+  name: apiserver  # Logger 的名字
+  development: true  # 是否是开发模式。如果是开发模式，会对 DPanicLevel 进行堆栈跟踪
+  level: debug  # 日志级别，优先级从低到高依次为：debug, info, warn, error, dpanic, panic, fatal
+  format: console  # 支持的日志输出格式，目前支持 console 和 json 两种，console 其实就是 text 格式
+  enable-color: true  # 是否开启颜色输出
+  disable-caller: false  # 是否开启 caller，如果开启会在日志中显示调用日志所在的文件、函数和行号
+  disable-stacktrace: false  # 是否在 panic 及以上级别禁止打印堆栈信息
+  output-paths: ${SKT_LOG_DIR}/skt-apiserver.log,stdout  # 支持输出到多个输出，逗号分开，支持输出到标准输出（stdout）和文件。
+  error-output-paths: ${SKT_LOG_DIR}/skt-apiserver.error.log  # zap 内部（非业务）错误日志输出路径，多个输出，逗号分开
+
 
 # JWT 配置
 jwt:
