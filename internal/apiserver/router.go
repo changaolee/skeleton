@@ -6,6 +6,9 @@
 package apiserver
 
 import (
+	"github.com/changaolee/skeleton/internal/pkg/code"
+	"github.com/changaolee/skeleton/internal/pkg/core"
+	"github.com/changaolee/skeleton/pkg/errors"
 	"github.com/gin-gonic/gin"
 
 	_ "github.com/changaolee/skeleton/internal/pkg/validator"
@@ -31,10 +34,10 @@ func installController(g *gin.Engine) {
 	g.POST("/logout", jwtStrategy.LogoutHandler)   // 用户登出
 	g.POST("/refresh", jwtStrategy.RefreshHandler) // 刷新 Token
 
-	//auto := newAutoAuth()
-	//g.NoRoute(auto.AuthFunc(), func(c *gin.Context) {
-	//	core.WriteResponse(c, errors.WithCode(code.ErrPageNotFound, "Page not found."), nil)
-	//})
+	auto := newAutoAuth()
+	g.NoRoute(auto.AuthFunc(), func(c *gin.Context) {
+		core.WriteResponse(c, errors.WithCode(code.ErrPageNotFound, "Page not found."), nil)
+	})
 
 	// v1 路由分组
 	storeIns, _ := mysql.GetMySQLInstance(nil)
@@ -47,8 +50,8 @@ func installController(g *gin.Engine) {
 
 			userv1.POST("", userController.Create) // 创建用户
 
-			// todo: 权限检查中间件
-			//userv1.Use(auto.AuthFunc())
+			// 权限检查中间件
+			userv1.Use(auto.AuthFunc())
 
 			// todo: 用户管理接口
 			// userv1.PUT(":name", userController.Update)
